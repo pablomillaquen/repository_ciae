@@ -1,0 +1,153 @@
+<div class="col-12">
+    <div class="row  justify-content-md-center"> 
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary btn-lg">
+                <input type="radio" name="options" id="option1" checked> {{#str}} grades, local_repositoryciae {{/str}}
+            </label>
+            <label class="btn btn-primary btn-lg">
+                <input type="radio" name="options" id="option2"> {{#str}} axis, local_repositoryciae {{/str}}
+            </label>
+            <label class="btn btn-primary btn-lg">
+                <input type="radio" name="options" id="option3"> {{#str}} territories, local_repositoryciae {{/str}}
+            </label>
+            <label class="btn btn-primary btn-lg">
+                <input type="radio" name="options" id="option3"> {{#str}} freesearch, local_repositoryciae {{/str}}
+            </label>
+        </div>               
+    </div>
+</div>
+<br>
+<div class="row justify-content-md-center">
+    <div class="input-group col-6">
+        <input type="text" class="form-control" placeholder="Buscar" aria-label="search" aria-describedby="button-addon2">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2">{{#str}} search, local_repositoryciae {{/str}}</button>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    {{#materials}}
+    <div class="card" style="width: 18rem; margin-left:3px;margin-bottom:3px;">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="https://futurefood.network/wp-content/uploads/2020/06/Education.jpg" alt="..." style="width: 100%;height: 15vw;object-fit: cover;">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{name}}</h5>
+                    <p class="card-text">{{abstract}}</p>
+                    <p class="card-text">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                    </p>
+                    <a href="materialrepository.php?id={{id}}" class="btn btn-primary">Ver</a>
+                </div>
+            </div>            
+        </div>
+    </div>
+    {{/materials}}
+    {{! <div class="card" style="width: 18rem; margin-left:3px;margin-bottom:3px;">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="https://futurefood.network/wp-content/uploads/2020/06/Education.jpg" alt="..." style="width: 100%;height: 15vw;object-fit: cover;">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Material 2</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card" style="width: 18rem; margin-left:3px;margin-bottom:3px;">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="https://futurefood.network/wp-content/uploads/2020/06/Education.jpg" alt="..." style="width: 100%;height: 15vw;object-fit: cover;">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Material 3</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card" style="width: 18rem; margin-left:3px;margin-bottom:3px;">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="https://futurefood.network/wp-content/uploads/2020/06/Education.jpg" alt="..." style="width: 100%;height: 15vw;object-fit: cover;">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Material 3</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card" style="width: 18rem; margin-left:3px;margin-bottom:3px;">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="https://futurefood.network/wp-content/uploads/2020/06/Education.jpg" alt="..." style="width: 100%;height: 15vw;object-fit: cover;">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Material 3</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card" style="width: 18rem; margin-left:3px;margin-bottom:3px;">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="https://futurefood.network/wp-content/uploads/2020/06/Education.jpg" alt="..." style="width: 100%;height: 15vw;object-fit: cover;">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Material 3</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div> }}
+</div>
