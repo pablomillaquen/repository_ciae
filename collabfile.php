@@ -51,7 +51,7 @@ $mform = new collabfile_form();
 $toform = [];
 
 if($mform->is_cancelled()){
-    redirect("/moodle/local/repositoryciae/index.php", '', 10);
+    redirect("/local/repositoryciae/index.php", '', 10);
 }elseif($fromform = $mform->get_data()){
     if($id){
         //Update data

@@ -42,7 +42,7 @@ $mform = new newfile_form();
 $toform = [];
 
 if($mform->is_cancelled()){
-    redirect("/moodle/local/repositoryciae/index.php", '', 10);
+    redirect("/local/repositoryciae/index.php", '', 10);
 }elseif($fromform = $mform->get_data()){
     if($id){
         //Update data
@@ -81,7 +81,5 @@ if($mform->is_cancelled()){
     
     $mform->display();
 }
-
-//echo $OUTPUT->render_from_template('local_repositoryciae/newfile', []);
 
 echo $OUTPUT->footer();
