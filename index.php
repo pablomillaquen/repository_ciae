@@ -28,14 +28,31 @@ global $USER, $DB, $CFG;
 $PAGE->set_context(context_system::instance());
 
 require_login();
+$materials = array();
+$objmaterials = $DB->get_records('local_repositoryciae_files');
+foreach($objmaterials as $mat){
+    if($mat->image){
+        $fileimage = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $mat->image . " LIMIT 1");
+        //$mat->imageurl = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), $file->get_itemid(), $file->get_fielpath(), $file->get_filename(), false);
+        //$mat->imageurl = $CFG->wwwroot.'/pluginfile.php/5/local_repositoryciae/draft/'.$fileimage->filename; 
+        // $fs = get_file_storage();
+        // $file = $fs->get_file(5, 'local_repositoryciae', 'draft', $mat->image,'/', $fileimage->filename);
+        
+    }
+    array_push($materials, $mat);
+}
 
-//$id = required_param('id', PARAM_INT); // course id
 
 $PAGE->set_url('/local/repositoryciae/index.php');
 $PAGE->set_title(get_string('title', 'local_repositoryciae'));
 $PAGE->set_heading(get_string('title', 'local_repositoryciae'));
+
+$data = new stdClass();
+$data->materials = $materials;
+
+
 echo $OUTPUT->header();
 
-echo $OUTPUT->render_from_template('local_repositoryciae/formchoice', []);
+echo $OUTPUT->render_from_template('local_repositoryciae/mainrepository', $data);
 
 echo $OUTPUT->footer();

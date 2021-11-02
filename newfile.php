@@ -23,20 +23,24 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require('../../config.php');
+require_once('../../config.php');
 global $USER, $DB, $CFG; 
-$PAGE->set_context(context_system::instance());
 
-$id = optional_param('id', '', PARAM_TEXT);
+$id = optional_param('id', 0, PARAM_INT);
+$lang = current_language();
+
+
+$PAGE->set_url('/local/repositoryciae/newfile.php');
+$PAGE->set_context(context_system::instance());
 
 require_login();
 
 require_once("forms/newfile.php");
+//$PAGE->requires->js_call_amd('local_repositoryciae/conditional', 'init', array($lang));
 
-$PAGE->set_url('/local/repositoryciae/newfile.php');
 $PAGE->set_title(get_string('title', 'local_repositoryciae'));
 $PAGE->set_heading(get_string('title', 'local_repositoryciae'));
-echo $OUTPUT->header();
+
 
 $mform = new newfile_form();
 $toform = [];
@@ -44,7 +48,7 @@ $toform = [];
 if($mform->is_cancelled()){
     redirect("/local/repositoryciae/index.php", '', 10);
 }elseif($fromform = $mform->get_data()){
-    if($id){
+    if($fromform->id != 0){        
         //Update data
         $newfile = $DB->get_record('local_repositoryciae_files', ['id'=>$id]);
         $newfile->name = $fromform->name;
@@ -57,6 +61,12 @@ if($mform->is_cancelled()){
         $newfile->filetype = 1; //It's a file
         $newfile->image = $fromform->image;
         $newfile->oa = $fromform->oa;
+        $newfile->abstract = $fromform->abstract;
+        $newfile->axis = $fromform->axis;
+        $newfile->linguistic = $fromform->linguistic;
+        $newfile->suggestions = $fromform->suggestions;
+        $newfile->learning = $fromform->learning;
+        $newfile->guidelines = $fromform->guidelines;
         $DB->update_record('local_repositoryciae_files', $newfile);
     }else{
         //Add new record
@@ -71,15 +81,24 @@ if($mform->is_cancelled()){
         $newfile->filetype = 1; //It's a file
         $newfile->image = $fromform->image;
         $newfile->oa = $fromform->oa;
+        $newfile->abstract = $fromform->abstract;
+        $newfile->axis = $fromform->axis;
+        $newfile->linguistic = $fromform->linguistic;
+        $newfile->suggestions = $fromform->suggestions;
+        $newfile->learning = $fromform->learning;
+        $newfile->guidelines = $fromform->guidelines;
         $storedfile = $DB->insert_record('local_repositoryciae_files', $newfile, true, false);
     }
+    redirect("/local/repositoryciae/index.php", 'Cambios guardados', 10,  \core\output\notification::NOTIFY_SUCCESS);
 }else{
-    if($id){
+    if($id != 0){
         $toform = $DB->get_record('local_repositoryciae_files', ['id'=>$id]);
     }
     $mform->set_data($toform);
     
+    echo $OUTPUT->header();
     $mform->display();
+    echo $OUTPUT->footer();
 }
 
-echo $OUTPUT->footer();
+

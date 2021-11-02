@@ -35,6 +35,9 @@
         $mform = $this->_form;
         $mform->addElement('html', '<h3>Formulario para subir un enlace a página externa</h3><br><br>');
 
+        $mform->addElement('hidden', 'id', 0);
+        $mform->setType('id', PARAM_INT);
+
         $attributes=array('size'=>'20');
         $mform->addElement('text', 'name', get_string('filename', 'local_repositoryciae'), $attributes);
         $mform->setType('name', PARAM_TEXT);
@@ -119,7 +122,30 @@
         );
 
         $select2 = $mform->addElement('select', 'culturalcontent', get_string('culture', 'local_repositoryciae'), $optionsculture, []);
-        //$select2->setMultiple(true);
+        
+        $optionsaxis = array(
+            '1' => 'Lengua, tradición oral, iconografía, prácticas de lectura y escritura de los pueblos originarios.',
+            '2' => 'Territorio, territorialidad, identidad y memoria histórica de los pueblos originarios.',
+            '3' => 'Cosmovisión de los pueblos originarios.',
+            '4' => 'Patrimonio, tecnologías, técnicas, ciencias y artes ancestrales de los pueblos originarios.'
+        );
+
+        $select3 = $mform->addElement('select', 'axis', get_string('axis', 'local_repositoryciae'), $optionsaxis, []);
+
+        $mform->addElement('textarea', 'linguistic', get_string('linguistic', 'local_repositoryciae'), 'wrap="virtual" rows="6" cols="50"');
+        $mform->addHelpButton('linguistic', 'linguistic', 'local_repositoryciae');
+
+        $mform->addElement('textarea', 'suggestions', get_string('suggestions', 'local_repositoryciae'), 'wrap="virtual" rows="6" cols="50"');
+        $mform->addHelpButton('suggestions', 'suggestions', 'local_repositoryciae');
+
+        $optionslearning = array(
+            '1' => 'Completar...'
+        );
+
+        $mform->addElement('select', 'learning', get_string('learning', 'local_repositoryciae'), $optionslearning, []);
+
+        $mform->addElement('textarea', 'guidelines', get_string('guidelines', 'local_repositoryciae'), 'wrap="virtual" rows="6" cols="50"');
+        $mform->addHelpButton('guidelines', 'guidelines', 'local_repositoryciae');
 
         $buttonArray = array();
         $buttonArray[] = $mform->createElement('submit', 'Guardar', 'Guardar');

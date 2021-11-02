@@ -27,7 +27,7 @@ require('../../config.php');
 global $USER, $DB, $CFG;
 $PAGE->set_context(context_system::instance());
 
-$id = optional_param('id', '', PARAM_TEXT);
+$id = optional_param('id', 0, PARAM_INT);
 
 require_login();
 
@@ -46,7 +46,7 @@ $toform = [];
 if($mform->is_cancelled()){
     redirect("/local/repositoryciae/index.php", '', 10);
 }elseif($fromform = $mform->get_data()){
-    if($id){
+    if($fromform->id != 0){
         //Update data
         $newfile = $DB->get_record('local_repositoryciae_files', ['id'=>$id]);
         $newfile->name = $fromform->name;
@@ -59,6 +59,12 @@ if($mform->is_cancelled()){
         $newfile->filetype = 2; //It's a link
         $newfile->image = $fromform->image;
         $newfile->oa = $fromform->oa;
+        $newfile->abstract = $fromform->abstract;
+        $newfile->axis = $fromform->axis;
+        $newfile->linguistic = $fromform->linguistic;
+        $newfile->suggestions = $fromform->suggestions;
+        $newfile->learning = $fromform->learning;
+        $newfile->guidelines = $fromform->guidelines;
         $DB->update_record('local_repositoryciae_files', $newfile);
     }else{
         //Add new record
@@ -73,8 +79,15 @@ if($mform->is_cancelled()){
         $newfile->filetype = 2; //It's a link
         $newfile->image = $fromform->image;
         $newfile->oa = $fromform->oa;
+        $newfile->abstract = $fromform->abstract;
+        $newfile->axis = $fromform->axis;
+        $newfile->linguistic = $fromform->linguistic;
+        $newfile->suggestions = $fromform->suggestions;
+        $newfile->learning = $fromform->learning;
+        $newfile->guidelines = $fromform->guidelines;
         $storedfile = $DB->insert_record('local_repositoryciae_files', $newfile, true, false);
     }
+    redirect("/local/repositoryciae/index.php", 'Cambios guardados', 10,  \core\output\notification::NOTIFY_SUCCESS);
 }else{
     if($id){
         $toform = $DB->get_record('local_repositoryciae_files', ['id'=>$id]);

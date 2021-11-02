@@ -114,7 +114,27 @@
         );
 
         $select2 = $mform->addElement('select', 'culture', get_string('culture', 'local_repositoryciae'), $optionsculture, []);
-        //$select2->setMultiple(true);
+        
+        $optionsaxis = array(
+            '1' => 'Lengua, tradición oral, iconografía, prácticas de lectura y escritura de los pueblos originarios.',
+            '2' => 'Territorio, territorialidad, identidad y memoria histórica de los pueblos originarios.',
+            '3' => 'Cosmovisión de los pueblos originarios.',
+            '4' => 'Patrimonio, tecnologías, técnicas, ciencias y artes ancestrales de los pueblos originarios.'
+        );
+
+        $select3 = $mform->addElement('select', 'axis', get_string('axis', 'local_repositoryciae'), $optionsaxis, []);
+
+        $mform->addElement('tags','linguistic', get_string('linguistic', 'local_repositoryciae'), null, []);
+
+        $mform->addElement('tags','suggestions', get_string('suggestions', 'local_repositoryciae'), null, []);
+
+        $optionslearning = array(
+            '1' => 'Completar...'
+        );
+
+        $mform->addElement('select', 'learning', get_string('learning', 'local_repositoryciae'), $optionslearning, []);
+
+        $mform->addElement('tags','guidelines', get_string('guidelines', 'local_repositoryciae'), null, []);
 
         $buttonArray = array();
         $buttonArray[] = $mform->createElement('submit', 'Guardar', 'Guardar');

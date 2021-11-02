@@ -40,34 +40,34 @@ function local_repositoryciae_output_fragment_new_discussions_form($args) {
     global $CFG;
 
     require_once($CFG->dirroot . '/local/repositoryciae/getdiscussions.php');
-//     $args = (object) $args;
-//     $context = $args->context;
-//     $o = '';
+    //     $args = (object) $args;
+    //     $context = $args->context;
+    //     $o = '';
 
-//     $formdata = [];
-//     if (!empty($args->jsonformdata)) {
-//         $serialiseddata = json_decode($args->jsonformdata);
-//         parse_str($serialiseddata, $formdata);
-//     }
+    //     $formdata = [];
+    //     if (!empty($args->jsonformdata)) {
+    //         $serialiseddata = json_decode($args->jsonformdata);
+    //         parse_str($serialiseddata, $formdata);
+    //     }
 
-//    // list($ignored, $course) = get_context_info_array($context->id);
-//     $group = new stdClass();
-//     $group->courseid = $course->id;
+    //    // list($ignored, $course) = get_context_info_array($context->id);
+    //     $group = new stdClass();
+    //     $group->courseid = $course->id;
 
-//     require_capability('moodle/course:managegroups', $context);
-//     $editoroptions = [
-//         'maxfiles' => EDITOR_UNLIMITED_FILES,
-//         'maxbytes' => $course->maxbytes,
-//         'trust' => false,
-//         'context' => $context,
-//         'noclean' => true,
-//         'subdirs' => false
-//     ];
-//     $group = file_prepare_standard_editor($group, 'description', $editoroptions, $context, 'local_repositoryciae', 'description', null);
+    //     require_capability('moodle/course:managegroups', $context);
+    //     $editoroptions = [
+    //         'maxfiles' => EDITOR_UNLIMITED_FILES,
+    //         'maxbytes' => $course->maxbytes,
+    //         'trust' => false,
+    //         'context' => $context,
+    //         'noclean' => true,
+    //         'subdirs' => false
+    //     ];
+    //     $group = file_prepare_standard_editor($group, 'description', $editoroptions, $context, 'local_repositoryciae', 'description', null);
 
     $mform = new discussions_form(null, array('editoroptions' => $editoroptions), 'post', '', null, true, $formdata);
     // Used to set the courseid.
-//    $mform->set_data($group);
+    //    $mform->set_data($group);
 
     if (!empty($args->jsonformdata)) {
         // If we were passed non-empty form data we want the mform to call validation functions and show errors.
@@ -75,4 +75,13 @@ function local_repositoryciae_output_fragment_new_discussions_form($args) {
     }
 
     return $mform->render();
+}
+
+function local_repositoryciae_extend_navigation(global_navigation $navigation) {
+    $main_node = $navigation->add(get_string('pluginname', 'local_repositoryciae'), '/local/repositoryciae/');
+    $main_node->nodetype = 1;
+    $main_node->collapse = false;
+    $main_node->forceopen = true;
+    $main_node->isexpandable = false;
+    $main_node->showinflatnavigation = true;
 }
