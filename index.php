@@ -28,16 +28,82 @@ global $USER, $DB, $CFG;
 $PAGE->set_context(context_system::instance());
 
 require_login();
+
+$optionsculture = array(
+    '1' => 'Allkütun zugu',
+    '2' => 'Mapuche az chaliwün',
+    '3' => 'Fillke mapu ñi az epewkantun mew',
+    '4' => 'Mapuche lhawen epewkantun mew',
+    '5' => 'Chalintukuwün, Witxankontun egu mapuche pepilüwün',
+    '6' => 'Mapuche awkiñ',
+    '7' => 'Úlkantun kimün',
+    '8' => 'Mapuche Úlkantun'
+);
+$optionsmaterials = array(
+    '1' => 'Guías de aprendizaje',
+    '2' => 'Diccionarios',
+    '3' => 'Cuadernillos de ejercicios',
+    '4' => 'Textos (géneros textuales mapuches, poesía, obras dramáticas)',
+    '5' => 'Fichas temáticas',
+    '6' => 'Infografías',
+    '7' => 'Imágenes/Fotografías',
+    '8' => 'Organizadores gráficos (mapas conceptuales, esquemas, diagramas, etc.)',
+    '9' => 'Manuales/libros',
+    '10' => 'Videos',
+    '11' => 'Canciones',
+    '12' => 'Cápsulas audiovisuales',
+    '13' => 'Grabaciones de audio',
+    '14' => 'Juegos',
+    '15' => 'Maquetas',
+    '16' => 'Videojuegos',
+    '17' => 'Mapas',
+    '18' => 'Plataformas Web',
+    '19' => 'Otros'
+);
+$optionsgrades = array(
+    '1' => 'Primero básico',
+    '2' => 'Segundo básico',
+    '3' => 'Tercero básico',
+    '4' => 'Cuarto básico',
+    '5' => 'Quinto básico',
+    '6' => 'Sexto básico',
+    '7' => 'Séptimo básico',
+    '8' => 'Octavo básico'
+);
+
 $materials = array();
 $objmaterials = $DB->get_records('local_repositoryciae_files');
 foreach($objmaterials as $mat){
+    //Link
+    if($mat->filetype == 1){
+        $mat->linktype = 'newfile.php';
+    }elseif($mat->filetype == 2){
+        $mat->linktype = 'newlink.php';
+    }else{
+        $mat->linktype = 'collabfile.php';
+    }
+    //Image
     if($mat->image){
         $fileimage = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $mat->image . " LIMIT 1");
-        //$mat->imageurl = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), $file->get_itemid(), $file->get_fielpath(), $file->get_filename(), false);
-        //$mat->imageurl = $CFG->wwwroot.'/pluginfile.php/5/local_repositoryciae/draft/'.$fileimage->filename; 
-        // $fs = get_file_storage();
-        // $file = $fs->get_file(5, 'local_repositoryciae', 'draft', $mat->image,'/', $fileimage->filename);
-        
+        $mat->imageurl = $CFG->wwwroot.'/draftfile.php/5/user/draft/'.$fileimage->itemid.'/'.$fileimage->filename;
+    }
+    //Material type
+    foreach($optionsmaterials as $key => $value){
+        if($mat->materialtype == $key){
+            $mat->materialtype = $value;
+        }
+    }
+    //Grades
+    foreach($optionsgrades as $key => $value){
+        if($mat->grades == $key){
+            $mat->grades = $value;
+        }
+    }
+    //Culture
+    foreach($optionsculture as $key => $value){
+        if($mat->culturalcontent == $key){
+            $mat->culturalcontent = $value;
+        }
     }
     array_push($materials, $mat);
 }

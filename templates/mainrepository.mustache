@@ -30,13 +30,16 @@
     {{#materials}}
     <div class="card" style="width: 18rem; margin-left:3px;margin-bottom:3px;">
         <div class="row no-gutters">
+            <div class="col-md-12 block-title">
+                <h5 class="card-title">{{materialtype}}</h5>
+            </div>    
             <div class="col-md-4">
-                <img src="https://futurefood.network/wp-content/uploads/2020/06/Education.jpg" alt="..." style="width: 100%;height: 15vw;object-fit: cover;">
+                <img src="{{imageurl}}" alt="..." style="width: 100%;height: 15vw;object-fit: cover;">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h5 class="card-title">{{name}}</h5>
-                    <p class="card-text">{{abstract}}</p>
+                    <p class="card-text"><strong>{{grades}}</strong></p>
+                    <p class="card-text">{{culturalcontent}}</p>
                     <p class="card-text">
                         <i class="fa fa-star" aria-hidden="true"></i>
                         <i class="fa fa-star" aria-hidden="true"></i>
@@ -45,6 +48,7 @@
                         <i class="fa fa-star-o" aria-hidden="true"></i>
                     </p>
                     <a href="materialrepository.php?id={{id}}" class="btn btn-primary">Ver</a>
+                    <a href="{{linktype}}?id={{id}}" class="btn btn-danger">Editar</a>
                 </div>
             </div>            
         </div>
