@@ -85,7 +85,9 @@ foreach($objmaterials as $mat){
     //Image
     if($mat->image){
         $fileimage = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $mat->image . " LIMIT 1");
-        $mat->imageurl = $CFG->wwwroot.'/draftfile.php/5/user/draft/'.$fileimage->itemid.'/'.$fileimage->filename;
+        if($fileimage){
+            $mat->imageurl = $CFG->wwwroot.'/draftfile.php/5/user/draft/'.$fileimage->itemid.'/'.$fileimage->filename;
+        }
     }
     //Material type
     foreach($optionsmaterials as $key => $value){
