@@ -84,10 +84,10 @@ foreach($objmaterials as $mat){
     }
     //Image
     if($mat->image){
-        $fileimage = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $mat->image . " LIMIT 1");
+        $fileimage = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $mat->image ." AND LENGTH(filename) > 1");
         if($fileimage){
-            $mat->imageurl = $CFG->wwwroot.'/draftfile.php/215/user/draft/'.$fileimage->itemid.'/'.$fileimage->filename;
-        }
+            $mat->imageurl = $CFG->wwwroot.'/draftfile.php/215/user/draft/'.$fileimage->itemid.'/'.$fileimage->filename;   
+        }        
     }
     //Material type
     foreach($optionsmaterials as $key => $value){
