@@ -50,7 +50,7 @@ if($mform->is_cancelled()){
 }elseif($fromform = $mform->get_data()){
     if($fromform->id != 0){        
         //Update data
-        $newfile = $DB->get_record('local_repositoryciae_files', ['id'=>$id]);
+        $newfile = $DB->get_record('local_repositoryciae_files', ['id'=>$fromform->id]);
         $newfile->name = $fromform->name;
         $newfile->abstract = $fromform->abstract;
         $newfile->grades = $fromform->grades;
