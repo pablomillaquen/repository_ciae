@@ -26,7 +26,6 @@
 require('../../config.php');
 global $USER, $DB, $CFG;
 $PAGE->set_context(context_system::instance());
-
 require_login();
 
 $optionsculture = array(
@@ -86,7 +85,7 @@ foreach($objmaterials as $mat){
     if($mat->image){
         $fileimage = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $mat->image ." AND LENGTH(filename) > 1");
         if($fileimage){
-            $mat->imageurl = $CFG->wwwroot.'/draftfile.php/215/user/draft/'.$fileimage->itemid.'/'.$fileimage->filename;   
+            $mat->imageurl = $CFG->wwwroot.'/draftfile.php/'.$fileimage->contextid.'/'.$fileimage->component.'/'.$fileimage->filearea.'/'.$fileimage->itemid.'/'.$fileimage->filename;   
         }        
     }
     //Material type
