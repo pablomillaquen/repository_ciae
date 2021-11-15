@@ -83,7 +83,7 @@ foreach($objmaterials as $mat){
     }
     //Image
     if($mat->image){
-        $fileimage = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $mat->image ." AND LENGTH(filename) > 1");
+        $fileimage = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $mat->image ." AND filesize > 1");
         if($fileimage){
             $mat->imageurl = $CFG->wwwroot.'/draftfile.php/'.$fileimage->contextid.'/'.$fileimage->component.'/'.$fileimage->filearea.'/'.$fileimage->itemid.'/'.$fileimage->filename;   
         }        
