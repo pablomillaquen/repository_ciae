@@ -83,10 +83,14 @@ foreach($objmaterials as $mat){
     }
     //Image
     if($mat->image){
-        $fileimage = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $mat->image ." AND filesize > 1");
+        $fileimage = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $mat->image ." AND filesize > 1 LIMIT 1");
         if($fileimage){
             $mat->imageurl = $CFG->wwwroot.'/draftfile.php/'.$fileimage->contextid.'/'.$fileimage->component.'/'.$fileimage->filearea.'/'.$fileimage->itemid.'/'.$fileimage->filename;   
-        }        
+        }else{
+            $mat->imageurl = $CFG->wwwroot.'/local/repositoryciae/img/no-image-icon-23485.png';
+        }
+    }else{
+        $mat->imageurl = $CFG->wwwroot.'/local/repositoryciae/img/no-image-icon-23485.png';
     }
     //Material type
     foreach($optionsmaterials as $key => $value){
