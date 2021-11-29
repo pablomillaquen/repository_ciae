@@ -49,8 +49,11 @@
                         <i class="fa fa-star" aria-hidden="true"></i>
                         <i class="fa fa-star-o" aria-hidden="true"></i>
                     </p>
-                    <a href="./repositoryciae/materialrepository.php?id={{id}}" class="btn btn-primary">Ver</a>
-                    <a href="./repositoryciae/{{linktype}}?id={{id}}" class="btn btn-danger">Editar</a>
+                    <div class="btn-group" role="group">
+                        <a href="./materialrepository.php?id={{id}}" class="btn btn-primary">Ver</a>
+                        <a href="./{{linktype}}?id={{id}}" class="btn btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        <a href="./delete.php?id={{id}}" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                    </div>
                 </div>
             </div>            
         </div>
