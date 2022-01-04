@@ -66,8 +66,13 @@
         //$select->setMultiple(true);
 
         $optionsterritories = array(
-            '1' => 'Completar...'
+            '1' => 'Pewenche',
+            '2' => 'Wentenche',
+            '3' => 'Nagche',
+            '4' => 'Lafkenche',
+            '5' => 'Williche'
         );
+
 
         $mform->addElement('select', 'territory', get_string('territories', 'local_repositoryciae'), $optionsterritories, []);
         
@@ -108,9 +113,7 @@
             '22' => '22'
         );
 
-        $mform->addElement('select', 'oa', get_string('oa', 'local_repositoryciae'), $optionsoa, []);
-
-        
+        $mform->addElement('select', 'oa', get_string('oa', 'local_repositoryciae'), $optionsoa, []);  
 
         $select2 = $mform->addElement('select', 'culturalcontent', get_string('culture', 'local_repositoryciae'), [], []);
 

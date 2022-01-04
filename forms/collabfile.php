@@ -58,7 +58,11 @@
         //$select->setMultiple(true);
 
         $optionsterritories = array(
-            '1' => 'Completar...'
+            '1' => 'Pewenche',
+            '2' => 'Wentenche',
+            '3' => 'Nagche',
+            '4' => 'Lafkenche',
+            '5' => 'Williche'
         );
 
         $mform->addElement('select', 'territories', get_string('territories', 'local_repositoryciae'), $optionsterritories, []);
