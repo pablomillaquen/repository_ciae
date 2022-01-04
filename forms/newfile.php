@@ -49,7 +49,7 @@
                     array('subdirs' => 0, 'maxfiles' => 5, 'accepted_types' => '*'));
 
 
-        $mform->addElement('filepicker', 'image', get_string('image', 'local_repositoryciae'), null, array('accepted_types' => '*'));
+        $mform->addElement('filepicker', 'image', get_string('image', 'local_repositoryciae'), null, array('accepted_types' => array('jpg', 'png')));
 
         $optionsgrades = array(
             '1' => 'Primero básico',
@@ -110,18 +110,9 @@
 
         $mform->addElement('select', 'oa', get_string('oa', 'local_repositoryciae'), $optionsoa, []);
 
-        $optionsculture = array(
-            '1' => 'Allkütun zugu',
-            '2' => 'Mapuche az chaliwün',
-            '3' => 'Fillke mapu ñi az epewkantun mew',
-            '4' => 'Mapuche lhawen epewkantun mew',
-            '5' => 'Chalintukuwün, Witxankontun egu mapuche pepilüwün',
-            '6' => 'Mapuche awkiñ',
-            '7' => 'Úlkantun kimün',
-            '8' => 'Mapuche Úlkantun'
-        );
+        
 
-        $select2 = $mform->addElement('select', 'culturalcontent', get_string('culture', 'local_repositoryciae'), $optionsculture, []);
+        $select2 = $mform->addElement('select', 'culturalcontent', get_string('culture', 'local_repositoryciae'), [], []);
 
         $optionsaxis = array(
             '1' => 'Lengua, tradición oral, iconografía, prácticas de lectura y escritura de los pueblos originarios.',

@@ -32,11 +32,11 @@ $lang = current_language();
 
 $PAGE->set_url('/local/repositoryciae/newfile.php');
 $PAGE->set_context(context_system::instance());
-
+$contextid = $PAGE->context->id;
 require_login();
 
 require_once("forms/newfile.php");
-//$PAGE->requires->js_call_amd('local_repositoryciae/conditional', 'init', array($lang));
+$PAGE->requires->js_call_amd('local_repositoryciae/conditional', 'init', array($lang));
 
 $PAGE->set_title(get_string('title', 'local_repositoryciae'));
 $PAGE->set_heading(get_string('title', 'local_repositoryciae'));
@@ -67,6 +67,8 @@ if($mform->is_cancelled()){
         $newfile->suggestions = $fromform->suggestions;
         $newfile->learning = $fromform->learning;
         $newfile->guidelines = $fromform->guidelines;
+        file_save_draft_area_files ( $newfile->link, $contextid, 'local_repositoryciae', 'attachment', $newfile->id, array('subdirs' => 0, 'maxfiles' => 5) );
+        file_save_draft_area_files ( $newfile->image, $contextid, 'local_repositoryciae', 'image', $newfile->id, array('subdirs' => 0, 'maxfiles' => 1) );
         $DB->update_record('local_repositoryciae_files', $newfile);
     }else{
         //Add new record
@@ -88,6 +90,10 @@ if($mform->is_cancelled()){
         $newfile->learning = $fromform->learning;
         $newfile->guidelines = $fromform->guidelines;
         $storedfile = $DB->insert_record('local_repositoryciae_files', $newfile, true, false);
+        $draftlinkid = file_get_submitted_draft_itemid('link');
+        $draftimageid = file_get_submitted_draft_itemid('image');
+        file_save_draft_area_files ( $draftlinkid, $contextid, 'local_repositoryciae', 'attachment', $draftlinkid, array('subdirs' => 0, 'maxfiles' => 5) );
+        file_save_draft_area_files ( $draftimageid, $contextid, 'local_repositoryciae', 'image', $draftimageid, array('subdirs' => 0, 'maxfiles' => 1) );
     }
     redirect("/local/repositoryciae/index.php", 'Cambios guardados', 10,  \core\output\notification::NOTIFY_SUCCESS);
 }else{

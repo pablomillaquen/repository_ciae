@@ -28,16 +28,21 @@ global $USER, $DB, $CFG;
 $PAGE->set_context(context_system::instance());
 require_login();
 
-$optionsculture = array(
-    '1' => 'Allkütun zugu',
-    '2' => 'Mapuche az chaliwün',
-    '3' => 'Fillke mapu ñi az epewkantun mew',
-    '4' => 'Mapuche lhawen epewkantun mew',
-    '5' => 'Chalintukuwün, Witxankontun egu mapuche pepilüwün',
-    '6' => 'Mapuche awkiñ',
-    '7' => 'Úlkantun kimün',
-    '8' => 'Mapuche Úlkantun'
-);
+$lang = current_language();
+
+$optionsculturelang = array();
+
+$json = file_get_contents('culturalcontent.json');
+$obj = json_decode($json);
+foreach($obj as $key=>$value){
+    if($key == $lang){
+        $optionsculturelang= $value;
+    }
+}
+// echo "<pre>";
+// var_dump($optionsculturelang);
+// exit;
+
 $optionsmaterials = array(
     '1' => 'Guías de aprendizaje',
     '2' => 'Diccionarios',
@@ -83,9 +88,12 @@ foreach($objmaterials as $mat){
     }
     //Image
     if($mat->image){
-        $fileimage = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $mat->image ." AND filesize > 1 LIMIT 1");
+        $fileimage = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $mat->image ." AND filesize > 1 AND component = 'local_repositoryciae'  LIMIT 1");
         if($fileimage){
-            $mat->imageurl = $CFG->wwwroot.'/draftfile.php/'.$fileimage->contextid.'/'.$fileimage->component.'/'.$fileimage->filearea.'/'.$fileimage->itemid.'/'.$fileimage->filename;   
+            $url = moodle_url::make_pluginfile_url($fileimage->contextid, $fileimage->component, $fileimage->filearea, $fileimage->itemid, $fileimage->filepath, $fileimage->filename, false);
+          
+            $mat->imageurl = $url;
+            //$mat->imageurl = $CFG->wwwroot.'/pluginfile.php/'.$fileimage->contextid.'/'.$fileimage->component.'/'.$fileimage->filearea.'/'.$fileimage->itemid.'/'.$fileimage->filename;   
         }else{
             $mat->imageurl = $CFG->wwwroot.'/local/repositoryciae/img/no-image-icon-23485.png';
         }
@@ -98,21 +106,26 @@ foreach($objmaterials as $mat){
             $mat->materialtype = $value;
         }
     }
+    //Culture
+    foreach($optionsculturelang as $key => $value){
+        if($key == $mat->grades){
+            foreach($value as $key2 => $value2){
+                if($mat->culturalcontent == $key2){
+                    $mat->culturalcontent = $value2;
+                    
+                }
+            }
+        }
+    }
     //Grades
     foreach($optionsgrades as $key => $value){
         if($mat->grades == $key){
             $mat->grades = $value;
         }
     }
-    //Culture
-    foreach($optionsculture as $key => $value){
-        if($mat->culturalcontent == $key){
-            $mat->culturalcontent = $value;
-        }
-    }
+    
     array_push($materials, $mat);
 }
-
 
 $PAGE->set_url('/local/repositoryciae/index.php');
 $PAGE->set_title(get_string('title', 'local_repositoryciae'));

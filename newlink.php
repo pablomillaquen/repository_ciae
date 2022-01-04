@@ -25,6 +25,8 @@
 
 require('../../config.php');
 global $USER, $DB, $CFG;
+$lang = current_language();
+
 $PAGE->set_context(context_system::instance());
 
 $id = optional_param('id', 0, PARAM_INT);
@@ -32,6 +34,7 @@ $id = optional_param('id', 0, PARAM_INT);
 require_login();
 
 require_once("forms/newlink.php");
+$PAGE->requires->js_call_amd('local_repositoryciae/conditional', 'init', array($lang));
 
 //$id = required_param('id', PARAM_INT); // course id
 
