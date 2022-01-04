@@ -9,7 +9,6 @@ export const init = (lang) => {
         sendData();
     });
     function sendData(){
-        event.preventDefault();
         var grade = $('#id_grades').val();
         var $dropdown = $("#id_culturalcontent");
         $.getJSON("culturalcontent.json", function(data) {
