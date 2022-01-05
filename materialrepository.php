@@ -30,18 +30,19 @@ $PAGE->set_context(context_system::instance());
 require_login();
 
 $id = required_param('id', PARAM_INT); // material id
+
 $data = new stdClass();
 
-$optionsculture = array(
-    '1' => 'Allkütun zugu',
-    '2' => 'Mapuche az chaliwün',
-    '3' => 'Fillke mapu ñi az epewkantun mew',
-    '4' => 'Mapuche lhawen epewkantun mew',
-    '5' => 'Chalintukuwün, Witxankontun egu mapuche pepilüwün',
-    '6' => 'Mapuche awkiñ',
-    '7' => 'Úlkantun kimün',
-    '8' => 'Mapuche Úlkantun'
-);
+$lang = current_language();
+$optionsculturelang = array();
+
+$json = file_get_contents('culturalcontent.json');
+$obj = json_decode($json);
+foreach($obj as $key=>$value){
+    if($key == $lang){
+        $optionsculturelang= $value;
+    }
+}
 $optionsmaterials = array(
     '1' => 'Guías de aprendizaje',
     '2' => 'Diccionarios',
@@ -84,24 +85,13 @@ $optionsaxis = array(
 $materials = array();
 $objmaterial = $DB->get_record('local_repositoryciae_files', ['id'=>$id]);
 
-//Image
-if($objmaterial->image){
-    $fileimage = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $objmaterial->image ." AND filesize > 1 LIMIT 1");
-    if($fileimage){
-        $objmaterial->imageurl = $CFG->wwwroot.'/draftfile.php/'.$fileimage->contextid.'/'.$fileimage->component.'/'.$fileimage->filearea.'/'.$fileimage->itemid.'/'.$fileimage->filename;   
-    }else{
-        $objmaterial->imageurl = $CFG->wwwroot.'/local/repositoryciae/img/no-image-icon-23485.png';
-    }
-}else{
-    $objmaterial->imageurl = $CFG->wwwroot.'/local/repositoryciae/img/no-image-icon-23485.png';
-}
-
 //File
 if($objmaterial->filetype==1){//It's a file
     if($objmaterial->link){
-        $file = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $objmaterial->link ." AND filesize > 1 LIMIT 1");
+        $file = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $objmaterial->link ." AND filesize > 1 AND component = 'local_repositoryciae'  LIMIT 1");
         if($file){
-            $objmaterial->fileurl = $CFG->wwwroot.'/draftfile.php/'.$file->contextid.'/'.$file->component.'/'.$file->filearea.'/'.$file->itemid.'/'.$file->filename;   
+            $url = moodle_url::make_pluginfile_url($file->contextid, $file->component, $file->filearea, $file->itemid, $file->filepath, $file->filename, false);
+            $objmaterial->fileurl = $url;
         }
     }
 }elseif($objmaterial->filetype==2){
@@ -114,16 +104,21 @@ foreach($optionsmaterials as $key => $value){
         $objmaterial->materialtype = $value;
     }
 }
+//Culture
+foreach($optionsculturelang as $key => $value){
+    if($key == $objmaterial->grades){
+        foreach($value as $key2 => $value2){
+            if($objmaterial->culturalcontent == $key2){
+                $objmaterial->culturalcontent = $value2;
+                
+            }
+        }
+    }
+}
 //Grades
 foreach($optionsgrades as $key => $value){
     if($objmaterial->grades == $key){
         $objmaterial->grades = $value;
-    }
-}
-//Culture
-foreach($optionsculture as $key => $value){
-    if($objmaterial->culturalcontent == $key){
-        $objmaterial->culturalcontent = $value;
     }
 }
 //Axis
@@ -140,6 +135,20 @@ foreach($objmaterial as $mat){
 if(!$objmaterial->guidelines){
     $objmaterial->guidelines = "Sin información";
 }
+
+//Imagen
+if($objmaterial->image){
+    $fileimage = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $objmaterial->image ." AND filesize > 1 AND component = 'local_repositoryciae'  LIMIT 1");
+    if($fileimage){
+        $url = moodle_url::make_pluginfile_url($fileimage->contextid, $fileimage->component, $fileimage->filearea, $fileimage->itemid, $fileimage->filepath, $fileimage->filename, false);
+        $objmaterial->imageurl = $url;
+    }else{
+        $objmaterial->imageurl = $CFG->wwwroot.'/local/repositoryciae/img/no-image-icon-23485.png';
+    }
+}else{
+    $objmaterial->imageurl = $CFG->wwwroot.'/local/repositoryciae/img/no-image-icon-23485.png';
+}
+
 
 $data = new stdClass();
 $data = $materials;

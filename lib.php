@@ -27,7 +27,11 @@
  * INTERNAL FUNCTIONS - to be used by moodle core only
  * require_once $CFG->dirroot.'/group/lib.php' must be used
  */
+defined('MOODLE_INTERNAL') || die();
 
+/// CONSTANTS ///////////////////////////////////////////////////////////
+
+//define('CONTEXT_MODULE', 10);
 
 
 /**
@@ -84,4 +88,25 @@ function local_repositoryciae_extend_navigation(global_navigation $navigation) {
     $main_node->forceopen = true;
     $main_node->isexpandable = false;
     $main_node->showinflatnavigation = true;
+}
+
+function local_repositoryciae_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
+    $lifetime = 60 * 60 * 24 * 36500;
+    $filter = 0;
+    $pathisstring = false;
+	$forcedownload = false;
+	$mimetype = '';
+	$dontdie = false;
+    $filename = array_pop ( $args );
+	$itemid = array_pop ( $args );
+    if ($filearea === 'attachment') {
+        $forcedownload = true;
+    }
+    $fs = get_file_storage ();
+	if (! $file = $fs->get_file ( $context->id, 'local_repositoryciae', $filearea, $itemid, '/', $filename )) {
+		echo $context->id . ".." . $filearea . ".." . $itemid . ".." . $filename;
+		echo "File really not found";
+		send_file_not_found ();
+	}
+	send_file ( $file, $filename, $lifetime, $filter, $pathisstring, $forcedownload, $mimetype = '', $dontdie );
 }

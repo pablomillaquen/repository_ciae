@@ -39,9 +39,6 @@ foreach($obj as $key=>$value){
         $optionsculturelang= $value;
     }
 }
-// echo "<pre>";
-// var_dump($optionsculturelang);
-// exit;
 
 $optionsmaterials = array(
     '1' => 'Guías de aprendizaje',
@@ -91,9 +88,7 @@ foreach($objmaterials as $mat){
         $fileimage = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $mat->image ." AND filesize > 1 AND component = 'local_repositoryciae'  LIMIT 1");
         if($fileimage){
             $url = moodle_url::make_pluginfile_url($fileimage->contextid, $fileimage->component, $fileimage->filearea, $fileimage->itemid, $fileimage->filepath, $fileimage->filename, false);
-          
             $mat->imageurl = $url;
-            //$mat->imageurl = $CFG->wwwroot.'/pluginfile.php/'.$fileimage->contextid.'/'.$fileimage->component.'/'.$fileimage->filearea.'/'.$fileimage->itemid.'/'.$fileimage->filename;   
         }else{
             $mat->imageurl = $CFG->wwwroot.'/local/repositoryciae/img/no-image-icon-23485.png';
         }
