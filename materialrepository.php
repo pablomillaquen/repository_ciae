@@ -88,6 +88,7 @@ $objmaterial = $DB->get_record('local_repositoryciae_files', ['id'=>$id]);
 
 //File
 $arrayfiles = array();
+
 if($objmaterial->filetype==1){//It's a file
     if($objmaterial->link){
         $file = $DB->get_records_sql("SELECT * FROM mdl_files WHERE itemid = ". $objmaterial->link ." AND filesize > 1 AND component = 'local_repositoryciae'");
@@ -108,6 +109,7 @@ if($objmaterial->filetype==1){//It's a file
     $islink = true;
     $objmaterial->fileurl = $objmaterial->link;
 }
+$objmaterial->islink = $islink;
 
 //Material Types
 foreach($optionsmaterials as $key => $value){
