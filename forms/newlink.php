@@ -114,7 +114,30 @@
 
         $mform->addElement('select', 'oa', get_string('oa', 'local_repositoryciae'), $optionsoa, []);
 
-        $select2 = $mform->addElement('select', 'culturalcontent', get_string('culture', 'local_repositoryciae'), [], []);
+        $optionscultural = array(
+            '1'=>'Escuchar',
+            '6'=>'Sonidos propios locales',
+            '7'=>'Conocimiento sobre canciones',
+            '8'=>'Canciones mapuches',
+            '9'=>'Familia',
+            '10'=>'Retorno del ciclo natural',
+            '11'=>'Conocimiento de la luna',
+            '12'=>'Toponimia',
+            '13'=>'Nombres de personas',
+            '14'=>'Denominación de las características geográficas',
+            '15'=>'Nombre y apellido de personas',
+            '16'=>'Denominación ancestral de los lugares',
+            '17'=>'Denominación ancestral de nombres o apellidos mapuche',
+            '18'=>'Algunos hechos o elementos propias mapuche',
+            '19'=>'Algunas ceremonias propias mapuche',
+            '20'=>'Conocimientos mapuche asociados a la preparación de la tierra y sembrar o plantar',
+            '21'=>'Escritura del mapuchezugun',
+            '23'=>'Memoria familiar',
+            '24'=>'Consejos para ser personas',
+            '25'=>'El hilado y tejido en telar'
+        );
+
+        $select2 = $mform->addElement('select', 'culturalcontent', get_string('culture', 'local_repositoryciae'), $optionscultural, []);
         
         $optionsaxis = array(
             '1' => 'Lengua, tradición oral, iconografía, prácticas de lectura y escritura de los pueblos originarios.',
