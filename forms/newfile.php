@@ -23,155 +23,92 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- require_once("$CFG->libdir/formslib.php");
+require_once('../../config.php');
+global $USER, $DB, $CFG; 
 
- class newfile_form extends moodleform
- {
-    //Add elements to form
-    public function definition()
-    {
-        global $CFG;
-
-        $mform = $this->_form;
-        $mform->addElement('html', '<h3>Formulario para subir nuevos materiales</h3><br><br>');
-
-        $mform->addElement('hidden', 'id', 0);
-        $mform->setType('id', PARAM_INT);
-
-        $attributes=array('size'=>'20');
-        $mform->addElement('text', 'name', get_string('filename', 'local_repositoryciae'), $attributes);
-        $mform->setType('name', PARAM_TEXT);
-
-        $mform->addElement('textarea', 'abstract', get_string('abstract', 'local_repositoryciae'), 'wrap="virtual" rows="10" cols="50"');
-
-        $mform->addElement('filemanager', 'link', get_string('attachment', 'local_repositoryciae'), null,
-                    array('subdirs' => 0, 'maxfiles' => 5, 'accepted_types' => '*'));
+$id = optional_param('id', 0, PARAM_INT);
+$lang = current_language();
 
 
-        $mform->addElement('filepicker', 'image', get_string('image', 'local_repositoryciae'), null, array('accepted_types' => array('jpg', 'png')));
+$PAGE->set_url('/local/repositoryciae/newfile.php');
+$PAGE->set_context(context_system::instance());
+$contextid = $PAGE->context->id;
+require_login();
 
-        $optionsgrades = array(
-            '1' => 'Primero básico',
-            '2' => 'Segundo básico',
-            '3' => 'Tercero básico',
-            '4' => 'Cuarto básico',
-            '5' => 'Quinto básico',
-            '6' => 'Sexto básico',
-            '7' => 'Séptimo básico',
-            '8' => 'Octavo básico'
-        );
+require_once("forms/newfile.php");
+$PAGE->requires->js_call_amd('local_repositoryciae/conditional', 'init', array($lang));
 
-        $select = $mform->addElement('select', 'grades', get_string('recomendedgrades', 'local_repositoryciae'), $optionsgrades, []);
-        //$select->setMultiple(true);
-
-        $optionsterritories = array(
-            '1' => 'Pewenche',
-            '2' => 'Wentenche',
-            '3' => 'Nagche',
-            '4' => 'Lafkenche',
-            '5' => 'Williche'
-        );
+$PAGE->set_title(get_string('title', 'local_repositoryciae'));
+$PAGE->set_heading(get_string('title', 'local_repositoryciae'));
 
 
-        $mform->addElement('select', 'territory', get_string('territories', 'local_repositoryciae'), $optionsterritories, []);
-        
-        $optionsmaterials = array(
-            '1' => 'Guías de aprendizaje',
-            '2' => 'Diccionarios',
-            '3' => 'Cuadernillos de ejercicios',
-            '4' => 'Textos (géneros textuales mapuches, poesía, obras dramáticas)',
-            '5' => 'Fichas temáticas',
-            '6' => 'Infografías',
-            '7' => 'Imágenes/Fotografías',
-            '8' => 'Organizadores gráficos (mapas conceptuales, esquemas, diagramas, etc.)',
-            '9' => 'Manuales/libros',
-            '10' => 'Videos',
-            '11' => 'Canciones',
-            '12' => 'Cápsulas audiovisuales',
-            '13' => 'Grabaciones de audio',
-            '14' => 'Juegos',
-            '15' => 'Maquetas',
-            '16' => 'Videojuegos',
-            '17' => 'Mapas',
-            '18' => 'Plataformas Web',
-            '19' => 'Otros'
-        );
+$mform = new newfile_form();
+$toform = [];
 
-        $mform->addElement('select', 'materialtype', get_string('materials', 'local_repositoryciae'), $optionsmaterials, []);
-
-        $optionsoa = array(
-            '13' => '13',
-            '14' => '14',
-            '15' => '15',
-            '16' => '16',
-            '17' => '17',
-            '18' => '18',
-            '19' => '19',
-            '20' => '20',
-            '21' => '21',
-            '22' => '22'
-        );
-
-        $mform->addElement('select', 'oa', get_string('oa', 'local_repositoryciae'), $optionsoa, []);  
-
-        $optionscultural = array(
-            '1'=>'Escuchar',
-            '6'=>'Sonidos propios locales',
-            '7'=>'Conocimiento sobre canciones',
-            '8'=>'Canciones mapuches',
-            '9'=>'Familia',
-            '10'=>'Retorno del ciclo natural',
-            '11'=>'Conocimiento de la luna',
-            '12'=>'Toponimia',
-            '13'=>'Nombres de personas',
-            '14'=>'Denominación de las características geográficas',
-            '15'=>'Nombre y apellido de personas',
-            '16'=>'Denominación ancestral de los lugares',
-            '17'=>'Denominación ancestral de nombres o apellidos mapuche',
-            '18'=>'Algunos hechos o elementos propias mapuche',
-            '19'=>'Algunas ceremonias propias mapuche',
-            '20'=>'Conocimientos mapuche asociados a la preparación de la tierra y sembrar o plantar',
-            '21'=>'Escritura del mapuchezugun',
-            '23'=>'Memoria familiar',
-            '24'=>'Consejos para ser personas',
-            '25'=>'El hilado y tejido en telar'
-        );
-
-        $select2 = $mform->addElement('select', 'culturalcontent', get_string('culture', 'local_repositoryciae'), $optionscultural, []);
-
-        $optionsaxis = array(
-            '1' => 'Lengua, tradición oral, iconografía, prácticas de lectura y escritura de los pueblos originarios.',
-            '2' => 'Territorio, territorialidad, identidad y memoria histórica de los pueblos originarios.',
-            '3' => 'Cosmovisión de los pueblos originarios.',
-            '4' => 'Patrimonio, tecnologías, técnicas, ciencias y artes ancestrales de los pueblos originarios.'
-        );
-
-        $select3 = $mform->addElement('select', 'axis', get_string('axis', 'local_repositoryciae'), $optionsaxis, []);
-
-        $mform->addElement('textarea', 'linguistic', get_string('linguistic', 'local_repositoryciae'), 'wrap="virtual" rows="6" cols="50"');
-        $mform->addHelpButton('linguistic', 'linguistic', 'local_repositoryciae');
-
-        $mform->addElement('textarea', 'suggestions', get_string('suggestions', 'local_repositoryciae'), 'wrap="virtual" rows="6" cols="50"');
-        $mform->addHelpButton('suggestions', 'suggestions', 'local_repositoryciae');
-
-        $optionslearning = array(
-            '1' => 'Completar...'
-        );
-
-        $mform->addElement('select', 'learning', get_string('learning', 'local_repositoryciae'), $optionslearning, []);
-
-        $mform->addElement('textarea', 'guidelines', get_string('guidelines', 'local_repositoryciae'), 'wrap="virtual" rows="6" cols="50"');
-        $mform->addHelpButton('guidelines', 'guidelines', 'local_repositoryciae');
-
-        $buttonArray = array();
-        $buttonArray[] = $mform->createElement('submit', 'Guardar', 'Guardar');
-        $buttonArray[] = $mform->createElement('cancel');
-        $mform->addGroup($buttonArray, 'buttonar', '', '', false);
-
+if($mform->is_cancelled()){
+    redirect("/local/repositoryciae/index.php", '', 10);
+}elseif($fromform = $mform->get_data()){
+    if($fromform->id != 0){        
+        //Update data
+        $newfile = $DB->get_record('local_repositoryciae_files', ['id'=>$fromform->id]);
+        $newfile->name = $fromform->name;
+        $newfile->abstract = $fromform->abstract;
+        $newfile->grades = $fromform->grades;
+        $newfile->territory = $fromform->territory;
+        $newfile->materialtype = $fromform->materialtype;
+        $newfile->culturalcontent = $fromform->culturalcontent;
+        $newfile->link = $fromform->link;
+        $newfile->filetype = 1; //It's a file
+        $newfile->image = $fromform->image;
+        $newfile->oa = $fromform->oa;
+        $newfile->abstract = $fromform->abstract;
+        $newfile->axis = $fromform->axis;
+        $newfile->linguistic = $fromform->linguistic;
+        $newfile->suggestions = $fromform->suggestions;
+        $newfile->learning = $fromform->learning;
+        $newfile->guidelines = $fromform->guidelines;
+        $draftlinkid = file_get_submitted_draft_itemid('link');
+        $draftimageid = file_get_submitted_draft_itemid('image');
+        file_save_draft_area_files ( $draftlinkid, $contextid, 'local_repositoryciae', 'attachment', $draftlinkid, array('subdirs' => 0, 'maxfiles' => 5) );
+        file_save_draft_area_files ( $draftimageid, $contextid, 'local_repositoryciae', 'image', $draftimageid, array('subdirs' => 0, 'maxfiles' => 1) );
+        // file_save_draft_area_files ( $newfile->link, $contextid, 'local_repositoryciae', 'attachment', $newfile->id, array('subdirs' => 0, 'maxfiles' => 5) );
+        // file_save_draft_area_files ( $newfile->image, $contextid, 'local_repositoryciae', 'image', $newfile->id, array('subdirs' => 0, 'maxfiles' => 1) );
+        $DB->update_record('local_repositoryciae_files', $newfile);
+    }else{
+        //Add new record
+        $newfile = new stdClass();
+        $newfile->name = $fromform->name;
+        $newfile->abstract = $fromform->abstract;
+        $newfile->grades = $fromform->grades;
+        $newfile->territory = $fromform->territory;
+        $newfile->materialtype = $fromform->materialtype;
+        $newfile->culturalcontent = $fromform->culturalcontent;
+        $newfile->link = $fromform->link;
+        $newfile->filetype = 1; //It's a file
+        $newfile->image = $fromform->image;
+        $newfile->oa = $fromform->oa;
+        $newfile->abstract = $fromform->abstract;
+        $newfile->axis = $fromform->axis;
+        $newfile->linguistic = $fromform->linguistic;
+        $newfile->suggestions = $fromform->suggestions;
+        $newfile->learning = $fromform->learning;
+        $newfile->guidelines = $fromform->guidelines;
+        $storedfile = $DB->insert_record('local_repositoryciae_files', $newfile, true, false);
+        $draftlinkid = file_get_submitted_draft_itemid('link');
+        $draftimageid = file_get_submitted_draft_itemid('image');
+        file_save_draft_area_files ( $draftlinkid, $contextid, 'local_repositoryciae', 'attachment', $draftlinkid, array('subdirs' => 0, 'maxfiles' => 5) );
+        file_save_draft_area_files ( $draftimageid, $contextid, 'local_repositoryciae', 'image', $draftimageid, array('subdirs' => 0, 'maxfiles' => 1) );
     }
-
-    public function validation($data, $files)
-    {
-        return array();
+    redirect("/local/repositoryciae/index.php", 'Cambios guardados', 10,  \core\output\notification::NOTIFY_SUCCESS);
+}else{
+    if($id != 0){
+        $toform = $DB->get_record('local_repositoryciae_files', ['id'=>$id]);
     }
- }
+    $mform->set_data($toform);
+    
+    echo $OUTPUT->header();
+    $mform->display();
+    echo $OUTPUT->footer();
+}
+
+

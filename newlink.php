@@ -68,11 +68,9 @@ if($mform->is_cancelled()){
         $newfile->suggestions = $fromform->suggestions;
         $newfile->learning = $fromform->learning;
         $newfile->guidelines = $fromform->guidelines;
-        $storedfile = $DB->insert_record('local_repositoryciae_files', $newfile, true, false);
+        $DB->update_record('local_repositoryciae_files', $newfile);
         $draftimageid = file_get_submitted_draft_itemid('image');
         file_save_draft_area_files ( $draftimageid, $contextid, 'local_repositoryciae', 'image', $draftimageid, array('subdirs' => 0, 'maxfiles' => 1) );
-        
-        $DB->update_record('local_repositoryciae_files', $newfile);
     }else{
         //Add new record
         $newfile = new stdClass();
@@ -96,7 +94,6 @@ if($mform->is_cancelled()){
         $draftimageid = file_get_submitted_draft_itemid('image');
         file_save_draft_area_files ( $draftimageid, $contextid, 'local_repositoryciae', 'image', $draftimageid, array('subdirs' => 0, 'maxfiles' => 1) );
         
-        $storedfile = $DB->insert_record('local_repositoryciae_files', $newfile, true, false);
     }
     redirect("/local/repositoryciae/index.php", 'Cambios guardados', 10,  \core\output\notification::NOTIFY_SUCCESS);
 }else{
