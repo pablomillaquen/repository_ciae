@@ -28,6 +28,7 @@ global $USER, $DB, $CFG;
 $lang = current_language();
 
 $PAGE->set_context(context_system::instance());
+$contextid = $PAGE->context->id;
 
 $id = optional_param('id', 0, PARAM_INT);
 
