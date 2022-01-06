@@ -30,12 +30,14 @@ $PAGE->set_context(context_system::instance());
 require_login();
 
 //$id = required_param('id', PARAM_INT); // course id
+$data = new stdClass();
+$data->locallink = $CFG->wwwroot."/local/repositoryciae/";
 
 $PAGE->set_url('/local/repositoryciae/index.php');
 $PAGE->set_title(get_string('title', 'local_repositoryciae'));
 $PAGE->set_heading(get_string('title', 'local_repositoryciae'));
 echo $OUTPUT->header();
 
-echo $OUTPUT->render_from_template('local_repositoryciae/formchoice', []);
+echo $OUTPUT->render_from_template('local_repositoryciae/formchoice', $data);
 
 echo $OUTPUT->footer();

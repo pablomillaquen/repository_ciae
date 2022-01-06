@@ -128,7 +128,7 @@ $PAGE->set_heading(get_string('title', 'local_repositoryciae'));
 
 $data = new stdClass();
 $data->materials = $materials;
-
+$data->locallink = $CFG->wwwroot."/local/repositoryciae/";
 
 echo $OUTPUT->header();
 
