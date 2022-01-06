@@ -49,8 +49,24 @@
                     <br>
                     <p>{{abstract}}</p>
                     <br>
-                    <a href="{{fileurl}}" type="button" class="btn btn-primary">Descargar material</a>
-                    {{! <button type="button" class="btn btn-outline-primary">Proponer mejora</button> }}
+                    <hr>
+                    {{#islink}}
+                        <a href="{{fileurl}}" type="button" class="btn btn-primary">Descargar material</a>
+                        {{! <button type="button" class="btn btn-outline-primary">Proponer mejora</button> }}
+                    {{/islink}}
+                    {{^islink}}
+                        
+                        <h5>Archivos disponibles</h5>
+                        <table>
+                            {{#fileurl}}
+                            <tr>
+                                <td>
+                                    <a href="{{url}}" class="btn btn-primary">{{filename}}</a>
+                                </td>
+                            </tr>
+                            {{/fileurl}}
+                        </table>
+                    {{/islink}}
                     <br><br><br>
                     <h5>Orientaciones pedagógicas</h5>
                     <br>

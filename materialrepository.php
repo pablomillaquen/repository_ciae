@@ -35,6 +35,7 @@ $data = new stdClass();
 
 $lang = current_language();
 $optionsculturelang = array();
+$islink = false;
 
 $json = file_get_contents('culturalcontent.json');
 $obj = json_decode($json);
@@ -86,15 +87,25 @@ $materials = array();
 $objmaterial = $DB->get_record('local_repositoryciae_files', ['id'=>$id]);
 
 //File
+$arrayfiles = array();
 if($objmaterial->filetype==1){//It's a file
     if($objmaterial->link){
-        $file = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $objmaterial->link ." AND filesize > 1 AND component = 'local_repositoryciae'  LIMIT 1");
+        $file = $DB->get_records_sql("SELECT * FROM mdl_files WHERE itemid = ". $objmaterial->link ." AND filesize > 1 AND component = 'local_repositoryciae'");
         if($file){
-            $url = moodle_url::make_pluginfile_url($file->contextid, $file->component, $file->filearea, $file->itemid, $file->filepath, $file->filename, false);
-            $objmaterial->fileurl = $url;
+            foreach($file as $key=>$value){
+                $file = new stdClass();
+                //$url = moodle_url::make_pluginfile_url($value->contextid, $value->component, $value->filearea, $value->itemid, $value->filepath, $value->filename, false);
+                $url = $CFG->wwwroot."/pluginfile.php/".$value->contextid."/local_repositoryciae/".$value->filearea."/".$value->itemid."/".$value->filename;
+                $file->url = $url;
+                $file->filename = $value->filename;
+                $arrayfiles[]= $file; 
+            }
+            $objmaterial->fileurl = $arrayfiles;
         }
     }
+  
 }elseif($objmaterial->filetype==2){
+    $islink = true;
     $objmaterial->fileurl = $objmaterial->link;
 }
 
