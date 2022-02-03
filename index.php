@@ -26,7 +26,11 @@
 require('../../config.php');
 global $USER, $DB, $CFG;
 $PAGE->set_context(context_system::instance());
+
 require_login();
+$usercontext = context_user::instance($USER->id);
+
+
 
 $lang = current_language();
 
@@ -132,6 +136,6 @@ $data->locallink = $CFG->wwwroot."/local/repositoryciae/";
 
 echo $OUTPUT->header();
 
-echo $OUTPUT->render_from_template('local_repositoryciae/mainrepository', $data);
+echo $OUTPUT->render_from_template('local_repositoryciae/mainrepositoryedit', $data);
 
 echo $OUTPUT->footer();
