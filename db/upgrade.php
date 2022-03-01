@@ -40,6 +40,19 @@ function xmldb_local_repositoryciae_upgrade($oldversion) {
     global $DB;
     // Loads ddl manager and xmldb classes.
     $dbman = $DB->get_manager();
+    if($oldversion < 2019111829) {
+        // Define field regraderestrictdates to be added to repositoryciae.
+        $table = new xmldb_table('local_repositoryciae_files');
+
+        $field = new xmldb_field('conversation', XMLDB_TYPE_CHAR, '20', null, null, null, null, null);
+        // Conditionally launch add field regraderestrictdates.
+        if (! $dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // RepositoryCIAE savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111829, 'local','repositoryciae');
+    }
     if ($oldversion < 2019111819) {
         // Define field regraderestrictdates to be added to repositoryciae.
         $table = new xmldb_table('local_repositoryciae_files');

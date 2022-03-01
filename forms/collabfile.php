@@ -35,14 +35,21 @@
         $mform = $this->_form;
         $mform->addElement('html', '<h3>Formulario para subir materiales desde el foro de colaboración</h3><br><br>');
 
+        $mform->addElement('hidden', 'id', 0);
+        $mform->setType('id', PARAM_INT);
+
         $attributes=array('size'=>'20');
         $mform->addElement('text', 'name', get_string('filename', 'local_repositoryciae'), $attributes);
         $mform->setType('name', PARAM_TEXT);
 
         $mform->addElement('textarea', 'abstract', get_string('abstract', 'local_repositoryciae'), 'wrap="virtual" rows="10" cols="50"');
 
-        $mform->addElement('html', '<div id="fitem_id_search" class="form-group row  fitem femptylabel"><div class="col-md-3"><span class="float-sm-right text-nowrap"></span></div><div class="col-md-9 form-inline felement" data-fieldtype="button"><input type="submit" name="act_showcreateorphangroupform" id="showcreateorphangroupform" data-action="createcollabmodal" value="'.get_string("searchfile", "local_repositoryciae").'" class="btn btn-default" /><div class="form-control-feedback invalid-feedback" id="id_error_search"></div></div></div>');
-        
+        $mform->addElement('html', '<div id="fitem_id_search" class="form-group row  fitem femptylabel"><div class="col-md-3"><span class="float-sm-right text-nowrap"></span><label class="col-form-label d-inline " for="id_link">'.get_string("searchfile_label", "local_repositoryciae").'</label></div><div class="col-md-9 form-inline felement" data-fieldtype="button"><input type="button" name="act_showcollabmodallink" id="showcollabmodallink" data-action="createcollabmodal" data-value="3" value="'.get_string("searchfile", "local_repositoryciae").'" class="btn btn-default" /><div class="form-control-feedback invalid-feedback" id="id_error_search"></div><div>&nbsp;&nbsp;<span id="id_selected_conversation"></span>&nbsp;&nbsp;<span id="id_selected_file"></span></div></div></div>');
+        $mform->addElement('hidden', 'link', '', 'id="id_link"');
+        $mform->addElement('hidden', 'conversation', '', 'id="id_conversation"');
+
+        $mform->addElement('filepicker', 'image', get_string('image', 'local_repositoryciae'), null, array('accepted_types' => array('jpg', 'png')));
+
         $optionsgrades = array(
             '1' => 'Primero básico',
             '2' => 'Segundo básico',
@@ -65,7 +72,7 @@
             '5' => 'Williche'
         );
 
-        $mform->addElement('select', 'territories', get_string('territories', 'local_repositoryciae'), $optionsterritories, []);
+        $mform->addElement('select', 'territory', get_string('territories', 'local_repositoryciae'), $optionsterritories, []);
         
         $optionsmaterials = array(
             '1' => 'Guías de aprendizaje',
@@ -89,7 +96,7 @@
             '19' => 'Otros'
         );
 
-        $mform->addElement('select', 'materials', get_string('materials', 'local_repositoryciae'), $optionsmaterials, []);
+        $mform->addElement('select', 'materialtype', get_string('materials', 'local_repositoryciae'), $optionsmaterials, []);
 
         $optionsoa = array(
             '13' => '13',
@@ -106,19 +113,31 @@
 
         $mform->addElement('select', 'oa', get_string('oa', 'local_repositoryciae'), $optionsoa, []);
 
-        $optionsculture = array(
-            '1' => 'Allkütun zugu',
-            '2' => 'Mapuche az chaliwün',
-            '3' => 'Fillke mapu ñi az epewkantun mew',
-            '4' => 'Mapuche lhawen epewkantun mew',
-            '5' => 'Chalintukuwün, Witxankontun egu mapuche pepilüwün',
-            '6' => 'Mapuche awkiñ',
-            '7' => 'Úlkantun kimün',
-            '8' => 'Mapuche Úlkantun'
+        $optionscultural = array(
+            '1'=>'Escuchar',
+            '6'=>'Sonidos propios locales',
+            '7'=>'Conocimiento sobre canciones',
+            '8'=>'Canciones mapuches',
+            '9'=>'Familia',
+            '10'=>'Retorno del ciclo natural',
+            '11'=>'Conocimiento de la luna',
+            '12'=>'Toponimia',
+            '13'=>'Nombres de personas',
+            '14'=>'Denominación de las características geográficas',
+            '15'=>'Nombre y apellido de personas',
+            '16'=>'Denominación ancestral de los lugares',
+            '17'=>'Denominación ancestral de nombres o apellidos mapuche',
+            '18'=>'Algunos hechos o elementos propias mapuche',
+            '19'=>'Algunas ceremonias propias mapuche',
+            '20'=>'Conocimientos mapuche asociados a la preparación de la tierra y sembrar o plantar',
+            '21'=>'Escritura del mapuchezugun',
+            '23'=>'Memoria familiar',
+            '24'=>'Consejos para ser personas',
+            '25'=>'El hilado y tejido en telar'
         );
 
-        $select2 = $mform->addElement('select', 'culture', get_string('culture', 'local_repositoryciae'), $optionsculture, []);
-        
+        $select2 = $mform->addElement('select', 'culturalcontent', get_string('culture', 'local_repositoryciae'), $optionscultural, []);
+
         $optionsaxis = array(
             '1' => 'Lengua, tradición oral, iconografía, prácticas de lectura y escritura de los pueblos originarios.',
             '2' => 'Territorio, territorialidad, identidad y memoria histórica de los pueblos originarios.',
@@ -128,9 +147,11 @@
 
         $select3 = $mform->addElement('select', 'axis', get_string('axis', 'local_repositoryciae'), $optionsaxis, []);
 
-        $mform->addElement('tags','linguistic', get_string('linguistic', 'local_repositoryciae'), null, []);
+        $mform->addElement('textarea', 'linguistic', get_string('linguistic', 'local_repositoryciae'), 'wrap="virtual" rows="6" cols="50"');
+        $mform->addHelpButton('linguistic', 'linguistic', 'local_repositoryciae');
 
-        $mform->addElement('tags','suggestions', get_string('suggestions', 'local_repositoryciae'), null, []);
+        $mform->addElement('textarea', 'suggestions', get_string('suggestions', 'local_repositoryciae'), 'wrap="virtual" rows="6" cols="50"');
+        $mform->addHelpButton('suggestions', 'suggestions', 'local_repositoryciae');
 
         $optionslearning = array(
             '1' => 'Completar...'
@@ -138,7 +159,8 @@
 
         $mform->addElement('select', 'learning', get_string('learning', 'local_repositoryciae'), $optionslearning, []);
 
-        $mform->addElement('tags','guidelines', get_string('guidelines', 'local_repositoryciae'), null, []);
+        $mform->addElement('textarea', 'guidelines', get_string('guidelines', 'local_repositoryciae'), 'wrap="virtual" rows="6" cols="50"');
+        $mform->addHelpButton('guidelines', 'guidelines', 'local_repositoryciae');
 
         $buttonArray = array();
         $buttonArray[] = $mform->createElement('submit', 'Guardar', 'Guardar');

@@ -25,27 +25,20 @@
 
 require('../../config.php');
 global $USER, $DB, $CFG;
-$PAGE->set_context(context_system::instance());
 
 $id = optional_param('id', '', PARAM_TEXT);
-
-require_login();
- 
-// $context = context_course::instance(context_system::instance());
-// $context = context_system::instance();
-// $data->contextid = $context->instanceid;
-
-require_once("forms/collabfile.php");
-
-//$PAGE->requires->js_call_amd('local_repositoryciae/collab', 'init', array('[data-action=creatediscussionmodal]', $id));
-
-//$PAGE->requires->js_call_amd('local_repositoryciae/collab');
-//$id = required_param('id', PARAM_INT); // course id
+$lang = current_language();
 
 $PAGE->set_url('/local/repositoryciae/collabfile.php');
+$PAGE->set_context(context_system::instance());
+$contextid = $PAGE->context->id;
+require_login();
+
+require_once("forms/collabfile.php");
+$PAGE->requires->js_call_amd('local_repositoryciae/conditional', 'init', array($lang));
+
 $PAGE->set_title(get_string('title', 'local_repositoryciae'));
 $PAGE->set_heading(get_string('title', 'local_repositoryciae'));
-echo $OUTPUT->header();
 
 $mform = new collabfile_form();
 $toform = [];
@@ -55,36 +48,86 @@ if($mform->is_cancelled()){
 }elseif($fromform = $mform->get_data()){
     if($id){
         //Update data
-        $newfile = $DB->get_record('local_repositoryciae_files', ['id'=>$id]);
+        $newfile = $DB->get_record('local_repositoryciae_files', ['id'=>$fromform->id]);
         $newfile->name = $fromform->name;
+        $newfile->abstract = $fromform->abstract;
         $newfile->grades = $fromform->grades;
-        $newfile->territory = $fromform->territories;
-        $newfile->materialtype = $fromform->materials;
-        $newfile->culturalcontent = $fromform->culture;
-        $newfile->link = $fromform->attachment;
-        $newfile->filetype = 1; //It's a file
+        $newfile->territory = $fromform->territory;
+        $newfile->materialtype = $fromform->materialtype;
+        $newfile->culturalcontent = $fromform->culturalcontent;
+        $newfile->link = $fromform->link;
+        $newfile->filetype = 3; //It's a file
+        $newfile->image = $fromform->image;
+        $newfile->oa = $fromform->oa;
+        $newfile->abstract = $fromform->abstract;
+        $newfile->axis = $fromform->axis;
+        $newfile->linguistic = $fromform->linguistic;
+        $newfile->suggestions = $fromform->suggestions;
+        $newfile->learning = $fromform->learning;
+        $newfile->guidelines = $fromform->guidelines;
+        $newfile->conversation = $fromform->conversation;
         $DB->update_record('local_repositoryciae_files', $newfile);
+        // $draftlinkid = file_get_submitted_draft_itemid('link');
+        $draftimageid = file_get_submitted_draft_itemid('image');
+        //file_save_draft_area_files ( $draftlinkid, $contextid, 'local_repositoryciae', 'attachment', $draftlinkid, array('subdirs' => 0, 'maxfiles' => 5) );
+        file_save_draft_area_files ( $draftimageid, $contextid, 'local_repositoryciae', 'image', $draftimageid, array('subdirs' => 0, 'maxfiles' => 1) );
+        
+        // $newfile = $DB->get_record('local_repositoryciae_files', ['id'=>$id]);
+        // $newfile->name = $fromform->name;
+        // $newfile->grades = $fromform->grades;
+        // $newfile->territory = $fromform->territories;
+        // $newfile->materialtype = $fromform->materials;
+        // $newfile->culturalcontent = $fromform->culture;
+        // $newfile->link = $fromform->attachment;
+        // $newfile->filetype = 3; //It's a file
+        // //$DB->update_record('local_repositoryciae_files', $newfile);
     }else{
         //Add new record
         $newfile = new stdClass();
         $newfile->name = $fromform->name;
+        $newfile->abstract = $fromform->abstract;
         $newfile->grades = $fromform->grades;
-        $newfile->territory = $fromform->territories;
-        $newfile->materialtype = $fromform->materials;
-        $newfile->culturalcontent = $fromform->culture;
-        $newfile->link = $fromform->attachment;
-        $newfile->filetype = 1; //It's a file
+        $newfile->territory = $fromform->territory;
+        $newfile->materialtype = $fromform->materialtype;
+        $newfile->culturalcontent = $fromform->culturalcontent;
+        $newfile->link = $fromform->link;
+        $newfile->filetype = 3; //It's a file
+        $newfile->image = $fromform->image;
+        $newfile->oa = $fromform->oa;
+        $newfile->abstract = $fromform->abstract;
+        $newfile->axis = $fromform->axis;
+        $newfile->linguistic = $fromform->linguistic;
+        $newfile->suggestions = $fromform->suggestions;
+        $newfile->learning = $fromform->learning;
+        $newfile->guidelines = $fromform->guidelines;
+        $newfile->conversation = $fromform->conversation;
         $storedfile = $DB->insert_record('local_repositoryciae_files', $newfile, true, false);
+        // $draftlinkid = file_get_submitted_draft_itemid('link');
+        $draftimageid = file_get_submitted_draft_itemid('image');
+        // file_save_draft_area_files ( $draftlinkid, $contextid, 'local_repositoryciae', 'attachment', $draftlinkid, array('subdirs' => 0, 'maxfiles' => 5) );
+        file_save_draft_area_files ( $draftimageid, $contextid, 'local_repositoryciae', 'image', $draftimageid, array('subdirs' => 0, 'maxfiles' => 1) );
+    
+        // $newfile = new stdClass();
+        // $newfile->name = $fromform->name;
+        // $newfile->grades = $fromform->grades;
+        // $newfile->territory = $fromform->territories;
+        // $newfile->materialtype = $fromform->materials;
+        // $newfile->culturalcontent = $fromform->culture;
+        // $newfile->link = $fromform->attachment;
+        // $newfile->filetype = 1; //It's a file
+        // $storedfile = $DB->insert_record('local_repositoryciae_files', $newfile, true, false);
     }
+    redirect("/local/repositoryciae/index.php", 'Cambios guardados', 10,  \core\output\notification::NOTIFY_SUCCESS);
 }else{
     if($id){
         $toform = $DB->get_record('local_repositoryciae_files', ['id'=>$id]);
     }
     $mform->set_data($toform);
 
+    echo $OUTPUT->header();
     $mform->display();
+    echo $OUTPUT->render_from_template('local_repositoryciae/collab', []);
+    echo $OUTPUT->footer();
 }
+// $mform->display();
 
-echo $OUTPUT->render_from_template('local_repositoryciae/collab', []);
-
-echo $OUTPUT->footer();

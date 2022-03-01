@@ -51,8 +51,14 @@
                     <br>
                     <hr>
                     {{#islink}}
-                        <a href="{{fileurl}}" type="button" class="btn btn-primary">Descargar material</a>
-                        {{! <button type="button" class="btn btn-outline-primary">Proponer mejora</button> }}
+                        {{#ismaterial}}
+                            <a href="{{fileurl}}" type="button" class="btn btn-primary">Descargar material</a>
+                            <a href="{{conversation_url}}" target="_blank" type="button" class="btn btn-primary">Ver conversación</a>
+                        {{/ismaterial}}
+                        {{^ismaterial}}
+                            <a href="{{fileurl}}" type="button" class="btn btn-primary">Descargar material</a>
+                            {{! <button type="button" class="btn btn-outline-primary">Proponer mejora</button> }}
+                        {{/ismaterial}}                        
                     {{/islink}}
                     {{^islink}}
                         
@@ -68,7 +74,7 @@
                         </table>
                     {{/islink}}
                     <br><br><br>
-                    <h5>Orientaciones pedagógicas</h5>
+                    <h5>Sugerencias</h5>
                     <br>
                     <p>{{guidelines}}</p>
                     <br>

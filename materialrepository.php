@@ -36,6 +36,7 @@ $data = new stdClass();
 $lang = current_language();
 $optionsculturelang = array();
 $islink = false;
+$ismaterial = false;
 
 $json = file_get_contents('culturalcontent.json');
 $obj = json_decode($json);
@@ -108,8 +109,41 @@ if($objmaterial->filetype==1){//It's a file
 }elseif($objmaterial->filetype==2){
     $islink = true;
     $objmaterial->fileurl = $objmaterial->link;
+}elseif($objmaterial->filetype==3){
+    $islink = true;
+    $ismaterial = true;
+    if($objmaterial->link){
+        $link = $DB->get_records_sql("SELECT * FROM mdl_forum_discussions WHERE id = ". $objmaterial->link);
+        if($link){
+            foreach($link as $key=>$value){
+                $objmaterial->filename = $value->name;
+                $file = $DB->get_records_sql("SELECT * FROM mdl_files WHERE itemid = ". $value->firstpost ." AND filesize > 1 AND component = 'mod_forum'");
+                if($file){
+                    foreach($file as $key=>$value){
+                        $file = new stdClass();
+                        $url = $CFG->wwwroot."/pluginfile.php/".$value->contextid."/mod_forum/".$value->filearea."/".$value->itemid."/".$value->filename;
+                        $file->url = $url;
+                        $file->filename = $value->filename;
+                        $arrayfiles[]= $file;
+                    }
+                    $objmaterial->fileurl = $file->url;
+                }
+            }
+        }
+    }
+    if($objmaterial->conversation){
+        $conversation = $DB->get_records_sql("SELECT * FROM mdl_forum_discussions WHERE id = ". $objmaterial->conversation );
+        if($conversation){
+            foreach($conversation as $key=>$value){
+                $objmaterial->conversation_url = $CFG->wwwroot."/mod/forum/discuss.php?d=".$value->id;
+            }
+        }
+    }
+
+    //$objmaterial->fileurl = $objmaterial->link;
 }
 $objmaterial->islink = $islink;
+$objmaterial->ismaterial = $ismaterial;
 
 //Material Types
 foreach($optionsmaterials as $key => $value){

@@ -41,14 +41,19 @@
             $discussionsarray[$discussion->id] = $discussion->name;
         }
 
-        $select = $mform->addElement('select', 'discussions', get_string('discussions', 'local_repositoryciae'), $discussionsarray, []);
+        $select = $mform->addElement('select', 'discussions', get_string('find_discussion', 'local_repositoryciae'), $discussionsarray, []);
         $select->setMultiple(false);
 
-        // $buttonArray = array();
-        // $buttonArray[] = $mform->createElement('submit', 'Guardar', 'Guardar');
-        // $buttonArray[] = $mform->createElement('cancel');
-        // $mform->addGroup($buttonArray, 'buttonar', '', '', false);
-       // $this->add_action_buttons();
+        $sql2 = "SELECT d.* FROM moodle.mdl_forum_discussions d JOIN moodle.mdl_course c on d.course = c.id WHERE c.fullname = 'Validación de Contenidos'";
+        $discussionfile = $DB->get_records_sql($sql2, null);
+        $discussionfilesarray = [];
+        foreach($discussionfile as $file){
+            $discussionfilesarray[$file->id] = $file->name;
+        }
+
+        $select = $mform->addElement('select', 'discussionfile', get_string('find_discussion_file', 'local_repositoryciae'), $discussionfilesarray, []);
+        $select->setMultiple(false);
+
     }
 
     public function validation($data, $files)

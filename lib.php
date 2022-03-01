@@ -75,7 +75,7 @@ function local_repositoryciae_output_fragment_new_discussions_form($args) {
 
     if (!empty($args->jsonformdata)) {
         // If we were passed non-empty form data we want the mform to call validation functions and show errors.
-        $mform->is_validated();
+        //$mform->is_validated();
     }
 
     return $mform->render();
@@ -102,6 +102,7 @@ function local_repositoryciae_pluginfile($course, $cm, $context, $filearea, $arg
     if ($filearea === 'attachment') {
         $forcedownload = true;
     }
+   
     $fs = get_file_storage ();
 	if (! $file = $fs->get_file ( $context->id, 'local_repositoryciae', $filearea, $itemid, '/', $filename )) {
 		echo $context->id . ".." . $filearea . ".." . $itemid . ".." . $filename;

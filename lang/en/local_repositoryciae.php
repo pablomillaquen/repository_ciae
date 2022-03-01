@@ -34,6 +34,9 @@ $string ['culture'] = "What cultural content do you work with?";
 $string ['axis'] = "Which axes are they related to?";
 $string ['link'] = "Link";
 $string ['searchfile'] = "Search file";
+$string ['searchfile2'] = "Find conversation";
+$string ['searchfile_label'] = "File you want to add";
+$string ['searchfile2_label'] = "Conversation you want to add";
 $string ['discussions'] = "Discussions";
 $string ['sharedmaterials'] = "Shared materials";
 $string ['search'] = "Search";
@@ -53,3 +56,6 @@ $string ['suggestions_help'] = "Please add one item per line";
 $string ['guidelines_help'] = "Please add one item per line";
 $string['repositoryciae:view'] = 'View repository materials';
 $string['repositoryciae:submit'] = 'Edit repository materials';
+
+$string ['find_discussion'] = "Find conversation";
+$string ['find_discussion_file'] = "Find where the file is";

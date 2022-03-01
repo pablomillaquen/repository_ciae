@@ -33,6 +33,9 @@ $string['materials'] = "¿Qué tipo de material es?";
 $string['culture'] = "¿Qué contenido cultural se trabaja?";
 $string['link'] = "Enlace";
 $string['searchfile'] = "Buscar archivo";
+$string ['searchfile2'] = "Buscar conversación";
+$string ['searchfile_label'] = "Archivo que desea agregar";
+$string ['searchfile2_label'] = "Conversación que desea agregar";
 $string['discussions'] = "Discusiones";
 $string['sharedmaterials'] = "Materiales compartidos";
 $string['search'] = "Buscar";
@@ -53,3 +56,6 @@ $string['suggestions_help'] = "Por favor, agregue un elemento por línea";
 $string['guidelines_help'] = "Por favor, agregue un elemento por línea";
 $string['repositoryciae:view'] = 'Ver materiales del repositorio';
 $string['repositoryciae:submit'] = 'Editar materiales del repositorio';
+
+$string ['find_discussion'] = "Buscar conversación";
+$string ['find_discussion_file'] = "Buscar donde está el archivo";
