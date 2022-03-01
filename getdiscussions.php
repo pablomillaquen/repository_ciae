@@ -34,7 +34,7 @@
 
         $mform = $this->_form;
 
-        $sql = "SELECT d.* FROM moodle.mdl_forum_discussions d JOIN moodle.mdl_course c on d.course = c.id WHERE c.fullname = 'Materiales Compartidos'";
+        $sql = "SELECT d.* FROM moodle.mdl_forum_discussions d JOIN moodle.mdl_course c on d.course = c.id WHERE c.fullname = 'Materiales compartidos'";
         $discussions = $DB->get_records_sql($sql, null);
         $discussionsarray = [];
         foreach($discussions as $discussion){
@@ -44,7 +44,7 @@
         $select = $mform->addElement('select', 'discussions', get_string('find_discussion', 'local_repositoryciae'), $discussionsarray, []);
         $select->setMultiple(false);
 
-        $sql2 = "SELECT d.* FROM moodle.mdl_forum_discussions d JOIN moodle.mdl_course c on d.course = c.id WHERE c.fullname = 'Validación de Contenidos'";
+        $sql2 = "SELECT d.* FROM moodle.mdl_forum_discussions d JOIN moodle.mdl_course c on d.course = c.id WHERE c.fullname = 'Validación de contenidos'";
         $discussionfile = $DB->get_records_sql($sql2, null);
         $discussionfilesarray = [];
         foreach($discussionfile as $file){
