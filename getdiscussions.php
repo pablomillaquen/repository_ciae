@@ -34,7 +34,7 @@
 
         $mform = $this->_form;
 
-        $sql = "SELECT d.* FROM mdl_forum_discussions d JOIN mdl_course c on d.course = c.id WHERE c.id = 85";
+        $sql = "SELECT d.* FROM mdl_forum_discussions d JOIN mdl_forum f on d.forum = f.id WHERE f.id = 15";
         $discussions = $DB->get_records_sql($sql, null);
         $discussionsarray = [];
         foreach($discussions as $discussion){
@@ -44,7 +44,7 @@
         $select = $mform->addElement('select', 'discussions', get_string('find_discussion', 'local_repositoryciae'), $discussionsarray, []);
         $select->setMultiple(false);
 
-        $sql2 = "SELECT d.* FROM mdl_forum_discussions d JOIN mdl_course c on d.course = c.id WHERE c.id = 86";
+        $sql2 = "SELECT d.* FROM mdl_forum_discussions d JOIN mdl_forum f on d.forum = f.id WHERE f.id = 16";
         $discussionfile = $DB->get_records_sql($sql2, null);
         $discussionfilesarray = [];
         foreach($discussionfile as $file){
