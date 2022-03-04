@@ -33,6 +33,8 @@ $id = required_param('id', PARAM_INT); // material id
 
 $data = new stdClass();
 
+$PAGE->requires->js_call_amd('local_repositoryciae/downloadfile', 'init', array($id));
+
 $lang = current_language();
 $optionsculturelang = array();
 $islink = false;
@@ -188,7 +190,7 @@ if($objmaterial->image){
     $fileimage = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $objmaterial->image ." AND filesize > 1 AND component = 'local_repositoryciae'  LIMIT 1");
     if($fileimage){
         $url = moodle_url::make_pluginfile_url($fileimage->contextid, $fileimage->component, $fileimage->filearea, $fileimage->itemid, $fileimage->filepath, $fileimage->filename, false);
-        $objmaterial->imageurl = $url;
+        $objmaterial->imageurl =  $CFG->wwwroot.'/pluginfile.php/'.$fileimage->contextid.'/local_repositoryciae/'.$fileimage->filearea.'/'.$fileimage->itemid.'/'.$fileimage->filename;
     }else{
         $objmaterial->imageurl = $CFG->wwwroot.'/local/repositoryciae/img/no-image-icon-23485.png';
     }
