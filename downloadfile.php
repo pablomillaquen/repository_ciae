@@ -181,46 +181,46 @@ $pdf->WriteHTML('<h1>'.$obj->culturalcontent.'</h1>
     <td><img src="'.$obj->imageurl.'" alt="test alt attribute" width="250" border="0" /></td>
 </tr>
 <tr>
-    <td>
+    <td colspan="2">
         <b>Resumen:</b>
     </td>
 </tr>
 <tr>
-    <td>
+    <td colspan="2">
         '.$obj->abstract.'
     </td>
 </tr>
 <tr>
-    <td>
+    <td colspan="2">
         <b>Contenido de la lengua que se trabaja:</b>
     </td>
 </tr>
 <tr>
-    <td>
+    <td colspan="2">
         '.$obj->linguistic.'
     </td>
 </tr>
 <tr>
-    <td>
+    <td colspan="2">
         <b>¿En qué actividad(es) puedo usar el material?</b>
     </td>
 </tr>
 <tr>
-    <td>
+    <td colspan="2">
         '.$obj->suggestions.'
     </td>
 </tr>
 <tr>
-    <td>
+    <td colspan="2">
         <b>Sugerencias:</b>
     </td>
 </tr>
 <tr>
-    <td>
+    <td colspan="2">
         '.$obj->guidelines.'
     </td>
 </tr>
 </table>
 
 ');
-$pdf->Output('mypdf.pdf', 'D');
+$pdf->Output('Ficha didactica.pdf', 'D');
