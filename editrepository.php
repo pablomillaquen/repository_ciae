@@ -136,6 +136,6 @@ $data->locallink = $CFG->wwwroot."/local/repositoryciae/";
 
 echo $OUTPUT->header();
 
-echo $OUTPUT->render_from_template('local_repositoryciae/mainrepository', $data);
+echo $OUTPUT->render_from_template('local_repositoryciae/mainrepositoryedit', $data);
 
 echo $OUTPUT->footer();
