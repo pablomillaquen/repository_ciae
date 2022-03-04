@@ -135,6 +135,12 @@ foreach($db_result as $db_row) {
     }else{
         $db_row->imageurl = $CFG->wwwroot.'/local/repositoryciae/img/no-image-icon-23485.png';
     }
+
+    $db_row->abstract_array = explode(PHP_EOL, $db_row->abstract);
+    $db_row->linguistic_array = explode(PHP_EOL, $db_row->linguistic);
+    $db_row->suggestions_array = explode(PHP_EOL, $db_row->suggestions);
+    $db_row->guidelines_array = explode(PHP_EOL, $db_row->guidelines);
+    
 }
 
 
@@ -142,7 +148,7 @@ require_once($CFG->libdir . '/pdflib.php');
 
 $pdf = new \pdf();
 $pdf->AddPage();
-$pdf->SetFont('helvetica', '', 12);
+$pdf->SetFont('helvetica', '', 10);
 // set document information
 $pdf->SetAuthor('Repositorio CIAE');
 $pdf->SetTitle('Ficha didáctica');
@@ -163,19 +169,19 @@ $pdf->WriteHTML('<h1>'.$obj->culturalcontent.'</h1>
             <td><b>Nombre:</b>'.$obj->name.'</td>
         </tr>
         <tr>
-            <td><b>Curso en que puedo utilizarlo:</b>'.$obj->grades.'</td>
+            <td><b>¿En qué curso puedo utilizarlo?:</b>'.$obj->grades.'</td>
         </tr>
         <tr>
-            <td><b>Identidad territorial:</b>'.$obj->territory.'</td>
+            <td><b>¿Qué identidad territorial se fortalece con este material?:</b>'.$obj->territory.'</td>
         </tr>
         <tr>
-            <td><b>Tipo de Material:</b>'.$obj->materialtype.'</td>
+            <td><b>¿Qué tipo de material es?:</b>'.$obj->materialtype.'</td>
         </tr>
         <tr>
-            <td><b>Eje:</b>'.$obj->axis.'</td>
+            <td><b>¿Con qué eje se relaciona(n)?:</b>'.$obj->axis.'</td>
         </tr>
         <tr>
-            <td><b>OA con el que se relaciona:</b>'.$obj->oa.'</td>
+            <td><b>¿Con qué OA(s) se relaciona(n)?:</b>'.$obj->oa.'</td>
         </tr>
     </td>
     <td><img src="'.$obj->imageurl.'" alt="test alt attribute" width="250" border="0" /></td>
@@ -185,17 +191,17 @@ $pdf->WriteHTML('<h1>'.$obj->culturalcontent.'</h1>
         <b>Resumen:</b>
     </td>
 </tr>
-<tr>
-    <td colspan="2">
-        '.$obj->abstract.'
+<tr><td colspan="2">
+        '.$value.'
     </td>
 </tr>
 <tr>
     <td colspan="2">
-        <b>Contenido de la lengua que se trabaja:</b>
+        <b>¿Qué contenido(s) de la lengua se trabaja(n) para aportar a la revitalización?:</b>
     </td>
 </tr>
 <tr>
+
     <td colspan="2">
         '.$obj->linguistic.'
     </td>
