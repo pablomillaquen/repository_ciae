@@ -161,7 +161,7 @@ $pdf->setPrintFooter(false);
 $obj = new stdClass();
 $obj = $db_result[$id];
 
-$pdf->WriteHTML('<h1>'.$obj->culturalcontent.'</h1>
+$html ='<h1>'.$obj->culturalcontent.'</h1>
 <table border="0">
 <tr>
     <td>
@@ -190,43 +190,49 @@ $pdf->WriteHTML('<h1>'.$obj->culturalcontent.'</h1>
     <td colspan="2">
         <b>Resumen:</b>
     </td>
-</tr>
-<tr><td colspan="2">
+</tr>';
+foreach($obj->abstract_array as $key => $value){
+    $html.= '
+    <tr><td colspan="2">
         '.$value.'
-    </td>
-</tr>
+    </td></tr>';
+}
+$html.= '
 <tr>
     <td colspan="2">
         <b>¿Qué contenido(s) de la lengua se trabaja(n) para aportar a la revitalización?:</b>
     </td>
 </tr>
-<tr>
-
-    <td colspan="2">
-        '.$obj->linguistic.'
-    </td>
-</tr>
+';
+foreach($obj->linguistic_array as $k => $v){
+    $html.='<tr><td colspan="2">
+        '.$v.'
+    </td></tr>';
+}
+$html.='
 <tr>
     <td colspan="2">
         <b>¿En qué actividad(es) puedo usar el material?</b>
     </td>
-</tr>
-<tr>
-    <td colspan="2">
-        '.$obj->suggestions.'
-    </td>
-</tr>
+</tr>';
+    foreach($obj->suggestions_array as $clave => $valor){
+        $html.='<tr><td colspan="2">
+            '.$valor.'
+        </td></tr>';
+    }
+$html.='
 <tr>
     <td colspan="2">
         <b>Sugerencias:</b>
     </td>
-</tr>
-<tr>
-    <td colspan="2">
-        '.$obj->guidelines.'
-    </td>
-</tr>
+</tr>';
+    foreach($obj->guidelines_array as $c => $v2){
+        $html.='<tr><td colspan="2">
+            '.$v2.'
+        </td></tr>';
+    }
+$html.='
 </table>
-
-');
+';
+$pdf->WriteHTML($html);
 $pdf->Output('Ficha didactica.pdf', 'D');
