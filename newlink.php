@@ -48,7 +48,7 @@ $mform = new newlink_form();
 $toform = [];
 
 if($mform->is_cancelled()){
-    redirect("/local/repositoryciae/index.php", '', 10);
+    redirect("/local/repositoryciae/editrepository.php", '', 10);
 }elseif($fromform = $mform->get_data()){
     if($fromform->id != 0){
         //Update data
@@ -96,7 +96,7 @@ if($mform->is_cancelled()){
         file_save_draft_area_files ( $draftimageid, $contextid, 'local_repositoryciae', 'image', $draftimageid, array('subdirs' => 0, 'maxfiles' => 1) );
         
     }
-    redirect("/local/repositoryciae/index.php", 'Cambios guardados', 10,  \core\output\notification::NOTIFY_SUCCESS);
+    redirect("/local/repositoryciae/editrepository.php", 'Cambios guardados', 10,  \core\output\notification::NOTIFY_SUCCESS);
 }else{
     if($id){
         $toform = $DB->get_record('local_repositoryciae_files', ['id'=>$id]);
