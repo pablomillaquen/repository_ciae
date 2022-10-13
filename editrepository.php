@@ -30,7 +30,14 @@ $PAGE->set_context(context_system::instance());
 require_login();
 $usercontext = context_user::instance($USER->id);
 
+$search = optional_param('search', '', PARAM_TEXT); 
+$grades = optional_param('grades', '', PARAM_TEXT); 
+$order = optional_param('order', '', PARAM_TEXT); 
+$types = optional_param('types', '', PARAM_TEXT); 
+if($types=="[]") $types=null;
+$page = "editrepository";
 
+$PAGE->requires->js_call_amd('local_repositoryciae/search', 'init', array($page));
 
 $lang = current_language();
 
@@ -77,7 +84,88 @@ $optionsgrades = array(
 );
 
 $materials = array();
-$objmaterials = $DB->get_records('local_repositoryciae_files');
+if($search != "" || $grades != "" || $order != "" || $types != "" ){
+    $i = 0;
+    $sql = "SELECT * FROM {local_repositoryciae_files} ";
+    if($search !=""){
+        $sql.= "WHERE name LIKE '".$search."' OR abstract LIKE '".$search."' ";
+        $i++;
+    }
+    if($grades!=""){
+        if($i>0){
+            $sql.=" AND ";
+        }else{
+            $sql.=" WHERE ";
+        }
+        $sql.=" grades =".$grades;
+        $i++;
+    }
+   
+    if(!empty($types) || isset($types)){
+        if($i>0){
+            $sql.=" AND ";
+        }
+        $j=0;
+        $types_array1 = json_decode($types);
+        foreach($types_array1 as $t){
+            if($j>0) {
+                $sql.=" OR ";
+            }elseif($j==0 && $i==0){
+                $sql.=" WHERE ";
+            }
+            switch($t){
+                case 'chk_cards':
+                    $sql.=" materialtype = 5";
+                    $j++;
+                    break;
+                case 'chk_guides':
+                    $sql.=" materialtype = 1";
+                    $j++;
+                    break;
+                case 'chk_books':
+                    $sql.=" materialtype = 4";
+                    $j++;
+                    break;
+                case 'chk_capsules':
+                    $sql.=" materialtype = 12";
+                    $j++;
+                    break;
+                case 'chk_images':
+                    $sql.=" materialtype = 7";
+                    $j++;
+                    break;
+                case 'chk_audios':
+                    $sql.=" materialtype = 13";
+                    $j++;
+                    break;
+                case 'chk_songs':
+                    $sql.=" materialtype = 11";
+                    $j++;
+                    break;
+                case 'chk_texts':
+                    $sql.=" materialtype = 4";
+                    $j++;
+                    break;            
+                case 'chk_graphics':
+                    $sql.=" materialtype = 8";
+                    $j++;
+                    break;
+            }
+        }
+    }
+    if($order!=""){
+        if($order==1){
+            $sql.= " ORDER BY id ASC ";
+        }elseif($order==2){
+            $sql.= " ORDER BY id DESC ";
+        }
+    }
+    
+    $objmaterials = $DB->get_records_sql($sql);
+}else{
+    $objmaterials = $DB->get_records('local_repositoryciae_files');
+}
+
 foreach($objmaterials as $mat){
     //Link
     if($mat->filetype == 1){
@@ -132,6 +220,69 @@ $PAGE->set_heading(get_string('title', 'local_repositoryciae'));
 
 $data = new stdClass();
 $data->materials = $materials;
+if($search){
+    $data->search = $search;
+}
+if($grades){
+    $grades == 1 ? $data->grades_one = true : $data->grades_one = false;
+    $grades == 2 ? $data->grades_two = true : $data->grades_two = false;
+    $grades == 3 ? $data->grades_three = true : $data->grades_three = false;
+    $grades == 4 ? $data->grades_four = true : $data->grades_four = false;
+    $grades == 5 ? $data->grades_five = true : $data->grades_five = false;
+    $grades == 6 ? $data->grades_six = true : $data->grades_six = false;
+    $grades == 7 ? $data->grades_seven = true : $data->grades_seven = false;
+    $grades == 8 ? $data->grades_eight = true : $data->grades_eight = false;
+}
+if($order){
+    $order == 1 ? $data->order_one = true : $data->order_one = false;
+    $order == 2 ? $data->order_two = true : $data->order_two = false;
+}
+if($types){
+    
+    $types_array = json_decode($types);
+    $data->chk_cards = false;
+    $data->chk_guides = false;
+    $data->chk_books = false;
+    $data->chk_capsules = false;
+    $data->chk_images = false;
+    $data->chk_audios = false;
+    $data->chk_songs = false;
+    $data->chk_texts = false;
+    $data->chk_graphics = false;
+    
+    foreach($types_array as $type){
+        switch($type){
+            case 'chk_cards':
+                $data->chk_cards = true;
+                break;
+            case 'chk_guides':
+                $data->chk_guides = true;
+                break;
+            case 'chk_books':
+                $data->chk_books = true;
+                break;
+            case 'chk_capsules':
+                $data->chk_capsules = true;
+                break;
+            case 'chk_images':
+                $data->chk_images = true;
+                break;
+            case 'chk_audios':
+                $data->chk_audios = true;
+                break;
+            case 'chk_songs':
+                $data->chk_songs = true;
+                break;
+            case 'chk_texts':
+                $data->chk_texts = true;
+                break;            
+            case 'chk_graphics':
+                $data->chk_graphics = true;
+                break;
+            
+        }
+    }
+}
 $data->locallink = $CFG->wwwroot."/local/repositoryciae/";
 
 echo $OUTPUT->header();

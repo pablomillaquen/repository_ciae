@@ -38,7 +38,10 @@ $string ['searchfile_label'] = "Archivo que desea agregar";
 $string ['searchfile2_label'] = "Conversación que desea agregar";
 $string['discussions'] = "Discusiones";
 $string['sharedmaterials'] = "Materiales compartidos";
-$string['search'] = "Buscar";
+$string['search'] = "Buscar un recurso";
+$string ['search_placeholder'] = "Ingrese uno o varios términos para la búsqueda";
+$string ['search_title'] = "Mostrar los siguientes RECURSOS";
+$string ['search_subtitle'] = "(si no selecciona ningún término, se mostrarán todos los recursos del repositorio)";
 $string['grades'] = "Cursos";
 $string ['territorysearch'] = "Identidad territorial";
 $string ['axissearch'] = "Ejes";
@@ -59,3 +62,31 @@ $string['repositoryciae:submit'] = 'Editar materiales del repositorio';
 
 $string ['find_discussion'] = "Buscar conversación";
 $string ['find_discussion_file'] = "Buscar donde está el archivo";
+
+$string ["grades_label"] = "Para el curso:";
+$string ['grades_all'] = "Todos los cursos";
+$string ['grades_first'] = "Primero Básico";
+$string ['grades_second'] = "Segundo Básico";
+$string ['grades_third'] = "Tercero Básico";
+$string ['grades_fourth'] = "Cuarto Básico";
+$string ['grades_fifth'] = "Quinto Básico";
+$string ['grades_sixth'] = "Sexto Básico";
+$string ['grades_seventh'] = "Séptimo Básico";
+$string ['grades_eighth'] = "Octavo Básico";
+
+$string ['materials_types_thematic_cards'] = "Fichas temáticas";
+$string ['materials_types_learning_guides'] = "Guías de aprendizaje";
+$string ['materials_types_manuals_books'] = "Manuales/libros";
+$string ['materials_types_audiovisual_capsules'] = "Cápsulas audiovisuales";
+$string ['materials_types_images'] = "Imágenes / Fotografías";
+$string ['materials_types_audio_recording'] = "Grabaciones de audio";
+$string ['materials_types_songs'] = "Canciones";
+$string ['materials_types_texts'] = "Textos varios (géneros textuales mapuches, poesía, obras dramáticas)";
+$string ['materials_types_graphic_organizer'] = "Organizadores gráficos (Mapas conceptuales, esquemas, diagramas)";
+
+$string ['order_label'] = "Ordenar por fecha de creación:";
+$string ['order_new'] = "Más nuevos primero";
+$string ['order_last'] = "Más antiguos primero";
+$string ['order_any'] = "Orden correlativo";
+
+$string ['Pedagogical_orientation'] = "Orientaciones pedagógicas";

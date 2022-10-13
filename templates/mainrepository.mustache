@@ -1,37 +1,113 @@
 <div class="col-12">
-    <div class="row  justify-content-md-center"> 
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-primary btn-lg">
-                <input type="radio" name="options" id="option1" checked> {{#str}} grades, local_repositoryciae {{/str}}
-            </label>
-            <label class="btn btn-primary btn-lg">
-                <input type="radio" name="options" id="option2"> {{#str}} axissearch, local_repositoryciae {{/str}}
-            </label>
-            <label class="btn btn-primary btn-lg">
-                <input type="radio" name="options" id="option3"> {{#str}} territorysearch, local_repositoryciae {{/str}}
-            </label>
-            <label class="btn btn-primary btn-lg">
-                <input type="radio" name="options" id="option3"> {{#str}} freesearch, local_repositoryciae {{/str}}
-            </label>
-        </div>               
+    <div class="row justify-content-md-right mb-4">
+        <div class="col-6"><p><a href="https://kimeltun.edocere.com/local/staticpage/view.php?page=orientaciones_pedagogicas" target="_blank">{{#str}}Pedagogical_orientation, local_repositoryciae{{/str}}</a></p></div>
+        <div class="input-group col-6">
+            <input type="text" class="form-control" placeholder="{{#str}} search_placeholder, local_repositoryciae {{/str}}" aria-label="search" aria-describedby="btn-search" id="searchText" name="searchText" value="{{search}}">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="btn-search">{{#str}} search, local_repositoryciae {{/str}}</button>
+            </div>
+        </div>
     </div>
-</div>
-<br>
-<div class="row justify-content-md-center">
-    <div class="input-group col-6">
-        <input type="text" class="form-control" placeholder="Buscar" aria-label="search" aria-describedby="button-addon2">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2">{{#str}} search, local_repositoryciae {{/str}}</button>
+    <br>
+    <div class="row">
+        <div class="col-8 mb-5">
+            <p class="font-weight-bolder">{{#str}}search_title, local_repositoryciae{{/str}}</p>
+            <p  class="text-muted">{{#str}}search_subtitle, local_repositoryciae{{/str}}</p>
+        </div>
+        <br>
+        <div class="col-4 text-right">
+            {{#str}}grades_label, local_repositoryciae{{/str}} 
+            <select class="custom-select" aria-label="grades_select" id="grades_select">
+                <option value="">{{#str}}grades_all, local_repositoryciae{{/str}}</option>
+                <option value="1" {{#grades_one}}selected{{/grades_one}}>{{#str}}grades_first, local_repositoryciae{{/str}}</option>
+                <option value="2" {{#grades_two}}selected{{/grades_two}}>{{#str}}grades_second, local_repositoryciae{{/str}}</option>
+                <option value="3" {{#grades_three}}selected{{/grades_three}}>{{#str}}grades_third, local_repositoryciae{{/str}}</option>
+                <option value="4" {{#grades_four}}selected{{/grades_four}}>{{#str}}grades_fourth, local_repositoryciae{{/str}}</option>
+                <option value="5" {{#grades_five}}selected{{/grades_five}}>{{#str}}grades_fifth, local_repositoryciae{{/str}}</option>
+                <option value="6" {{#grades_six}}selected{{/grades_six}}>{{#str}}grades_sixth, local_repositoryciae{{/str}}</option>
+                <option value="7" {{#grades_seven}}selected{{/grades_seven}}>{{#str}}grades_seventh, local_repositoryciae{{/str}}</option>
+                <option value="8" {{#grades_eight}}selected{{/grades_eight}}>{{#str}}grades_eighth, local_repositoryciae{{/str}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="row" id="theme_check">
+        <div class="col-3">
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" name="chk_cards" 
+                {{#chk_cards}} checked="checked" {{/chk_cards}} >
+                <label class="form-check-label" for="theme_check">{{#str}}materials_types_thematic_cards, local_repositoryciae{{/str}}</label>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" name="chk_guides"
+                {{#chk_guides}} checked="checked" {{/chk_guides}} >
+                <label class="form-check-label" for="theme_check">{{#str}}materials_types_learning_guides, local_repositoryciae{{/str}}</label>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" name="chk_books"
+                {{#chk_books}} checked="checked" {{/chk_books}} >
+                <label class="form-check-label" for="theme_check">{{#str}}materials_types_manuals_books, local_repositoryciae{{/str}}</label>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" name="chk_capsules"
+                {{#chk_capsules}} checked="checked" {{/chk_capsules}}>
+                <label class="form-check-label" for="theme_check">{{#str}}materials_types_audiovisual_capsules, local_repositoryciae{{/str}}</label>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" name="chk_images"
+                {{#chk_images}} checked="checked" {{/chk_images}}>
+                <label class="form-check-label" for="theme_check">{{#str}}materials_types_images, local_repositoryciae{{/str}}</label>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" name="chk_audios"
+                {{#chk_audios}} checked="checked" {{/chk_audios}}>
+                <label class="form-check-label" for="theme_check">{{#str}}materials_types_audio_recording, local_repositoryciae{{/str}}</label>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" name="chk_songs"
+                {{#chk_songs}} checked="checked" {{/chk_songs}}>
+                <label class="form-check-label" for="theme_check">{{#str}}materials_types_songs, local_repositoryciae{{/str}}</label>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" name="chk_texts"
+                {{#chk_texts}} checked="checked" {{/chk_texts}}>
+                <label class="form-check-label" for="theme_check">{{#str}}materials_types_texts, local_repositoryciae{{/str}}</label>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" name="chk_graphics"
+                {{#chk_graphics}} checked="checked" {{/chk_graphics}}>
+                <label class="form-check-label" for="theme_check">{{#str}}materials_types_graphic_organizer, local_repositoryciae{{/str}}</label>
+            </div>
         </div>
     </div>
 </div>
 <br>
-<div class="row">
-    <div class="col-12">
-        <p><a href="https://kimeltun.edocere.com/local/staticpage/view.php?page=orientaciones_pedagogicas" target="_blank">Orientaciones Pedagógicas</a></p>
+<div class="row text-right">
+    <div class="col-5"></div>
+    <div class="col-7">
+        {{#str}}order_label, local_repositoryciae{{/str}} 
+        <select class="custom-select" aria-label="select_order" id="select_order" name="select_order">
+            <option value="">{{#str}}order_any, local_repositoryciae{{/str}}</option>
+            <option value="1" {{#order_one}}selected{{/order_one}}>{{#str}}order_new, local_repositoryciae{{/str}}</option>
+            <option value="2" {{#order_two}}selected{{/order_two}}>{{#str}}order_last, local_repositoryciae{{/str}}</option>
+        </select>
     </div>
 </div>
-<br>
 <div class="row">
     {{#materials}}
     <div class="card" style="width: 18rem; margin-left:3px;margin-bottom:3px;">

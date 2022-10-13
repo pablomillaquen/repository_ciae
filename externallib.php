@@ -121,4 +121,50 @@ class local_repositoryciae_external extends external_api {
     public static function submit_create_collab_form_returns() {
         return new external_value(PARAM_INT, 'group id');
     }
+
+    /**
+     * Returns description of method parameters
+     * @return external_function_parameters
+     */
+    public static function loadjson_parameters() {
+        return new external_function_parameters(
+                array(
+                    'selectedTypes' => new external_value(PARAM_RAW, 'The user id'),
+                    'searchText' => new external_value(PARAM_RAW, 'The user id'),
+                    'gradesSelected' => new external_value(PARAM_RAW, 'The user id'),
+                    'selectOrder' => new external_value(PARAM_RAW, 'The field id')
+                )
+        );
+    }
+
+    /**
+     * Returns welcome message
+     * @return string welcome message
+     */
+    public static function loadjson($selectedTypes, $searchText, $gradesSelected, $selectOrder) {
+        global $DB;
+        //$params = self::validate_parameters(self::getExample_parameters(), array());
+        $params = self::validate_parameters(self::loadjson_parameters(), 
+                array('selectedTypes'=>$selectedTypes, 'searchText'=>$searchText,'gradesSelected'=>$gradesSelected, 'selectOrder'=>$selectOrder));
+
+        $sql = 'SELECT data FROM {user_info_data} WHERE userid = ? AND fieldid = ?';
+        $paramsDB = $params; //array($itemid);
+        $db_result = $DB->get_records_sql($sql,$paramsDB);
+        
+        return $db_result;
+    }
+
+    /**
+     * Returns description of method result value
+     * @return external_description
+     */
+    public static function loadjson_returns() {
+        return new external_multiple_structure(
+            new external_single_structure(
+                array(
+                    'data' => new external_value(PARAM_NOTAGS, 'Data for json form'),
+                )
+            )
+        );
+    }
 }

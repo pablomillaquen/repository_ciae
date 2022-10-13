@@ -39,7 +39,10 @@ $string ['searchfile_label'] = "File you want to add";
 $string ['searchfile2_label'] = "Conversation you want to add";
 $string ['discussions'] = "Discussions";
 $string ['sharedmaterials'] = "Shared materials";
-$string ['search'] = "Search";
+$string ['search'] = "Find a resource";
+$string ['search_placeholder'] = "Enter one or more terms for the search";
+$string['search_title'] = "Show the following RESOURCES";
+$string ['search_subtitle'] = "(if you don't select any terms, all repository resources will be displayed)";
 $string ['grades'] = "Courses";
 $string ['territorysearch'] = "Territorial identity";
 $string ['axissearch'] = "Axes";
@@ -59,3 +62,31 @@ $string['repositoryciae:submit'] = 'Edit repository materials';
 
 $string ['find_discussion'] = "Find conversation";
 $string ['find_discussion_file'] = "Find where the file is";
+
+$string ['grades_label'] = "For the course";
+$string ['grades_all'] = "All grades";
+$string ['grades_first'] = "First grade";
+$string ['grades_second'] = "Second grade";
+$string ['grades_third'] = "Third grade";
+$string ['grades_fourth'] = "Fourth grade";
+$string ['grades_fifth'] = "Fifth grade";
+$string ['grades_sixth'] = "Sixth grade";
+$string ['grades_seventh'] = "Seventh grade";
+$string ['grades_eighth'] = "Eighth grade";
+
+$string ['materials_types_thematic_cards'] = "Thematic cards";
+$string ['materials_types_learning_guides'] = "Learning guides";
+$string ['materials_types_manuals_books'] = "Manuals / Books";
+$string ['materials_types_audiovisual_capsules'] = "audiovisual capsules";
+$string ['materials_types_images'] = "Images / Photos";
+$string ['materials_types_audio_recording'] = "audio recordings";
+$string ['materials_types_songs'] = "Songs";
+$string ['materials_types_texts'] = "Several Texts (Mapuche textual genres, poetry, dramatic works)";
+$string ['materials_types_graphic_organizer'] = "Graphic organizers (Concept maps, schemes, diagrams)";
+
+$string ['order_label'] = "Sort by creation date:";
+$string ['order_new'] = "Newest first";
+$string ['order_last'] = "Oldest first";
+$string ['order_any'] = "Correlative order";
+
+$string ['Pedagogical_orientation'] = "Pedagogical Orientations";
