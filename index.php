@@ -29,20 +29,14 @@ $PAGE->set_context(context_system::instance());
 
 require_login();
 $usercontext = context_user::instance($USER->id);
-
-$search = optional_param('search', '', PARAM_TEXT); 
-$grades = optional_param('grades', '', PARAM_TEXT); 
-$order = optional_param('order', '', PARAM_TEXT); 
-$types = optional_param('types', '', PARAM_TEXT); 
-if($types=="[]") $types=null;
-$page = "index";
-
-$PAGE->requires->js_call_amd('local_repositoryciae/search', 'init', array($page));
+$data = new stdClass();
+$data->locallink = $CFG->wwwroot."/local/repositoryciae/";
+$data->valuepixel = 100;
+$PAGE->requires->js_call_amd('local_repositoryciae/imagePixelated', 'init', array($data->valuepixel));
 
 $lang = current_language();
 
 $optionsculturelang = array();
-
 $json = file_get_contents('culturalcontent.json');
 $obj = json_decode($json);
 foreach($obj as $key=>$value){
@@ -82,123 +76,93 @@ $optionsgrades = array(
     '7' => 'Séptimo básico',
     '8' => 'Octavo básico'
 );
+$optionsaxis = array(
+    '1' => 'Lengua, tradición oral, iconografía, prácticas de lectura y escritura de los pueblos originarios.',
+    '2' => 'Territorio, territorialidad, identidad y memoria histórica de los pueblos originarios.',
+    '3' => 'Cosmovisión de los pueblos originarios.',
+    '4' => 'Patrimonio, tecnologías, técnicas, ciencias y artes ancestrales de los pueblos originarios.'
+);
 
 $materials = array();
-if($search != "" || $grades != "" || $order != "" || $types != "" ){
-    $i = 0;
-    $sql = "SELECT * FROM {local_repositoryciae_files} ";
-    if($search !=""){
-        $sql.= "WHERE name LIKE '".$search."' OR abstract LIKE '".$search."' ";
-        $i++;
-    }
-    if($grades!=""){
-        if($i>0){
-            $sql.=" AND ";
-        }else{
-            $sql.=" WHERE ";
-        }
-        $sql.=" grades =".$grades;
-        $i++;
-    }
-   
-    if(!empty($types) || isset($types)){
-        if($i>0){
-            $sql.=" AND ";
-        }
-        $j=0;
-        $types_array1 = json_decode($types);
-        foreach($types_array1 as $t){
-            if($j>0) {
-                $sql.=" OR ";
-            }elseif($j==0 && $i==0){
-                $sql.=" WHERE ";
-            }
-            switch($t){
-                case 'chk_cards':
-                    $sql.=" materialtype = 5";
-                    $j++;
-                    break;
-                case 'chk_guides':
-                    $sql.=" materialtype = 1";
-                    $j++;
-                    break;
-                case 'chk_books':
-                    $sql.=" materialtype = 4";
-                    $j++;
-                    break;
-                case 'chk_capsules':
-                    $sql.=" materialtype = 12";
-                    $j++;
-                    break;
-                case 'chk_images':
-                    $sql.=" materialtype = 7";
-                    $j++;
-                    break;
-                case 'chk_audios':
-                    $sql.=" materialtype = 13";
-                    $j++;
-                    break;
-                case 'chk_songs':
-                    $sql.=" materialtype = 11";
-                    $j++;
-                    break;
-                case 'chk_texts':
-                    $sql.=" materialtype = 4";
-                    $j++;
-                    break;            
-                case 'chk_graphics':
-                    $sql.=" materialtype = 8";
-                    $j++;
-                    break;
-            }
-        }
-    }
-    if($order!=""){
-        if($order==1){
-            $sql.= " ORDER BY id ASC ";
-        }elseif($order==2){
-            $sql.= " ORDER BY id DESC ";
-        }
-    }
+$objmaterials = $DB->get_records_sql('SELECT * FROM {local_repositoryciae_files} ORDER BY id DESC LIMIT 3');
+foreach($objmaterials as $objmaterial){
+    // //Link
+    // if($mat->filetype == 1){
+    //     $mat->linktype = 'newfile.php';
+    // }elseif($mat->filetype == 2){
+    //     $mat->linktype = 'newlink.php';
+    // }else{
+    //     $mat->linktype = 'collabfile.php';
+    // }
+    $arrayfiles = array();
+    $islink = false;
+    $ismaterial = false;
+    if($objmaterial->filetype==1){//It's a file
+        
     
-    $objmaterials = $DB->get_records_sql($sql);
-}else{
-    $objmaterials = $DB->get_records('local_repositoryciae_files');
-}
+    }elseif($objmaterial->filetype==2){
+        $islink = true;
+        $objmaterial->fileurl = $objmaterial->link;
+    }elseif($objmaterial->filetype==3){
+        $islink = true;
+        $ismaterial = true;
+        if($objmaterial->link){
+            $link = $DB->get_records_sql("SELECT * FROM mdl_forum_discussions WHERE id = ". $objmaterial->link);
+            if($link){
+                foreach($link as $key=>$value){
+                    $objmaterial->filename = $value->name;
+                    $file = $DB->get_records_sql("SELECT * FROM mdl_files WHERE itemid = ". $value->firstpost ." AND filesize > 1 AND component = 'mod_forum'");
+                    if($file){
+                        foreach($file as $key=>$value){
+                            $file = new stdClass();
+                            $url = $CFG->wwwroot."/pluginfile.php/".$value->contextid."/mod_forum/".$value->filearea."/".$value->itemid."/".$value->filename;
+                            $file->url = $url;
+                            $file->filename = $value->filename;
+                            $arrayfiles[]= $file;
+                        }
+                        $objmaterial->fileurl = $file->url;
+                    }
+                }
+            }
+        }
+        if($objmaterial->conversation){
+            $conversation = $DB->get_records_sql("SELECT * FROM mdl_forum_discussions WHERE id = ". $objmaterial->conversation );
+            if($conversation){
+                foreach($conversation as $key=>$value){
+                    $objmaterial->conversation_url = $CFG->wwwroot."/mod/forum/discuss.php?d=".$value->id;
+                }
+            }
+        }
 
-foreach($objmaterials as $mat){
-    //Link
-    if($mat->filetype == 1){
-        $mat->linktype = 'newfile.php';
-    }elseif($mat->filetype == 2){
-        $mat->linktype = 'newlink.php';
-    }else{
-        $mat->linktype = 'collabfile.php';
+        //$objmaterial->fileurl = $objmaterial->link;
     }
+    $objmaterial->islink = $islink;
+    $objmaterial->ismaterial = $ismaterial;
+    
     //Image
-    if($mat->image){
-        $fileimage = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $mat->image ." AND filesize > 1 AND component = 'local_repositoryciae'  LIMIT 1");
+    if($objmaterial->image){
+        $fileimage = $DB->get_record_sql("SELECT * FROM mdl_files WHERE itemid = ". $objmaterial->image ." AND filesize > 1 AND component = 'local_repositoryciae'  LIMIT 1");
         if($fileimage){
             $url = moodle_url::make_pluginfile_url($fileimage->contextid, $fileimage->component, $fileimage->filearea, $fileimage->itemid, $fileimage->filepath, $fileimage->filename, false);
-            $mat->imageurl = $url;
+            $objmaterial->imageurl = $url;
         }else{
-            $mat->imageurl = $CFG->wwwroot.'/local/repositoryciae/img/no-image-icon-23485.png';
+            $objmaterial->imageurl = $CFG->wwwroot.'/local/repositoryciae/img/no-image-icon-23485.png';
         }
     }else{
-        $mat->imageurl = $CFG->wwwroot.'/local/repositoryciae/img/no-image-icon-23485.png';
+        $objmaterial->imageurl = $CFG->wwwroot.'/local/repositoryciae/img/no-image-icon-23485.png';
     }
     //Material type
     foreach($optionsmaterials as $key => $value){
-        if($mat->materialtype == $key){
-            $mat->materialtype = $value;
+        if($objmaterial->materialtype == $key){
+            $objmaterial->materialtype = $value;
         }
     }
     //Culture
     foreach($optionsculturelang as $key => $value){
-        if($key == $mat->grades){
+        if($key == $objmaterial->grades){
             foreach($value as $key2 => $value2){
-                if($mat->culturalcontent == $key2){
-                    $mat->culturalcontent = $value2;
+                if($objmaterial->culturalcontent == $key2){
+                    $objmaterial->culturalcontent = $value2;
                     
                 }
             }
@@ -206,87 +170,27 @@ foreach($objmaterials as $mat){
     }
     //Grades
     foreach($optionsgrades as $key => $value){
-        if($mat->grades == $key){
-            $mat->grades = $value;
+        if($objmaterial->grades == $key){
+            $objmaterial->grades = $value;
+        }
+    }
+    //Axis
+    foreach($optionsaxis as $key => $value){
+        if($objmaterial->axis == $key){
+            $objmaterial->axis = $value;
         }
     }
     
-    array_push($materials, $mat);
+    array_push($materials, $objmaterial);
 }
+$data->materials = $materials;
 
-$PAGE->set_url('/local/repositoryciae/index.php');
+$PAGE->set_url('/local/repositoryciae/draw.php');
 $PAGE->set_title(get_string('title', 'local_repositoryciae'));
 $PAGE->set_heading(get_string('title', 'local_repositoryciae'));
 
-$data = new stdClass();
-$data->materials = $materials;
-if($search){
-    $data->search = $search;
-}
-if($grades){
-    $grades == 1 ? $data->grades_one = true : $data->grades_one = false;
-    $grades == 2 ? $data->grades_two = true : $data->grades_two = false;
-    $grades == 3 ? $data->grades_three = true : $data->grades_three = false;
-    $grades == 4 ? $data->grades_four = true : $data->grades_four = false;
-    $grades == 5 ? $data->grades_five = true : $data->grades_five = false;
-    $grades == 6 ? $data->grades_six = true : $data->grades_six = false;
-    $grades == 7 ? $data->grades_seven = true : $data->grades_seven = false;
-    $grades == 8 ? $data->grades_eight = true : $data->grades_eight = false;
-}
-if($order){
-    $order == 1 ? $data->order_one = true : $data->order_one = false;
-    $order == 2 ? $data->order_two = true : $data->order_two = false;
-}
-if($types){
-    
-    $types_array = json_decode($types);
-    $data->chk_cards = false;
-    $data->chk_guides = false;
-    $data->chk_books = false;
-    $data->chk_capsules = false;
-    $data->chk_images = false;
-    $data->chk_audios = false;
-    $data->chk_songs = false;
-    $data->chk_texts = false;
-    $data->chk_graphics = false;
-    
-    foreach($types_array as $type){
-        switch($type){
-            case 'chk_cards':
-                $data->chk_cards = true;
-                break;
-            case 'chk_guides':
-                $data->chk_guides = true;
-                break;
-            case 'chk_books':
-                $data->chk_books = true;
-                break;
-            case 'chk_capsules':
-                $data->chk_capsules = true;
-                break;
-            case 'chk_images':
-                $data->chk_images = true;
-                break;
-            case 'chk_audios':
-                $data->chk_audios = true;
-                break;
-            case 'chk_songs':
-                $data->chk_songs = true;
-                break;
-            case 'chk_texts':
-                $data->chk_texts = true;
-                break;            
-            case 'chk_graphics':
-                $data->chk_graphics = true;
-                break;
-            
-        }
-    }
-}
-$data->locallink = $CFG->wwwroot."/local/repositoryciae/";
-
 echo $OUTPUT->header();
 
-echo $OUTPUT->render_from_template('local_repositoryciae/mainrepository', $data);
+echo $OUTPUT->render_from_template('local_repositoryciae/imagepixelated', $data);
 
 echo $OUTPUT->footer();

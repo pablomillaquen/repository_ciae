@@ -1,0 +1,147 @@
+<div class="container">
+  <nav class="navbar bg-light">
+    <div class="container-fluid">
+      <p class="navbar-brand">RECURSOS RECIENTES</p>
+      <a href="{{locallink}}repository.php">Ver todos los RECURSOS</a>
+    </div>
+  </nav>
+  <div class="row">
+    {{#materials}}
+    <div class="card" style="width: 18rem; margin-left:3px;margin-bottom:3px;">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                
+                 {{#islink}}
+                        {{#ismaterial}}
+                            <img src="./img/team.png" style="max-width:60px;width:100%" />
+                        {{/ismaterial}}
+                        {{^ismaterial}}
+                            <img src="./img/web.png" style="max-width:60px;width:100%" />
+                        {{/ismaterial}}                        
+                    {{/islink}}
+                    {{^islink}}
+                        <img src="./img/pdf.png" style="max-width:60px;width:100%" />
+                    {{/islink}}
+            </div>
+            <div class="col-md-8">
+            <div class="col-md-12 block-title">
+                <h5 class="card-title">{{materialtype}}</h5>
+            </div> 
+                <div class="card-body">
+                  <h5>{{name}}</h5>
+                  {{#imageurl}}
+                      <img src="{{imageurl}}" alt="..." style="width: 100%;">
+                  {{/imageurl}}
+                    <p class="card-text"><strong>RESUMEN</strong></p>
+                    <p class="card-text">{{culturalcontent}}</p>
+                    <br>
+                    <p class="card-text"><strong>CURSO:</strong> {{grades}}</p>
+                    <p class="card-text"><strong>EJES:</strong> {{axis}}</p>
+                    <div class="btn-group" role="group">
+                        <a href="{{locallink}}materialrepository.php?id={{id}}" class="btn btn-primary">Ver este recurso</a>
+                       </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+    {{/materials}}
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-9">
+      <h4 class=" text-center">Conozca más sobre el REPOSITORIO</h4>
+      <div class="row">
+        <div class="4">
+          <div class="card" style="width: 12rem;">
+            <iframe width="100%"  src="https://www.youtube.com/embed/54ehZRzEAWw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="card-body">
+              <h5 class="card-title">GLOSARIO</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="{{locallink}}glosary.php" class="btn btn-primary">Ver más...</a>
+            </div>
+          </div>
+        </div>
+        <div class="4">
+          <div class="card" style="width: 12rem;">
+            <iframe width="100%" src="https://www.youtube.com/embed/FbGHEx9T7cg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="card-body">
+              <h5 class="card-title">ORIENTACIONES PEDAGÓGICAS</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="{{locallink}}guidelines.php" class="btn btn-primary">Ver más...</a>
+            </div>
+          </div>
+        </div>
+        <div class="4">
+          <div class="card" style="width: 12rem;">
+            <iframe width="100%" src="https://www.youtube.com/embed/1_graoSALNk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="card-body">
+              <h5 class="card-title">MATERIALES COMPARTIDOS</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="{{locallink}}shared.php" class="btn btn-primary">Ver más...</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <iframe src="https://calendar.google.com/calendar/embed?src=es.cl%23holiday%40group.v.calendar.google.com&ctz=America%2FSantiago" style="border: 0" width="200" height="400" frameborder="0" scrolling="no"></iframe>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 mt-4 mb-4">
+      <h4>Galería Colaborativa KIMELTÚN</h4>
+    </div>  
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <p>Esta obra del artista Eduardo Rapimán está parcialmente oculta.</p>
+      <p>Cada vez que un(a) educador(a) realiza una acción en este Repositorio, el cuadro será más visible.</p>
+      <p>Les invitamos a participar en este Repositorio, aportando materiales, comentando o dando su opinión, para que de esta forma, poco a poco esta hermosa obra pueda mostrarse en su totalidad.</p>
+    </div>
+    <div class="col-4">
+      <p>Cuando la obra sea completada, cada escuela de cada educador(a) recibirá en forma física una reproducción impresa y enmarcada de la obra, para así, ir conformando su propia</p>
+      <p>Galería Colaborativa Kimeltún</p>
+    </div>
+    <div class="col-2">
+      <div class="card" style="width: 8rem;">
+        <img src="./img/Eduardo-Rapiman.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <p class="card-text">El artista Eduardo Rapimán.</p>
+        </div>
+      </div>
+    </div>  
+  </div>
+  <div class="row mt-5">
+    <div class="col-2">
+      <p>Este mes de OCTUBRE 2022</p>
+      <br>
+      <p>Se han llevado a cabo:</p>
+      <p>40 nuevas ACCIONES de colaboración</p>
+      <br>
+      <p>Gracias a esto, se ha quitado un 0% del pixelado </p>
+    </div>
+    <div class="col-10">
+      <div>
+        <img
+          style="margin-top: 5px;width:-webkit-fill-available;"
+          id="pixelatedImage"
+          src="./img/mural.png"
+        />
+      </div>
+      <div style="margin-top: 5px;visibility:hidden;">
+        <span>Pixelation: </span>
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value="{{valuepixel}}"
+          step="1"
+          class="pixelation"
+          id="pixelationRange"
+        />
+      </div>
+    </div> 
+  </div>
+  
+    
+</div>
