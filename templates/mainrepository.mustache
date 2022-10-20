@@ -109,32 +109,33 @@
     </div>
 </div>
 <div class="row">
+
     {{#materials}}
-    <div class="card" style="width: 18rem; margin-left:3px;margin-bottom:3px;">
-        <div class="row no-gutters">
-            <div class="col-md-12 block-title">
-                <h5 class="card-title">{{materialtype}}</h5>
+    <div class="card" style="width: 28rem; margin-left:6px;margin-bottom:6px; border-color: #0C9465 !important; border-width: 1px !important; background-color: #F4F6EB !important;">
+        <div class="row no-gutters" style="background-color: #F4F6EB !important;">
+            <div class="col-md-12 block-title" style="background-color: #F4F6EB !important;">
+                <h5 class="card-title" style="background-color: #F4F6EB !important;">{{materialtype}}</h5>
             </div>    
-            <div class="col-md-4">
+            <div class="col-md-6" style="background-color: #F4F6EB !important;">
                 {{#imageurl}}
-                    <img src="{{imageurl}}" alt="..." style="width: 100%;height: 15vw;object-fit: cover;">
+                    <img src="{{imageurl}}" alt="..." style="width: 100%;height: 16vw;object-fit: cover;">
                 {{/imageurl}}
             </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <p class="card-text"><strong>{{grades}}</strong></p>
+            <div class="col-md-6">
+                <div class="card-body" style="background-color: #F4F6EB !important;">
+                    <p class="card-text" style="color: #346126 !important;">Curso: <strong>{{grades}}</strong></p> 
                     <p class="card-text">{{culturalcontent}}</p>
                     <p class="card-text">
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true" style="color: #0C9465 !important;"></i>
+                        <i class="fa fa-star" aria-hidden="true" style="color: #0C9465 !important;"></i>
+                        <i class="fa fa-star" aria-hidden="true" style="color: #0C9465 !important;"></i>
+                        <i class="fa fa-star" aria-hidden="true" style="color: #0C9465 !important;"></i>
+                        <i class="fa fa-star-o" aria-hidden="true" style="color: #0C9465 !important;"></i>
                     </p>
-                    <div class="btn-group" role="group">
+                    <div class="btn-group" role="group" style="line-height:10px !important; padding-left:14px !important; padding-right:14px !important; text-align_left !important;">
 
                         
-                        <a href="{{locallink}}materialrepository.php?id={{id}}" class="btn btn-primary">Ver</a>
+                        <a href="{{locallink}}materialrepository.php?id={{id}}" class="btn btn-primary">Ver este Recurso</a>
                        </div>
                 </div>
             </div>            
