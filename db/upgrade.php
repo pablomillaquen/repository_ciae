@@ -127,5 +127,43 @@ function xmldb_local_repositoryciae_upgrade($oldversion) {
         // RepositoryCIAE savepoint reached.
         upgrade_plugin_savepoint(true, 2019111809, 'local','repositoryciae');
     }
+    if ($oldversion < 2019111843) {
+        // Define table local_repositoryciae_links to be created.
+        $table = new xmldb_table('local_repositoryciae_links');
+        // Adding fields to table local_repositoryciae_links.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('link', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('content', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('photo',  XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        // Adding keys to table local_repositoryciae_links.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array(
+            'id'));
+        // Conditionally launch create table for local_repositoryciae_links.
+        if (! $dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111843, 'local','repositoryciae');
+    }
+    if ($oldversion < 2019111844) {
+        // Define table local_repositoryciae_paints to be created.
+        $table = new xmldb_table('local_repositoryciae_paints');
+        // Adding fields to table local_repositoryciae_paints.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('image', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('author', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('order',  XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('percentage', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, '100');
+        $table->add_field('description',  XMLDB_TYPE_TEXT, null, null, null, null, null);
+        // Adding keys to table local_repositoryciae_paints.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array(
+            'id'));
+        // Conditionally launch create table for local_repositoryciae_paints.
+        if (! $dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111844, 'local','repositoryciae');
+    }
     return true;
 }

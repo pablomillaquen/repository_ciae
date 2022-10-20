@@ -1,0 +1,27 @@
+<div class="container">
+    <nav class="navbar bg-light mb-5">
+        <div class="container-fluid">
+            <p class="navbar-brand">ENLACES NO DIDACTIZADOS</p>
+        </div>
+    </nav>
+    <div class="row">
+        {{#materials}}
+        <div class="col-4">
+            {{#imageurl}}
+                <img src="{{imageurl}}" alt="..." style="width: 100%;height: 15vw;object-fit: cover;">
+            {{/imageurl}}
+        </div>
+        <div class="col-6">
+            <p>{{content}}</p>
+        </div>
+        <div class="col-2 mb-5">
+            <div class="btn-group" role="group">
+                <a href="{{link}}" class="btn btn-primary" target="_blank">Ir al enlace</a>
+                <a href="{{locallink}}simplelink.php?id={{id}}" class="btn btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                <a href="{{locallink}}deletelink.php?id={{id}}" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+            </div>
+        </div>
+        <br>
+        {{/materials}}
+    </div>
+</div>

@@ -31,7 +31,9 @@ require_login();
 $usercontext = context_user::instance($USER->id);
 $data = new stdClass();
 $data->locallink = $CFG->wwwroot."/local/repositoryciae/";
-$data->valuepixel = 100;
+$data->actions = 40;
+$data->valuepixel = 20;
+$data->valuedifference = 100 - $data->valuepixel;
 $PAGE->requires->js_call_amd('local_repositoryciae/imagePixelated', 'init', array($data->valuepixel));
 
 $lang = current_language();

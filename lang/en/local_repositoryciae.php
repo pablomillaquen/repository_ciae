@@ -50,6 +50,9 @@ $string ['freesearch'] = "Free search";
 $string ['oa'] = "What OA(s) are you related to?";
 $string ['image'] = "Cover image";
 $string ['abstract'] = "Abstract";
+$string ['content'] = "Content";
+$string ['simplelinks'] = "Untrained links ";
+
 $string ['linguistic'] = "What content(s) of the language do you work on to contribute to its revitalization?";
 $string ['suggestions'] = "In which activity(ies) can I use the material?";
 $string ['guidelines'] = "Suggestions";
