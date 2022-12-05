@@ -1,0 +1,23 @@
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Respuesta</th>
+                <th>Cantidad de veces</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#keywords}}
+                <tr>
+                    <td>{{keyword}}</td>
+                    <td>{{times}}</td>
+                    <td><a href="{{locallink}}keywords.php?id={{id}}&option=delete">Borrar</a></td>
+                </tr>
+            {{/keywords}}
+            {{^keywords}}
+                <p>No hay datos aún</p>
+            {{/keywords}}
+        </tbody>
+    </table>
+</div>

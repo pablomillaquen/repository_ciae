@@ -67,8 +67,9 @@ if($mform->is_cancelled()){
         $newfile->axis = $fromform->axis;
         $newfile->linguistic = $fromform->linguistic;
         $newfile->suggestions = $fromform->suggestions;
-        $newfile->learning = $fromform->learning;
+        $newfile->learning = implode(",",$fromform->learning);
         $newfile->guidelines = $fromform->guidelines;
+        $newfile->user_id = $USER->id;
         $DB->update_record('local_repositoryciae_files', $newfile);
         $draftimageid = file_get_submitted_draft_itemid('image');
         file_save_draft_area_files ( $draftimageid, $contextid, 'local_repositoryciae', 'image', $draftimageid, array('subdirs' => 0, 'maxfiles' => 1) );
@@ -89,8 +90,9 @@ if($mform->is_cancelled()){
         $newfile->axis = $fromform->axis;
         $newfile->linguistic = $fromform->linguistic;
         $newfile->suggestions = $fromform->suggestions;
-        $newfile->learning = $fromform->learning;
+        $newfile->learning = implode(",",$fromform->learning);
         $newfile->guidelines = $fromform->guidelines;
+        $newfile->user_id = $USER->id;
         $storedfile = $DB->insert_record('local_repositoryciae_files', $newfile, true, false);
         $draftimageid = file_get_submitted_draft_itemid('image');
         file_save_draft_area_files ( $draftimageid, $contextid, 'local_repositoryciae', 'image', $draftimageid, array('subdirs' => 0, 'maxfiles' => 1) );

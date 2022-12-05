@@ -1,0 +1,27 @@
+<div class="container">
+    <h3>{{string_title}}</h3>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+              <th>Respuesta</th>
+              <th>Respondido por</th>
+              <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#answers}}
+              <tr>
+                <td>{{answer}} {{#selected}} <span class="text-warning">(SELECCIONADA) </span> {{/selected}}</td>
+                <td>{{username}}</td>
+                <td>
+                    <div><a href="{{locallink}}selectanswer.php?id={{id}}&question={{question}}&discussion_id={{objdiscussion_id}}">Seleccionar</a></div>
+                </td>
+              </tr>
+              {{/answers}}
+              {{^answers}}
+                  <p>No hay datos aún</p>
+              {{/answers}}
+          </tbody>
+        </table>
+</div>

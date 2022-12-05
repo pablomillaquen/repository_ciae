@@ -29,6 +29,10 @@ $PAGE->set_context(context_system::instance());
 
 require_login();
 $usercontext = context_user::instance($USER->id);
+$filter = optional_param('filter', 0, PARAM_INT);
+$order = optional_param('order', 0, PARAM_INT);
+$orderusers = optional_param('orderusers', 0, PARAM_INT);
+
 $data = new stdClass();
 $data->locallink = $CFG->wwwroot."/local/repositoryciae/";
 $data->actions = 40;
@@ -37,6 +41,166 @@ $data->valuedifference = 100 - $data->valuepixel;
 $PAGE->requires->js_call_amd('local_repositoryciae/imagePixelated', 'init', array($data->valuepixel));
 
 $lang = current_language();
+
+$forum = $DB->get_record('local_repositoryciae_admin', ['keyname'=>'forum'] );
+
+$discussions = array();
+if($order == 1){
+    $order = "mfd.id DESC";
+    $data->orderselect1 = true;
+}elseif($order == 2){
+    $order = "mfd.id ASC";
+    $data->orderselect2 = true;
+}else{
+    $order = "mfd.id DESC";
+}
+
+if($filter!=0){
+    switch($filter){
+        case "1": //Sólo subidas al repositorio
+            $objdiscussions = $DB->get_records_sql('SELECT * FROM {forum_discussions} mfd join {local_repositoryciae_d_state} mlrds on mfd.id = mlrds.discussion_id WHERE mfd.forum = '.$forum->data.' and mlrds.state_id = 3 ORDER BY '.$order.' LIMIT 3');
+            $data->filterselect1 = true;
+            break;
+        case "2": //Formulario incompleto
+            $objdiscussions = $DB->get_records_sql('SELECT * FROM {forum_discussions} mfd WHERE forum = '.$forum->data.' ORDER BY '.$order.' LIMIT 3');
+            $data->filterselect2 = true;
+            break;
+        case "3": //Para revisión
+            $objdiscussions = $DB->get_records_sql('SELECT * FROM {forum_discussions} mfd join {local_repositoryciae_d_state} mlrds on mfd.id = mlrds.discussion_id WHERE mfd.forum = '.$forum->data.' and mlrds.state_id = 2 ORDER BY '.$order.' LIMIT 3');
+            $data->filterselect3 = true;
+            break;
+        default:
+            $objdiscussions = $DB->get_records_sql('SELECT * FROM {forum_discussions} mfd WHERE forum = '.$forum->data.' ORDER BY '.$order.' LIMIT 3');
+            break;
+    }
+}else{
+    $objdiscussions = $DB->get_records_sql('SELECT * FROM {forum_discussions} mfd WHERE forum = '.$forum->data.' ORDER BY '.$order.' LIMIT 3');
+}
+
+foreach($objdiscussions as $objdiscussion){
+
+    //quantity
+    $objquantitypost = $DB->get_record_sql('SELECT count(*) as num FROM {forum_posts} WHERE discussion = '.$objdiscussion->id);
+    $objdiscussion->quantity = $objquantitypost->num - 1;
+
+    //keywords
+    $keywords = array();
+    $objkeywords = $DB->get_records_sql('SELECT * FROM {local_repositoryciae_keys} ORDER BY id');
+    if($objkeywords){
+        foreach($objkeywords as $k => $v){
+            array_push($keywords,$objkeywords[$k]->keyword);
+        }        
+    }
+    $i=0;
+    foreach($keywords as $keyword){
+        $sql = "SELECT COUNT(*) AS num FROM {forum_posts} WHERE discussion = ".$objdiscussion->id." and (message  LIKE '%".$keyword."%' OR subject LIKE '%".$keyword."%' )";
+        $times = $DB->get_records_sql($sql);
+       
+        $t = array_values($times); 
+        $times = $t[0]->num; 
+        
+        if($times == 0){
+            unset($keywords[$i]);
+        }
+        
+        $i++;
+    }
+   
+    $presentkeywords = null;
+    if(!empty($keywords)){
+        $keywords = array_values($keywords);
+        
+        foreach($keywords as $clave=>$valor){
+            if($clave>0){
+                $presentkeywords .= ", ".$keywords[$clave];
+            }else{
+                $presentkeywords = $keywords[$clave];
+                }
+            }
+        }
+    $objdiscussion->keywords = $presentkeywords;
+           
+    
+    //firstpost
+    $objpost = $DB->get_record_sql('SELECT * FROM {forum_posts} WHERE id = '.$objdiscussion->firstpost.' AND discussion = '.$objdiscussion->id);
+    $objpost->message = strip_tags($objpost->message);
+    if (strlen($objpost->message) > 30)
+        $objpost->message = substr($objpost->message, 0, 30) . '...';
+    $objdiscussion->firstpost = $objpost->message;
+   
+    
+
+    //Percentage
+    $objstageone = $DB->get_record_sql('SELECT * FROM {local_repositoryciae_draft} WHERE discussion_id = '.$objdiscussion->id);
+    if($objstageone){
+        $g1 = 0; 
+        $g2 = 0; 
+        $percentage1 = 0; 
+        $percentage2 = 0;
+        ($objstageone->grades) ? $g1++ : '';
+        ($objstageone->materialtype) ? $g1++ : '';
+        ($objstageone->linguistic) ? $g1++ : '';
+        ($objstageone->suggestions) ? $g1++ : '';
+        ($objstageone->territory) ? $g1++ : '';
+        ($objstageone->axis) ? $g2++ : '';
+        ($objstageone->learning) ? $g2++ : '';
+        ($objstageone->guidelines) ? $g2++ : '';
+        if($g1){
+            $percentage1 = ($g1*100)/5;
+        }
+        if($g2){
+            $percentage2 = ($g2*100)/3;
+        }
+        $objdiscussion->percentage1 = intval($percentage1);
+        $objdiscussion->percentage2 = intval($percentage2);
+        if($objdiscussion->percentage1 + $objdiscussion->percentage2 == 0){
+            $objdiscussion->state = "Formulario incompleto";
+        }elseif($objdiscussion->percentage1 + $objdiscussion->percentage2 == 100){
+            //State
+            $objdiscussion->state = "Para revisión";
+        }else{
+            $objdiscussion->state = "Formulario incompleto";
+        }
+
+        $objstate = $DB->get_record_sql('SELECT d.state_id,s.state FROM {local_repositoryciae_d_state} d JOIN {local_repositoryciae_state} s ON  s.id = d.state_id WHERE discussion_id = '.$objdiscussion->id);
+       
+        if($objstate){
+            $objdiscussion->state = $objstate->state;
+        }
+    }else{
+        $objdiscussion->percentage1 = 0;
+        $objdiscussion->percentage2 = 0;
+        $objdiscussion->state = "Formulario incompleto";
+    }
+    ($objdiscussion->percentage1 < 100) ? $objdiscussion->percentage1complete = true : $objdiscussion->percentage1complete = false;
+    ($objdiscussion->percentage2 < 100) ? $objdiscussion->percentage2complete = true : $objdiscussion->percentage2complete = false;
+    array_push($discussions, $objdiscussion);
+}
+
+$data->discussions = $discussions;
+
+//Users
+switch($orderusers){
+    case "1":
+        $objusers = $DB->get_records_sql('SELECT mlra.user_id, count(mlra.user_id) as quantity, mu.firstname, mu.lastname FROM {local_repositoryciae_answer} mlra JOIN {user} mu ON mu.id = mlra.user_id GROUP BY mlra.user_id ORDER BY count(mlra.user_id) DESC limit 3');
+        $data->orderusersselect1 = true;
+        break;
+    case "2":
+        $objusers = $DB->get_records_sql('SELECT mfp.userid, count(mfp.userid) as quantity, mu.firstname, mu.lastname FROM {forum_posts} mfp JOIN {user} mu ON mu.id = mfp.userid WHERE mfp.parent != 0 GROUP BY mfp.userid ORDER BY count(mfp.userid) DESC limit 3');
+        $data->orderusersselect2 = true;
+        break;
+    case "3":
+        $objusers = $DB->get_records_sql('SELECT mfp.userid, count(mfp.userid) as quantity, mu.firstname, mu.lastname FROM {forum_posts} mfp JOIN {user} mu ON mu.id = mfp.userid WHERE mfp.parent = 0 GROUP BY mfp.userid ORDER BY count(mfp.userid) DESC limit 3');
+        $data->orderusersselect3 = true;
+        break;
+    default:
+        $objusers = $DB->get_records_sql('SELECT mlra.user_id, count(mlra.user_id) as quantity, mu.firstname, mu.lastname FROM {local_repositoryciae_answer} mlra JOIN {user} mu ON mu.id = mlra.user_id GROUP BY mlra.user_id ORDER BY count(mlra.user_id) DESC limit 3');
+        $data->orderusersselect1 = true;
+        break;
+}
+
+$data->editors = array_values($objusers);
+
 
 $optionsculturelang = array();
 $json = file_get_contents('culturalcontent.json');
@@ -88,17 +252,10 @@ $optionsaxis = array(
 $materials = array();
 $objmaterials = $DB->get_records_sql('SELECT * FROM {local_repositoryciae_files} ORDER BY id DESC LIMIT 3');
 foreach($objmaterials as $objmaterial){
-    // //Link
-    // if($mat->filetype == 1){
-    //     $mat->linktype = 'newfile.php';
-    // }elseif($mat->filetype == 2){
-    //     $mat->linktype = 'newlink.php';
-    // }else{
-    //     $mat->linktype = 'collabfile.php';
-    // }
     $arrayfiles = array();
     $islink = false;
     $ismaterial = false;
+    $objmaterial->abstract = substr($objmaterial->abstract,0,80).'...';
     if($objmaterial->filetype==1){//It's a file
         
     
@@ -127,8 +284,8 @@ foreach($objmaterials as $objmaterial){
                 }
             }
         }
-        if($objmaterial->conversation){
-            $conversation = $DB->get_records_sql("SELECT * FROM mdl_forum_discussions WHERE id = ". $objmaterial->conversation );
+        if($objmaterial->discussion_id){
+            $conversation = $DB->get_records_sql("SELECT * FROM mdl_forum_discussions WHERE id = ". $objmaterial->discussion_id );
             if($conversation){
                 foreach($conversation as $key=>$value){
                     $objmaterial->conversation_url = $CFG->wwwroot."/mod/forum/discuss.php?d=".$value->id;

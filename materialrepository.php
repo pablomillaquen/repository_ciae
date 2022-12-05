@@ -93,6 +93,12 @@ $objmaterial = $DB->get_record('local_repositoryciae_files', ['id'=>$id]);
 $arrayfiles = array();
 
 if($objmaterial->filetype==1){//It's a file
+    if(isset($objmaterial->user_id) && $objmaterial->user_id !=0){
+        $author = $DB->get_record('user', ['id'=> $objmaterial->user_id]);
+        $objmaterial->author = $author->firstname." ".$author->lastname;
+    }else{
+        $objmaterial->author = "No registrado";
+    }
     if($objmaterial->link){
         $file = $DB->get_records_sql("SELECT * FROM mdl_files WHERE itemid = ". $objmaterial->link ." AND filesize > 1 AND component = 'local_repositoryciae'");
         if($file){
@@ -111,11 +117,19 @@ if($objmaterial->filetype==1){//It's a file
 }elseif($objmaterial->filetype==2){
     $islink = true;
     $objmaterial->fileurl = $objmaterial->link;
+    if(isset($objmaterial->user_id) && $objmaterial->user_id !=0){
+        $author = $DB->get_record('user', ['id'=> $objmaterial->user_id]);
+        $objmaterial->author = $author->firstname." ".$author->lastname;
+    }else{
+        $objmaterial->author = "No registrado";
+    }
 }elseif($objmaterial->filetype==3){
     $islink = true;
     $ismaterial = true;
     if($objmaterial->link){
-        $link = $DB->get_records_sql("SELECT * FROM mdl_forum_discussions WHERE id = ". $objmaterial->link);
+        
+        $link = $DB->get_records_sql("SELECT * FROM mdl_forum_discussions WHERE id = ". $objmaterial->discussion_id);
+       
         if($link){
             foreach($link as $key=>$value){
                 $objmaterial->filename = $value->name;
@@ -133,16 +147,33 @@ if($objmaterial->filetype==1){//It's a file
             }
         }
     }
-    if($objmaterial->conversation){
-        $conversation = $DB->get_records_sql("SELECT * FROM mdl_forum_discussions WHERE id = ". $objmaterial->conversation );
+    if($objmaterial->discussion_id){
+        $conversation = $DB->get_records_sql("SELECT * FROM mdl_forum_discussions WHERE id = ". $objmaterial->discussion_id );
         if($conversation){
             foreach($conversation as $key=>$value){
                 $objmaterial->conversation_url = $CFG->wwwroot."/mod/forum/discuss.php?d=".$value->id;
             }
         }
     }
-
-    //$objmaterial->fileurl = $objmaterial->link;
+    $draft = $DB->get_record('local_repositoryciae_draft', ['discussion_id'=> $objmaterial->discussion_id]);
+    
+    if(isset($draft) && $draft->user_id !=0){
+        $editor = $DB->get_record('user', ['id'=> $draft->user_id]);
+        $objmaterial->editor = $editor->firstname." ".$editor->lastname;
+    }else{
+        $objmaterial->editor = "No registrado";
+    }
+    $answers = $DB->get_records('local_repositoryciae_answer', ['discussion_id'=> $objmaterial->discussion_id, 'selected'=> 1]);
+    
+    $objmaterial->colaborators = array();
+    foreach($answers as $answer){
+        $user = $DB->get_record('user', ['id'=> $answer->user_id]);
+        
+        if($user && !in_array($user, $objmaterial->colaborators)){
+            array_push($objmaterial->colaborators, $user);
+        }
+    }
+    
 }
 $objmaterial->islink = $islink;
 $objmaterial->ismaterial = $ismaterial;
@@ -164,6 +195,7 @@ foreach($optionsculturelang as $key => $value){
         }
     }
 }
+
 //Grades
 foreach($optionsgrades as $key => $value){
     if($objmaterial->grades == $key){
@@ -197,7 +229,7 @@ if($objmaterial->image){
 }else{
     $objmaterial->imageurl = $CFG->wwwroot.'/local/repositoryciae/img/no-image-icon-23485.png';
 }
-
+$objmaterial->user_id = $USER->id;
 
 $data = new stdClass();
 $data = $materials;

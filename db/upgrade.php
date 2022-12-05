@@ -165,5 +165,273 @@ function xmldb_local_repositoryciae_upgrade($oldversion) {
         // Local_repositoryciae savepoint reached.
         upgrade_plugin_savepoint(true, 2019111844, 'local','repositoryciae');
     }
+    if ($oldversion < 2019111847) {
+        // Define table local_repositoryciae_keywords to be created.
+        $table = new xmldb_table('local_repositoryciae_keys');
+        // Adding fields to table local_repositoryciae_keys.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('keyword', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        // Adding keys to table local_repositoryciae_keys.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array(
+            'id'));
+        // Conditionally launch create table for local_repositoryciae_keys.
+        if (! $dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111847, 'local','repositoryciae');
+    }
+    if ($oldversion < 2019111848) {
+        // Define table local_repositoryciae_forum to be created.
+        $table = new xmldb_table('local_repositoryciae_forum');
+        // Adding fields to table local_repositoryciae_forum.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('forum_id',  XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, '0');
+        // Adding keys to table local_repositoryciae_forum.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array(
+            'id'));
+        // Conditionally launch create table for local_repositoryciae_forum.
+        if (! $dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111848, 'local','repositoryciae');
+    }
+    if ($oldversion < 2019111849) {
+        // Define table local_repositoryciae_state to be created.
+        $table = new xmldb_table('local_repositoryciae_state');
+        // Adding fields to table local_repositoryciae_state.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('state', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        // Adding keys to table local_repositoryciae_state.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array(
+            'id'));
+        // Conditionally launch create table for local_repositoryciae_state.
+        if (! $dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111849, 'local','repositoryciae');
+    }
+    if ($oldversion < 2019111850) {
+        // Define table local_repositoryciae_d_state to be created.
+        $table = new xmldb_table('local_repositoryciae_d_state');
+        // Adding fields to table local_repositoryciae_d_state.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('discussion_id',  XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('files_draft_id',  XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('state_id',  XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, '0');        
+        //$table->add_field('time', XMLDB_TYPE_DATETIME, null, null, XMLDB_NOTNULL, null, 'CURRENT_TIMESTAMP');
+        // Adding keys to table local_repositoryciae_d_state.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array(
+            'id'));
+        // Conditionally launch create table for local_repositoryciae_d_state.
+        if (! $dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111850, 'local','repositoryciae');
+    }
+    if ($oldversion < 2019111851) {
+        // Define table local_repositoryciae_draft to be created.
+        $table = new xmldb_table('local_repositoryciae_draft');
+        // Adding fields to table local_repositoryciae_draft.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('name', XMLDB_TYPE_CHAR, '250', null, null, null, null);
+        $table->add_field('grades', XMLDB_TYPE_CHAR, '90', null, null, null, null);
+        $table->add_field('territory', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('materialtype', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('culturalcontent', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('link',  XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('filetype',  XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('image', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('oa',  XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('abstract',  XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('axis', XMLDB_TYPE_CHAR, '90', null, null, null, null);
+        $table->add_field('linguistic', XMLDB_TYPE_CHAR, '1333', null, null, null, null);
+        $table->add_field('suggestions', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('learning', XMLDB_TYPE_CHAR, '1333', null, null, null, null);
+        $table->add_field('guidelines', XMLDB_TYPE_CHAR, '1333', null, null, null, null);
+        // Adding keys to table local_repositoryciae_draft.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array(
+            'id'));
+        // Conditionally launch create table for local_repositoryciae_draft.
+        if (! $dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111851, 'local','repositoryciae');
+    }
+    if ($oldversion < 2019111852) {
+        // Define table local_repositoryciae_answer to be created.
+        $table = new xmldb_table('local_repositoryciae_answer');
+        // Adding fields to table local_repositoryciae_answer.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('question',  XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('answer',  XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('user_id',  XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, '0');        
+        $table->add_field('time', XMLDB_TYPE_DATETIME, null, null, XMLDB_NOTNULL, null, 'CURRENT_TIMESTAMP');
+        // Adding keys to table local_repositoryciae_answer.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array(
+            'id'));
+        // Conditionally launch create table for local_repositoryciae_answer.
+        if (! $dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111852, 'local','repositoryciae');
+    }
+    if ($oldversion < 2019111858) {
+        // Define table local_repositoryciae_admin to be created.
+        $table = new xmldb_table('local_repositoryciae_admin');
+        // Adding fields to table local_repositoryciae_admin.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('keyname',  XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('data',  XMLDB_TYPE_TEXT, null, null, null, null, null);
+        // Adding keys to table local_repositoryciae_admin.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array(
+            'id'));
+        // Conditionally launch create table for local_repositoryciae_admin.
+        if (! $dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111858, 'local','repositoryciae');
+    }
+    if ($oldversion < 2019111866) {
+        // Define table local_repositoryciae_answer to be created.
+        $table = new xmldb_table('local_repositoryciae_answer');
+        // Adding fields to table local_repositoryciae_answer.
+        
+        $field = new xmldb_field('question_id', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, '0');
+        // Conditionally launch create table for local_repositoryciae_answer.
+        if (! $dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111866, 'local','repositoryciae');
+    }
+   
+    if ($oldversion < 2019111870) {
+        // Define table local_repositoryciae_answer to be created.
+        $table = new xmldb_table('local_repositoryciae_answer');
+        // Adding fields to table local_repositoryciae_answer.
+        $newname = "discussion_id";
+        $field = new xmldb_field('question_id', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, '0');
+        // Conditionally launch create table for local_repositoryciae_answer.
+        $dbman->rename_field($table, $field, $newname, true, true);
+        
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111870, 'local','repositoryciae');
+    }
+    if ($oldversion < 2019111874) {
+        // Define table local_repositoryciae_draft to be created.
+        $table = new xmldb_table('local_repositoryciae_draft');
+        // Adding fields to table local_repositoryciae_draft.
+        
+        $field = new xmldb_field('time', XMLDB_TYPE_DATETIME, null, null, XMLDB_NOTNULL, null, 'CURRENT_TIMESTAMP');
+        // Conditionally launch add fields for local_repositoryciae_draft.
+        if (! $dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111874, 'local','repositoryciae');
+    }
+    if ($oldversion < 2019111875) {
+        // Define table local_repositoryciae_files to be created.
+        $table = new xmldb_table('local_repositoryciae_files');
+        // Adding fields to table local_repositoryciae_files.
+        
+        $field = new xmldb_field('time', XMLDB_TYPE_DATETIME, null, null, XMLDB_NOTNULL, null, 'CURRENT_TIMESTAMP');
+        // Conditionally launch add field for local_repositoryciae_files.
+        if (! $dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111875, 'local','repositoryciae');
+    }
+    if ($oldversion < 2019111876) {
+        // Define table local_repositoryciae_draft to be created.
+        $table = new xmldb_table('local_repositoryciae_draft');
+        // Adding fields to table local_repositoryciae_draft.
+        
+        $field = new xmldb_field('discussion_id', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, '0');
+        // Conditionally launch add fields for local_repositoryciae_draft.
+        if (! $dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111876, 'local','repositoryciae');
+    }
+    if ($oldversion < 2019111877) {
+        // Define table local_repositoryciae_files to be created.
+        $table = new xmldb_table('local_repositoryciae_files');
+        // Adding fields to table local_repositoryciae_files.
+        
+        $field = new xmldb_field('discussion_id', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, '0');
+        // Conditionally launch add field for local_repositoryciae_files.
+        if (! $dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111877, 'local','repositoryciae');
+    }
+    if ($oldversion < 2019111879) {
+        // Define table local_repositoryciae_draft to be created.
+        $table = new xmldb_table('local_repositoryciae_draft');
+        // Adding fields to table local_repositoryciae_draft.
+        
+        $field = new xmldb_field('user_id', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, '0');
+        // Conditionally launch add field for local_repositoryciae_draft.
+        if (! $dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111879, 'local','repositoryciae');
+    }
+    if ($oldversion < 2019111881) {
+        // Define table local_repositoryciae_answer to be created.
+        $table = new xmldb_table('local_repositoryciae_answer');
+        // Adding fields to table local_repositoryciae_answer.
+        
+        $field = new xmldb_field('selected', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, '0');
+        // Conditionally launch add field for local_repositoryciae_answer.
+        if (! $dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111881, 'local','repositoryciae');
+    }
+    if ($oldversion < 2019111882) {
+        // Define table local_repositoryciae_files to be created.
+        $table = new xmldb_table('local_repositoryciae_files');
+        // Adding fields to table local_repositoryciae_files.
+        $field = new xmldb_field('user_id', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, '0');
+        // Conditionally launch add field for local_repositoryciae_files.
+        if (! $dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111882, 'local','repositoryciae');
+    }
+    if ($oldversion < 2019111883) {
+        // Define table local_repositoryciae_comment to be created.
+        $table = new xmldb_table('local_repositoryciae_comment');
+        // Adding fields to table local_repositoryciae_comment.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('user_id',  XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, 0);
+        $table->add_field('file_id',  XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, 0);
+        $table->add_field('comment',  XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('time', XMLDB_TYPE_DATETIME, null, null, XMLDB_NOTNULL, null, 'CURRENT_TIMESTAMP');
+        // Adding keys to table local_repositoryciae_comment.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array(
+            'id'));
+        // Conditionally launch create table for local_repositoryciae_comment.
+        if (! $dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111883, 'local','repositoryciae');
+    }
     return true;
 }

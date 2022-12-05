@@ -65,8 +65,9 @@ if($mform->is_cancelled()){
         $newfile->axis = $fromform->axis;
         $newfile->linguistic = $fromform->linguistic;
         $newfile->suggestions = $fromform->suggestions;
-        $newfile->learning = $fromform->learning;
+        $newfile->learning = implode(",",$fromform->learning);
         $newfile->guidelines = $fromform->guidelines;
+        $newfile->user_id = $USER->id;
         $DB->update_record('local_repositoryciae_files', $newfile);
         $draftlinkid = file_get_submitted_draft_itemid('link');
         $draftimageid = file_get_submitted_draft_itemid('image');
@@ -74,6 +75,9 @@ if($mform->is_cancelled()){
         file_save_draft_area_files ( $draftimageid, $contextid, 'local_repositoryciae', 'image', $draftimageid, array('subdirs' => 0, 'maxfiles' => 1) );
         
     }else{
+        echo "<pre>";
+        print_r($fromform);
+        exit;
         //Add new record
         $newfile = new stdClass();
         $newfile->name = $fromform->name;
@@ -90,8 +94,9 @@ if($mform->is_cancelled()){
         $newfile->axis = $fromform->axis;
         $newfile->linguistic = $fromform->linguistic;
         $newfile->suggestions = $fromform->suggestions;
-        $newfile->learning = $fromform->learning;
+        $newfile->learning = implode(",",$fromform->learning);
         $newfile->guidelines = $fromform->guidelines;
+        $newfile->user_id = $USER->id;
         $storedfile = $DB->insert_record('local_repositoryciae_files', $newfile, true, false);
         $draftlinkid = file_get_submitted_draft_itemid('link');
         $draftimageid = file_get_submitted_draft_itemid('image');

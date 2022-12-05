@@ -1,4 +1,25 @@
+import $ from "jquery";
 export const init = (valuePixel) => {
+  var filter = 0;
+  var order = 0;
+  var orderusers = 0;
+
+  $('#filter_select').on('change',function(){
+    filter = $('#filter_select').val();
+    filteringDiscussions();
+  });
+
+  $('#order_select').on('change',function(){
+    order = $('#order_select').val();
+    filteringDiscussions();
+  });
+  $('#orderusers_select').on('change',function(){
+    orderusers = $('#orderusers_select').val();
+    filteringDiscussions();
+  });
+  function filteringDiscussions(){
+    window.location.replace("/local/repositoryciae/index.php?filter="+filter+"&order="+order+"&orderusers="+orderusers);
+  }
 
   const pixelatedImage = document.querySelector("#pixelatedImage");
   // storying a copy of the original image

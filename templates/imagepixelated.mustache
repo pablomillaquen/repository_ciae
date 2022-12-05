@@ -33,7 +33,7 @@
                       <img src="{{imageurl}}" alt="..." style="width: 100%;">
                   {{/imageurl}}
                     <p class="card-text"><strong>RESUMEN</strong></p>
-                    <p class="card-text">{{culturalcontent}}</p>
+                    <p class="card-text">{{abstract}}</p>
                     <br>
                     <p class="card-text"><strong>CURSO:</strong> {{grades}}</p>
                     <p class="card-text"><strong>EJES:</strong> {{axis}}</p>
@@ -87,6 +87,120 @@
       <iframe src="https://calendar.google.com/calendar/embed?src=es.cl%23holiday%40group.v.calendar.google.com&ctz=America%2FSantiago" style="border: 0" width="200" height="400" frameborder="0" scrolling="no"></iframe>
     </div>
   </div>
+  <div class="row">
+    <div class="col-12 mt-5">
+      <h4>Validación de materiales del foro</h4>
+    </div> 
+    <div class="col-12">
+      <p>En esta sección, les invitamos a ser parte de la validación de los materiales presentes en el foro. Cada material requiere completar una serie de preguntas que serán parte de la ficha didáctica. Posterior a sus respuestas, un grupo encargado de la validación revisará las respuestas y se agregarán al Repositorio</p>
+    </div>
+    <div class="col-12">
+      <nav class="navbar bg-light">
+        <div class="container-fluid">
+          <p class="navbar-brand">Foro Materiales compartidos</p>
+          <p class="navbar-brand">Mejores colaboradores</p>
+        </div>
+      </nav>
+    </div>
+  </div>
+  <div class="row mt-4 mb-3">
+      <div class="col-3">
+        <select class="custom-select" aria-label="filter_select" id="filter_select">
+          <option value="">Ver sólo...</option>
+          <option value="1" {{#filterselect1}}selected{{/filterselect1}}>Subidos al Repositorio</option>
+          <option value="2" {{#filterselect2}}selected{{/filterselect2}}>Formulario incompleto</option>
+          <option value="3" {{#filterselect3}}selected{{/filterselect3}}>Para revisión</option>
+        </select>
+      </div>
+      <div class="col-2"></div>
+      <div class="col-3">
+        <select class="custom-select" aria-label="order_select" id="order_select">
+          <option value="">Ordenar por...</option>
+          <option value="1" {{#orderselect1}}selected{{/orderselect1}}>Más antiguos primero</option>
+          <option value="2" {{#orderselect2}}selected{{/orderselect2}}>Más nuevos primero</option>
+        </select>
+      </div>
+      <div class="col-4 text-right">
+        <select class="custom-select" aria-label="orderusers_select" id="orderusers_select">
+          <option value="">Ordenar por...</option>
+          <option value="1" {{#orderusersselect1}}selected{{/orderusersselect1}}>Edición de información</option>
+          <option value="2" {{#orderusersselect2}}selected{{/orderusersselect2}}>Más comentarios</option>
+          <option value="3" {{#orderusersselect3}}selected{{/orderusersselect3}}>Más debates creados</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-8">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Título de la conversación</th>
+              <th>Cantidad de comentarios</th>
+              <th>Porcentaje de llenado de formulario</th>
+              <th>Estado actual</th>
+              <th>Último educador que editó</th>
+              <th>Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#discussions}}
+              <tr>
+                <td>{{name}}</td>
+                <td>{{quantity}}</td>
+                <td>
+                  {{#percentage1complete}}
+                    <p class="mb-0"><a href="{{locallink}}drafts/stageone.php?id={{id}}">Etapa 1: {{percentage1}}%</a></p>
+                  {{/percentage1complete}}
+                  {{^percentage1complete}}
+                    <p class="mb-0">Etapa 1: {{percentage1}}%</p>
+                  {{/percentage1complete}}
+
+                  {{#percentage2complete}}
+                    <p class="mb-0"><a href="{{locallink}}drafts/stagetwo.php?id={{id}}">Etapa 2: {{percentage2}}%</a></p>
+                  {{/percentage2complete}}
+                  {{^percentage2complete}}
+                    <p class="mb-0">Etapa 2: {{percentage2}}%</p>
+                  {{/percentage2complete}}
+                </td>
+                <td>{{state}}</td>
+                <td>{{last_editor}}</td>
+                <td>
+                    <div><a href="{{locallink}}checkdraft.php?id={{id}}">Ver</a></div>
+                    <div><a href="{{locallink}}drafts/fulldraft.php?discussionid={{id}}">Completar</a></div>
+                </td>
+              </tr>
+              {{/discussions}}
+              {{^discussions}}
+                  <p>No hay datos aún</p>
+              {{/discussions}}
+          </tbody>
+        </table>
+        <p class="text-end"><a href="{{locallink}}sharedfiles.php">Ver lista completa</a></p>
+      </div>
+      <div class="col-4">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              {{#orderusersselect1}}<th>Cantidad de datos editados</th>{{/orderusersselect1}}
+              {{#orderusersselect2}}<th>Cantidad de comentarios</th>{{/orderusersselect2}}
+              {{#orderusersselect3}}<th>Cantidad de debates creados</th>{{/orderusersselect3}}
+            </tr>
+          </thead>
+          <tbody>
+            {{#editors}}
+              <tr>
+                <td>{{firstname}} {{lastname}}</td>
+                <td>{{quantity}}</td>
+              </tr>
+              {{/editors}}
+              {{^editors}}
+                  <p>No hay datos aún</p>
+              {{/editors}}
+          </tbody>
+        </table>
+      </div>
+    </div>
   <div class="row">
     <div class="col-12 mt-4 mb-4">
       <h4>Galería Colaborativa KIMELTÚN</h4>

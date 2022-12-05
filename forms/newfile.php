@@ -38,6 +38,9 @@
         $mform->addElement('hidden', 'id', 0);
         $mform->setType('id', PARAM_INT);
 
+        $mform->addElement('hidden', 'culturalcontent', 0);
+        $mform->setType('culturalcontent', PARAM_INT);
+
         $attributes=array('size'=>'20');
         $mform->addElement('text', 'name', get_string('filename', 'local_repositoryciae'), $attributes);
         $mform->setType('name', PARAM_TEXT);
@@ -137,7 +140,7 @@
             '25'=>'El hilado y tejido en telar'
         );
 
-        $select2 = $mform->addElement('select', 'culturalcontent', get_string('culture', 'local_repositoryciae'), $optionscultural, []);
+        $select2 = $mform->addElement('select', 'culturalcontent2', get_string('culture', 'local_repositoryciae'), $optionscultural, []);
 
         $optionsaxis = array(
             '1' => 'Lengua, tradición oral, iconografía, prácticas de lectura y escritura de los pueblos originarios.',
@@ -155,10 +158,14 @@
         $mform->addHelpButton('suggestions', 'suggestions', 'local_repositoryciae');
 
         $optionslearning = array(
-            '1' => 'Completar...'
+            '1' => 'Escuchar',
+            '2' => 'Hablar',
+            '3' => 'Escribir',
+            '4' => 'Leer'
         );
 
-        $mform->addElement('select', 'learning', get_string('learning', 'local_repositoryciae'), $optionslearning, []);
+        $selectlearning = $mform->addElement('select', 'learning', get_string('learning', 'local_repositoryciae'), $optionslearning, []);
+        $selectlearning->setMultiple(true);
 
         $mform->addElement('textarea', 'guidelines', get_string('guidelines', 'local_repositoryciae'), 'wrap="virtual" rows="6" cols="50"');
         $mform->addHelpButton('guidelines', 'guidelines', 'local_repositoryciae');

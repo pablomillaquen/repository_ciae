@@ -103,6 +103,7 @@ foreach($db_result as $db_row) {
             }
         }
     }
+    
     foreach($optionsgrades as $key => $value) {
         if($db_row->grades == $key) {
             $db_row->grades = $value;

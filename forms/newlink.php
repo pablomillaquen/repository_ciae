@@ -155,10 +155,14 @@
         $mform->addHelpButton('suggestions', 'suggestions', 'local_repositoryciae');
 
         $optionslearning = array(
-            '1' => 'Completar...'
+            '1' => 'Escuchar',
+            '2' => 'Hablar',
+            '3' => 'Escribir',
+            '4' => 'Leer'
         );
 
-        $mform->addElement('select', 'learning', get_string('learning', 'local_repositoryciae'), $optionslearning, []);
+        $selectlearning = $mform->addElement('select', 'learning', get_string('learning', 'local_repositoryciae'), $optionslearning, []);
+        $selectlearning->setMultiple(true);
 
         $mform->addElement('textarea', 'guidelines', get_string('guidelines', 'local_repositoryciae'), 'wrap="virtual" rows="6" cols="50"');
         $mform->addHelpButton('guidelines', 'guidelines', 'local_repositoryciae');

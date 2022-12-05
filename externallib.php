@@ -167,4 +167,51 @@ class local_repositoryciae_external extends external_api {
             )
         );
     }
+
+    /**
+     * Returns description of method parameters
+     * @return external_function_parameters
+     */
+    public static function load_discussion_files_parameters() {
+        return new external_function_parameters(
+                array(
+                    'discussionId' => new external_value(PARAM_RAW, 'The discussion id')
+                )
+        );
+    }
+
+    /**
+     * Returns welcome message
+     * @return string welcome message
+     */
+    public static function load_discussion_files($discussionId) {
+        global $DB;
+        //$params = self::validate_parameters(self::getExample_parameters(), array());
+        $params = self::validate_parameters(self::load_discussion_files_parameters(), 
+                array('discussionId'=>$discussionId));
+
+        $sql = 'SELECT mf.id, mf.filename FROM {files} mf 
+        join {forum_posts} p on p.id = mf.itemid 
+        join {forum_discussions} d on d.id = p.discussion 
+        where d.id = ? and length(mf.filename) > 1';
+        $paramsDB = $params; //array($itemid);
+        $db_result = $DB->get_records_sql($sql,$paramsDB);
+        
+        return $db_result;
+    }
+
+    /**
+     * Returns description of method result value
+     * @return external_description
+     */
+    public static function load_discussion_files_returns() {
+        return new external_multiple_structure(
+            new external_single_structure(
+                array(
+                    'id' => new external_value(PARAM_NOTAGS, 'Data for json form'),
+                    'filename' => new external_value(PARAM_NOTAGS, 'Data for new form')
+                )
+            )
+        );
+    }
 }

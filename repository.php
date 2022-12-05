@@ -35,7 +35,7 @@ $grades = optional_param('grades', '', PARAM_TEXT);
 $order = optional_param('order', '', PARAM_TEXT); 
 $types = optional_param('types', '', PARAM_TEXT); 
 if($types=="[]") $types=null;
-$page = "index";
+$page = "repository";
 
 $PAGE->requires->js_call_amd('local_repositoryciae/search', 'init', array($page));
 
@@ -88,7 +88,7 @@ if($search != "" || $grades != "" || $order != "" || $types != "" ){
     $i = 0;
     $sql = "SELECT * FROM {local_repositoryciae_files} ";
     if($search !=""){
-        $sql.= "WHERE name LIKE '".$search."' OR abstract LIKE '".$search."' ";
+        $sql.= "WHERE name LIKE '%".$search."%' OR abstract LIKE '%".$search."%' ";
         $i++;
     }
     if($grades!=""){
@@ -160,7 +160,7 @@ if($search != "" || $grades != "" || $order != "" || $types != "" ){
             $sql.= " ORDER BY id DESC ";
         }
     }
-    
+ 
     $objmaterials = $DB->get_records_sql($sql);
 }else{
     $objmaterials = $DB->get_records('local_repositoryciae_files');

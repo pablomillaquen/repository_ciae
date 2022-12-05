@@ -1,0 +1,61 @@
+<div class="container">
+    <div class="row">
+        <div class="col-6"><p><a href="{{locallink}}keywords.php">{{#str}}editkeywords, local_repositoryciae{{/str}}</a></p></div>
+        <div class="input-group col-6">
+            <input type="text" class="form-control" placeholder="{{#str}} search_placeholder, local_repositoryciae {{/str}}" aria-label="search" aria-describedby="btn-search" id="searchText" name="searchText" value="{{filter}}">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="btn-search">{{#str}} search, local_repositoryciae {{/str}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-8"></div>   
+        <div class="col-4 text-right">
+            <select class="custom-select" aria-label="grades_select" id="order_select">
+                <option value="0">{{#str}}order_shared, local_repositoryciae{{/str}}</option>
+                <option value="1" {{#orderselect1}}selected{{/orderselect1}}>Más antiguos primero</option>
+                <option value="2" {{#orderselect2}}selected{{/orderselect2}}>Más nuevos primero</option>
+            </select>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Título de la conversación</th>
+                        <th>Descripción</th>
+                        <th>Cantidad de comentarios</th>
+                        <th>Palabras clave encontradas</th>
+                        <th>Porcentaje de llenado de formulario</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#discussions}}
+                        <tr>
+                            <td>{{name}}</td>
+                            <td>{{firstpost}}</td>
+                            <td>{{quantity}}</td>
+                            <td>{{keywords}}</td>
+                            <td>
+                                <p class="mb-0">Etapa 1: {{percentage1}}%</p>
+                                <p class="mb-0">Etapa 2: {{percentage2}}%</p>
+                                <p class="mb-0">Estado actual: {{state}}</p>
+                            </td>
+                            <td>
+                                <div><a href="{{locallink}}checkdraft.php?id={{id}}">Revisar</a></div>
+                                <div><a href="{{locallink}}drafts/fulldraft.php?discussionid={{id}}">Editar formulario</a></div>
+                                {{#isadmin}}<div><a href="{{locallink}}statedraft.php?id={{id}}">Cambiar estado</a></div>{{/isadmin}}
+                            </td>
+                        </tr>
+                    {{/discussions}}
+                    {{^discussions}}
+                        <p>No hay datos aún</p>
+                    {{/discussions}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

@@ -4,6 +4,7 @@ import $ from "jquery";
 export const init = (lang) => {
     var culturalcontent = $('#id_culturalcontent').val();
     sendData();
+    var content = $('input[name=culturalcontent]').val();
 
     $('#id_grades').on('change',function(){
         sendData();
