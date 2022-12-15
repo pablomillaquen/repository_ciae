@@ -256,7 +256,7 @@ $optionsaxis = array(
 );
 
 $materials = array();
-$objmaterials = $DB->get_records_sql('SELECT * FROM {local_repositoryciae_files} ORDER BY id DESC LIMIT 3');
+$objmaterials = $DB->get_records_sql('SELECT * FROM {local_repositoryciae_files} ORDER BY RAND() DESC LIMIT 3');
 foreach($objmaterials as $objmaterial){
     $arrayfiles = array();
     $islink = false;
