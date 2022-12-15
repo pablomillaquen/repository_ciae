@@ -42,17 +42,11 @@
                         {{#isadmin}} 
                             <a href="{{locallink}}local/repositoryciae/drafts/element01admin.php?discussionid={{id}}">Editar</a>
                         {{/isadmin}}
-                        {{^isadmin}}
-                            <a href="{{locallink}}local/repositoryciae/drafts/element01.php?discussionid={{id}}">Editar</a>
-                        {{/isadmin}}
                     </div>
                     <div>{{#str}}materials, local_repositoryciae{{/str}}</div>
                     <div class="font-weight-bold">R: <span {{^materialtype_exist}} class="text-danger" {{/materialtype_exist}}>{{materialtype}}</span>
                         {{#isadmin}} 
                             <a href="{{locallink}}local/repositoryciae/drafts/element02admin.php?discussionid={{id}}">Editar</a>
-                        {{/isadmin}}
-                        {{^isadmin}}
-                            <a href="{{locallink}}local/repositoryciae/drafts/element02.php?discussionid={{id}}">Editar</a>
                         {{/isadmin}}
                     </div>
                     <div>{{#str}}linguistic, local_repositoryciae{{/str}}</div>
@@ -60,26 +54,17 @@
                         {{#isadmin}} 
                             <a href="{{locallink}}local/repositoryciae/drafts/element03admin.php?discussionid={{id}}">Editar</a>
                         {{/isadmin}}
-                        {{^isadmin}}
-                            <a href="{{locallink}}local/repositoryciae/drafts/element03.php?discussionid={{id}}">Editar</a>
-                        {{/isadmin}}
                     </div>
                     <div>{{#str}}suggestions, local_repositoryciae{{/str}}</div>
                     <div class="font-weight-bold">R: <span {{^suggestions_exist}} class="text-danger" {{/suggestions_exist}}>{{suggestions}}</span> 
                         {{#isadmin}} 
                             <a href="{{locallink}}local/repositoryciae/drafts/element04admin.php?discussionid={{id}}">Editar</a>
                         {{/isadmin}}
-                        {{^isadmin}}
-                            <a href="{{locallink}}local/repositoryciae/drafts/element04.php?discussionid={{id}}">Editar</a>
-                        {{/isadmin}}
                     </div>
                     <div>{{#str}}territories, local_repositoryciae{{/str}}</div>
                     <div class="font-weight-bold">R: <span {{^territory_exist}} class="text-danger" {{/territory_exist}}>{{territory}}</span> 
                         {{#isadmin}} 
                             <a href="{{locallink}}local/repositoryciae/drafts/element05admin.php?discussionid={{id}}">Editar</a>
-                        {{/isadmin}}
-                        {{^isadmin}}
-                            <a href="{{locallink}}local/repositoryciae/drafts/element05.php?discussionid={{id}}">Editar</a>
                         {{/isadmin}}
                     </div>
                 </div>
@@ -97,9 +82,6 @@
                         {{#isadmin}} 
                             <a href="{{locallink}}local/repositoryciae/drafts/element06admin.php?discussionid={{id}}">Editar</a>
                         {{/isadmin}}
-                        {{^isadmin}}
-                            <a href="{{locallink}}local/repositoryciae/drafts/element06.php?discussionid={{id}}">Editar</a>
-                        {{/isadmin}}
                     </div>
                     <div>{{#str}}learning, local_repositoryciae{{/str}}</div>
                     <div class="font-weight-bold">
@@ -107,18 +89,12 @@
                             
                         {{#isadmin}} 
                             <a href="{{locallink}}local/repositoryciae/drafts/element07admin.php?discussionid={{id}}">Editar</a>
-                        {{/isadmin}}
-                        {{^isadmin}}
-                            <a href="{{locallink}}local/repositoryciae/drafts/element07.php?discussionid={{id}}">Editar</a>
                         {{/isadmin}}                        
                     </div>
                     <div>{{#str}}guidelines, local_repositoryciae{{/str}}</div>
                     <div class="font-weight-bold">R: <span {{^guidelines_exist}} class="text-danger" {{/guidelines_exist}}>{{guidelines}}</span> 
                         {{#isadmin}} 
                             <a href="{{locallink}}local/repositoryciae/drafts/element08admin.php?discussionid={{id}}">Editar</a>
-                        {{/isadmin}}
-                        {{^isadmin}}
-                            <a href="{{locallink}}local/repositoryciae/drafts/element08.php?discussionid={{id}}">Editar</a>
                         {{/isadmin}}
                     </div>
                 </div>
@@ -134,4 +110,4 @@
         </div>
     </div>
     {{/discussions}}
-</div></div>
+</div>

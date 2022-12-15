@@ -56,7 +56,7 @@ if($mform->is_cancelled()){
         $newfile->grades = $fromform->grades;
         $newfile->territory = $fromform->territory;
         $newfile->materialtype = $fromform->materialtype;
-        $newfile->culturalcontent = $fromform->culturalcontent;
+        $newfile->culturalcontent = $fromform->culturalcontent2;
         $newfile->link = $fromform->link;
         $newfile->filetype = 1; //It's a file
         $newfile->image = $fromform->image;
@@ -75,9 +75,6 @@ if($mform->is_cancelled()){
         file_save_draft_area_files ( $draftimageid, $contextid, 'local_repositoryciae', 'image', $draftimageid, array('subdirs' => 0, 'maxfiles' => 1) );
         
     }else{
-        echo "<pre>";
-        print_r($fromform);
-        exit;
         //Add new record
         $newfile = new stdClass();
         $newfile->name = $fromform->name;
@@ -85,7 +82,7 @@ if($mform->is_cancelled()){
         $newfile->grades = $fromform->grades;
         $newfile->territory = $fromform->territory;
         $newfile->materialtype = $fromform->materialtype;
-        $newfile->culturalcontent = $fromform->culturalcontent;
+        $newfile->culturalcontent = $fromform->culturalcontent2;
         $newfile->link = $fromform->link;
         $newfile->filetype = 1; //It's a file
         $newfile->image = $fromform->image;

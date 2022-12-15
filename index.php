@@ -38,6 +38,12 @@ $data->locallink = $CFG->wwwroot."/local/repositoryciae/";
 $data->actions = 40;
 $data->valuepixel = 20;
 $data->valuedifference = 100 - $data->valuepixel;
+$data->generoartista = "El";
+$data->generoartista2 = "del";
+$data->nombreartista = "Eduardo Rapimán";
+$data->mes = "Octubre";
+$data->anho = "2022";
+
 $PAGE->requires->js_call_amd('local_repositoryciae/imagePixelated', 'init', array($data->valuepixel));
 
 $lang = current_language();
@@ -344,7 +350,7 @@ foreach($objmaterials as $objmaterial){
 }
 $data->materials = $materials;
 
-$PAGE->set_url('/local/repositoryciae/draw.php');
+$PAGE->set_url('/local/repositoryciae/index.php');
 $PAGE->set_title(get_string('title', 'local_repositoryciae'));
 $PAGE->set_heading(get_string('title', 'local_repositoryciae'));
 
