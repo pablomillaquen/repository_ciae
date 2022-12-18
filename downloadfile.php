@@ -83,7 +83,11 @@ foreach($objcultural as $key=>$value){
     }
 }
 
-
+$obj_oa = $DB->get_records('local_repositoryciae_oa', null, null, 'id, description');
+        $optionsoa = array();
+        foreach($obj_oa as $options){
+            $optionsoa[$options->id] = $options->description; 
+        }
 
 $optionsaxis = array(
     '1' => 'Lengua, tradición oral, iconografía, prácticas de lectura y escritura de los pueblos originarios.',
@@ -123,6 +127,11 @@ foreach($db_result as $db_row) {
     foreach($optionsaxis as $key => $value) {
         if($db_row->axis == $key) {
             $db_row->axis = $value;
+        }
+    }
+    foreach($optionsoa as $key => $value) {
+        if($db_row->oa == $key) {
+            $db_row->oa = $value;
         }
     }
     if($db_row->image){
