@@ -30,7 +30,7 @@
     //Add elements to form
     public function definition()
     {
-        global $CFG;
+        global $CFG, $DB;
 
         $mform = $this->_form;
         $mform->addElement('html', '<h3>Formulario para subir nuevos materiales</h3><br><br>');
@@ -65,7 +65,6 @@
         );
 
         $select = $mform->addElement('select', 'grades', get_string('recomendedgrades', 'local_repositoryciae'), $optionsgrades, []);
-        //$select->setMultiple(true);
 
         $optionsterritories = array(
             '1' => 'Pewenche',
@@ -102,19 +101,12 @@
 
         $mform->addElement('select', 'materialtype', get_string('materials', 'local_repositoryciae'), $optionsmaterials, []);
 
-        $optionsoa = array(
-            '13' => '13',
-            '14' => '14',
-            '15' => '15',
-            '16' => '16',
-            '17' => '17',
-            '18' => '18',
-            '19' => '19',
-            '20' => '20',
-            '21' => '21',
-            '22' => '22'
-        );
-
+        $obj_oa = $DB->get_records('local_repositoryciae_oa', null, null, 'id, description');
+        $optionsoa = array();
+        foreach($obj_oa as $options){
+            $optionsoa[$options->id] = $options->description; 
+        }
+        
         $mform->addElement('select', 'oa', get_string('oa', 'local_repositoryciae'), $optionsoa, []);  
 
         $optionscultural = array(

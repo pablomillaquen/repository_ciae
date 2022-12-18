@@ -214,4 +214,48 @@ class local_repositoryciae_external extends external_api {
             )
         );
     }
+
+    /**
+     * Returns description of method parameters
+     * @return external_function_parameters
+     */
+    public static function load_oa_parameters() {
+        return new external_function_parameters(
+                array(
+                    'gradesSelected' => new external_value(PARAM_RAW, 'The user id')
+                )
+        );
+    }
+
+    /**
+     * Returns welcome message
+     * @return string welcome message
+     */
+    public static function load_oa($gradesSelected) {
+        global $DB;
+        //$params = self::validate_parameters(self::getExample_parameters(), array());
+        $params = self::validate_parameters(self::load_oa_parameters(), 
+                array('gradesSelected'=>$gradesSelected));
+
+        $sql = 'SELECT id, description FROM {local_repositoryciae_oa} WHERE grades_id = ?';
+        $paramsDB = $params; //array($itemid);
+        $db_result = $DB->get_records_sql($sql,$paramsDB);
+        
+        return $db_result;
+    }
+
+    /**
+     * Returns description of method result value
+     * @return external_description
+     */
+    public static function load_oa_returns() {
+        return new external_multiple_structure(
+            new external_single_structure(
+                array(
+                    'id' => new external_value(PARAM_NOTAGS, 'id for oa'),
+                    'description' => new external_value(PARAM_NOTAGS, 'Description for oa'),
+                )
+            )
+        );
+    }
 }

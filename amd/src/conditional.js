@@ -1,8 +1,8 @@
 import $ from "jquery";
-//import { getform, updateform, editor } from "local_jsonform/ajaxcalls";
+import { searchOa } from "local_repositoryciae/ajaxcalls";
 
 export const init = (lang) => {
-    var culturalcontent = $('#id_culturalcontent').val();
+    var culturalcontent = $('#id_culturalcontent2').val();
     sendData();
     var content = $('input[name=culturalcontent]').val();
 
@@ -11,7 +11,8 @@ export const init = (lang) => {
     });
     function sendData(){
         var grade = $('#id_grades').val();
-        var $dropdown = $("#id_culturalcontent");
+        searchOa(grade);
+        var $dropdown = $("#id_culturalcontent2");
         $.getJSON("culturalcontent.json", function(data) {
             var items = [];
             var itemsByLang = [];

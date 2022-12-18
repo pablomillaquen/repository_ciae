@@ -43,6 +43,11 @@ $lang = current_language();
 
 $optionsculturelang = array();
 
+if (!is_siteadmin()){
+    header("Location: ". $CFG->wwwroot."/local/repositoryciae/");
+    exit();
+}
+
 $json = file_get_contents('culturalcontent.json');
 $obj = json_decode($json);
 foreach($obj as $key=>$value){

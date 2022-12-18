@@ -106,3 +106,5 @@ $string['order_shared_comments'] = "Últimos comentarios";
 $string['checkdraft'] = "Revisar borrador";
 $string['draftform'] = "Formulario Borrador";
 $string['state_label'] = "Escoja estado del material";
+$string['description'] = "Descripción";
+$string['oalist'] = "Listado OA";

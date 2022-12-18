@@ -44,4 +44,25 @@ const getFiles = (discussionId)=>{
     });
 };
 
-export { searchIndex, getFiles };
+const searchOa = (gradesSelected)=>{
+    const promisesLoad = ajax.call([{
+        methodname: "local_repositoryciae_load_oa",
+        args: {gradesSelected},
+        fail: exception
+    }]);
+    promisesLoad[0].then(data => {
+        var $dropdown = $("#id_oa");
+        $dropdown.empty();
+        if(data.length > 0){
+            $.each(data, function() {
+                $dropdown.append($("<option />").val(this.id).text(this.description));
+                window.console.log("uno");
+            });
+        }else{
+            return Error;
+        }
+        return(data.length > 0 ? data[0].data : "No data");
+    });
+};
+
+export { searchIndex, getFiles, searchOa };

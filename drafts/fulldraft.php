@@ -49,7 +49,7 @@ require_once("../forms/fulldraft.php");
 $mform = new fulldraft_form();
 $toform = [];
 if($mform->is_cancelled()){
-    redirect("/local/repositoryciae/sharedfiles.php", '', 10);
+    redirect("/local/repositoryciae/checkdraft.php?id=".discussionid, '', 10);
 }elseif($fromform = $mform->get_data()){
     $gr = $DB->get_record_sql('SELECT * FROM {local_repositoryciae_answer} WHERE question = "grades" AND discussion_id = '.$fromform->discussion_id.' AND user_id = '.$USER->id);
     if($gr){
@@ -147,7 +147,7 @@ if($mform->is_cancelled()){
         $newguideline->discussion_id = $fromform->discussion_id;
         $storedfile = $DB->insert_record('local_repositoryciae_answer', $newguideline, true, false);
     }
-    redirect("/local/repositoryciae/sharedfiles.php",'Cambios guardados', 1,  \core\output\notification::NOTIFY_SUCCESS);
+    redirect("/local/repositoryciae/checkdraft.php?id=".$discussionid,'Cambios guardados', 1,  \core\output\notification::NOTIFY_SUCCESS);
 }else{
     $formdata = new stdClass();
     $gr = $DB->get_record_sql('SELECT * FROM {local_repositoryciae_answer} WHERE question = "grades" AND discussion_id = '.$discussionid.' AND user_id = '.$USER->id);

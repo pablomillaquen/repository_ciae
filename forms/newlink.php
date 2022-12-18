@@ -30,13 +30,16 @@
     //Add elements to form
     public function definition()
     {
-        global $CFG;
+        global $CFG, $DB;
 
         $mform = $this->_form;
         $mform->addElement('html', '<h3>Formulario para subir un enlace a página externa</h3><br><br>');
 
         $mform->addElement('hidden', 'id', 0);
         $mform->setType('id', PARAM_INT);
+
+        $mform->addElement('hidden', 'culturalcontent', 0);
+        $mform->setType('culturalcontent', PARAM_INT);
 
         $attributes=array('size'=>'20');
         $mform->addElement('text', 'name', get_string('filename', 'local_repositoryciae'), $attributes);
@@ -94,23 +97,29 @@
             '17' => 'Mapas',
             '18' => 'Plataformas Web',
             '19' => 'Otros'
-        );
+        ); 
 
         $mform->addElement('select', 'materialtype', get_string('materials', 'local_repositoryciae'), $optionsmaterials, []);
 
 
-        $optionsoa = array(
-            '13' => '13',
-            '14' => '14',
-            '15' => '15',
-            '16' => '16',
-            '17' => '17',
-            '18' => '18',
-            '19' => '19',
-            '20' => '20',
-            '21' => '21',
-            '22' => '22'
-        );
+        // $optionsoa = array(
+        //     '13' => '13',
+        //     '14' => '14',
+        //     '15' => '15',
+        //     '16' => '16',
+        //     '17' => '17',
+        //     '18' => '18',
+        //     '19' => '19',
+        //     '20' => '20',
+        //     '21' => '21',
+        //     '22' => '22'
+        // );
+
+        $obj_oa = $DB->get_records('local_repositoryciae_oa', null, null, 'id, description');
+        $optionsoa = array();
+        foreach($obj_oa as $options){
+            $optionsoa[$options->id] = $options->description; 
+        }
 
         $mform->addElement('select', 'oa', get_string('oa', 'local_repositoryciae'), $optionsoa, []);
 
@@ -137,7 +146,7 @@
             '25'=>'El hilado y tejido en telar'
         );
 
-        $select2 = $mform->addElement('select', 'culturalcontent', get_string('culture', 'local_repositoryciae'), $optionscultural, []);
+        $select2 = $mform->addElement('select', 'culturalcontent2', get_string('culture', 'local_repositoryciae'), $optionscultural, []);
         
         $optionsaxis = array(
             '1' => 'Lengua, tradición oral, iconografía, prácticas de lectura y escritura de los pueblos originarios.',

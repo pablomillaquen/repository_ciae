@@ -107,3 +107,5 @@ $string['order_shared_comments'] = "Last comments";
 $string['checkdraft'] = "Check draft";
 $string['draftform'] = "Draft form";
 $string['state_label'] = "Choose material state";
+$string['description'] = "Description";
+$string['oalist'] = "OA List";

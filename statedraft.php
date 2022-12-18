@@ -28,10 +28,12 @@ global $USER, $DB, $CFG;
 $PAGE->set_context(context_system::instance());
 $contextid = $PAGE->context->id;
 $id = required_param('id', PARAM_INT);
+$lang = current_language();
 
 require_login();
 $usercontext = context_user::instance($USER->id);
 $PAGE->requires->js_call_amd('local_repositoryciae/getDraftFiles', 'init', array($id));
+$PAGE->requires->js_call_amd('local_repositoryciae/conditional', 'init', array($lang));
 
 $data = new stdClass();
 $data->locallink = $CFG->wwwroot."/";

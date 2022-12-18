@@ -58,7 +58,7 @@ if($mform->is_cancelled()){
         $newfile->grades = $fromform->grades;
         $newfile->territory = $fromform->territory;
         $newfile->materialtype = $fromform->materialtype;
-        $newfile->culturalcontent = $fromform->culturalcontent;
+        $newfile->culturalcontent = $fromform->culturalcontent2;
         $newfile->link = $fromform->link;
         $newfile->filetype = 2; //It's a link
         $newfile->image = $fromform->image;
@@ -81,7 +81,7 @@ if($mform->is_cancelled()){
         $newfile->grades = $fromform->grades;
         $newfile->territory = $fromform->territory;
         $newfile->materialtype = $fromform->materialtype;
-        $newfile->culturalcontent = $fromform->culturalcontent;
+        $newfile->culturalcontent = $fromform->culturalcontent2;
         $newfile->link = $fromform->link;
         $newfile->filetype = 2; //It's a link
         $newfile->image = $fromform->image;
