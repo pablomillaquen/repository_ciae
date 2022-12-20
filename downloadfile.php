@@ -75,13 +75,13 @@ $optionsmaterials = array(
     '19' => 'Otros'
 );
 
-$json = file_get_contents('culturalcontent.json');
-$objcultural = json_decode($json);
-foreach($objcultural as $key=>$value){
-    if($key == $lang){
-        $optionsculturelang= $value;
-    }
-}
+// $json = file_get_contents('culturalcontent.json');
+// $objcultural = json_decode($json);
+// foreach($objcultural as $key=>$value){
+//     if($key == $lang){
+//         $optionsculturelang= $value;
+//     }
+// }
 
 $obj_oa = $DB->get_records('local_repositoryciae_oa', null, null, 'id, description');
         $optionsoa = array();
@@ -97,14 +97,23 @@ $optionsaxis = array(
 );
 
 foreach($db_result as $db_row) {
-    foreach($optionsculturelang as $key => $value){
-        if($key == $db_row->grades){
-            foreach($value as $key2 => $value2){
-                if($db_row->culturalcontent == $key2){
-                    $db_row->culturalcontent = $value2;
-                    
-                }
-            }
+    $description_cc = "";
+    switch($lang){
+        case "es":
+            $description_cc = "description_es";
+            break;
+        case "en":
+            $description_cc = "description_en";
+            break;
+        case "arn":
+            $description_cc = "description_arn";
+            break;
+    }
+    $sql = "SELECT ".$description_cc." as description_cc FROM {local_repositoryciae_cc} WHERE id = ".$db_row->culturalcontent;
+    if($db_row->culturalcontent){
+        $culturalcontent = $DB->get_record_sql($sql);
+        if(isset($culturalcontent->description_cc)){
+            $db_row->culturalcontent = $culturalcontent->description_cc;
         }
     }
     
