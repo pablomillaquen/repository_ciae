@@ -1,39 +1,23 @@
 import $ from "jquery";
-import { searchOa } from "local_repositoryciae/ajaxcalls";
+import { searchOa, searchCc } from "local_repositoryciae/ajaxcalls";
 
 export const init = (lang) => {
     var culturalcontent = $('#id_culturalcontent2').val();
-    sendData();
+    sendData(lang);
     var content = $('input[name=culturalcontent]').val();
 
     $('#id_grades').on('change',function(){
-        sendData();
+        sendData(lang);
     });
-    function sendData(){
+    $("#id_culturalcontent2").on('change', function(){
+        var value = $("#id_culturalcontent2").val();
+        $('input[name=culturalcontent]').val(value);
+    });
+    function sendData(lang){
         var grade = $('#id_grades').val();
-        searchOa(grade);
-        var $dropdown = $("#id_culturalcontent2");
-        $.getJSON("culturalcontent.json", function(data) {
-            var items = [];
-            var itemsByLang = [];
-            $.each(data, function(key, val) {
-                if (key == lang){
-                    $dropdown.empty();
-                    items.push(val);
-                    $.each(items[0], function(k, v) {
-                        if (k == grade){
-                            itemsByLang.push(v);
-                            $.each(itemsByLang[0], function(clave, valor) {
-                                if(clave == culturalcontent){
-                                    $dropdown.append($("<option selected></option>").attr("value", clave).text(valor));
-                                }else{
-                                    $dropdown.append($("<option />").val(clave).text(valor));
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        });
+        if(grade != null){
+            searchOa(grade);
+            searchCc(grade, lang);
+        }
     }
 };

@@ -108,3 +108,7 @@ $string['draftform'] = "Formulario Borrador";
 $string['state_label'] = "Escoja estado del material";
 $string['description'] = "Descripción";
 $string['oalist'] = "Listado OA";
+$string['culturalcontentlist'] = "Listado Contenido  Cultural";
+$string['description_es'] = "Descripción (es)";
+$string['description_en'] = "Descripción (en)";
+$string['description_arn'] = "Descripción (arn)";

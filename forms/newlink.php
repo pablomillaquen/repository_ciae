@@ -101,20 +101,6 @@
 
         $mform->addElement('select', 'materialtype', get_string('materials', 'local_repositoryciae'), $optionsmaterials, []);
 
-
-        // $optionsoa = array(
-        //     '13' => '13',
-        //     '14' => '14',
-        //     '15' => '15',
-        //     '16' => '16',
-        //     '17' => '17',
-        //     '18' => '18',
-        //     '19' => '19',
-        //     '20' => '20',
-        //     '21' => '21',
-        //     '22' => '22'
-        // );
-
         $obj_oa = $DB->get_records('local_repositoryciae_oa', null, null, 'id, description');
         $optionsoa = array();
         foreach($obj_oa as $options){

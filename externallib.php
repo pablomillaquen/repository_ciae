@@ -258,4 +258,50 @@ class local_repositoryciae_external extends external_api {
             )
         );
     }
+
+    /**
+     * Returns description of method parameters
+     * @return external_function_parameters
+     */
+    public static function load_cc_parameters() {
+        return new external_function_parameters(
+                array(
+                    'gradesSelected' => new external_value(PARAM_RAW, 'The user id')
+                )
+        );
+    }
+
+    /**
+     * Returns welcome message
+     * @return string welcome message
+     */
+    public static function load_cc($gradesSelected) {
+        global $DB;
+        //$params = self::validate_parameters(self::getExample_parameters(), array());
+        $params = self::validate_parameters(self::load_oa_parameters(), 
+                array('gradesSelected'=>$gradesSelected));
+
+        $sql = 'SELECT id, description_es, description_en, description_arn FROM {local_repositoryciae_cc} WHERE grades_id = ?';
+        $paramsDB = $params; //array($itemid);
+        $db_result = $DB->get_records_sql($sql,$paramsDB);
+        
+        return $db_result;
+    }
+
+    /**
+     * Returns description of method result value
+     * @return external_description
+     */
+    public static function load_cc_returns() {
+        return new external_multiple_structure(
+            new external_single_structure(
+                array(
+                    'id' => new external_value(PARAM_NOTAGS, 'id for cc'),
+                    'description_es' => new external_value(PARAM_NOTAGS, 'Spanish description for cc'),
+                    'description_en' => new external_value(PARAM_NOTAGS, 'English description for cc'),
+                    'description_arn' => new external_value(PARAM_NOTAGS, 'Mapuzungun description for cc'),
+                )
+            )
+        );
+    }
 }

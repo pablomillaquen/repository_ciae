@@ -450,5 +450,24 @@ function xmldb_local_repositoryciae_upgrade($oldversion) {
         // Local_repositoryciae savepoint reached.
         upgrade_plugin_savepoint(true, 2019111884, 'local','repositoryciae');
     }
+    if ($oldversion < 2019111887) {
+        // Define table local_repositoryciae_oa to be created.
+        $table = new xmldb_table('local_repositoryciae_cc');
+        // Adding fields to table local_repositoryciae_oa.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('grades_id',  XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, 0);
+        $table->add_field('description_es',  XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('description_en',  XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('description_arn',  XMLDB_TYPE_TEXT, null, null, null, null, null);
+        // Adding keys to table local_repositoryciae_oa.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array(
+            'id'));
+        // Conditionally launch create table for local_repositoryciae_oa.
+        if (! $dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+        // Local_repositoryciae savepoint reached.
+        upgrade_plugin_savepoint(true, 2019111887, 'local','repositoryciae');
+    }
     return true;
 }

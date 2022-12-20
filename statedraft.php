@@ -78,7 +78,7 @@ if (is_siteadmin()){
 
             if($fromform->state_id == 3){//Se debe subir a repositorio
                 $files = $DB->get_record('local_repositoryciae_files', ['discussion_id'=>$fromform->discussion_id]);
-                if($files){                    
+                if($files){// Si el archivo existe, se debe actualizar          
                     $files->name = $fromform->name;
                     $files->grades = $fromform->grades;
                     $files->territory = $fromform->territory;
@@ -97,9 +97,10 @@ if (is_siteadmin()){
                     $files->discussion_id = $fromform->discussion_id;
                     $files->user_id = $USER->id;
                     $storedfile = $DB->update_record('local_repositoryciae_files', $files);
-                    $filescheck = $DB->get_record('local_repositoryciae_files', ['discussion_id'=>$fromform->discussion_id]);
+                    //Obtengo la id del archivo para copiar en la otra tabla
+                    $filescheck = $DB->get_record('local_repositoryciae_files', ['discussion_id'=>$fromform->discussion_id]); 
                     $fromform->files_draft_id = $filescheck->id;
-                }else{
+                }else{ // Es un nuevo archivo
                     $newfile = new stdClass();
                     $newfile->name = $fromform->name;
                     $newfile->grades = $fromform->grades;
@@ -118,27 +119,27 @@ if (is_siteadmin()){
                     $newfile->guidelines = $fromform->guidelines;
                     $newfile->discussion_id = $fromform->discussion_id;
                     $newfile->user_id = $USER->id;
-                    
                     $storedfile = $DB->insert_record('local_repositoryciae_files', $newfile, true, false);
+                    //Obtengo la id del archivo para copiar en la otra tabla
                     $filescheck = $DB->get_record('local_repositoryciae_files', ['discussion_id'=>$fromform->discussion_id]);
                     $fromform->files_draft_id = $filescheck->id;
                 }
             }
-
+            //Revisar si existe el estado de este archivo en la "tabla de estados"
             $state = $DB->get_record('local_repositoryciae_d_state', ['discussion_id'=>$fromform->discussion_id]);
-            if($state){
+            if($state){ // Si existe, lo actualizo
                 $state->discussion_id = $fromform->discussion_id;        
                 $state->files_draft_id = $fromform->files_draft_id;
                 $state->state_id = $fromform->state_id;
                 $storedfile = $DB->update_record('local_repositoryciae_d_state', $state);
-            }else{
+            }else{ // Si no existe, lo creo.
                 $newstate = new stdClass();
                 $newstate->discussion_id = $fromform->discussion_id;        
                 $newstate->files_draft_id = $fromform->files_draft_id;
                 $newstate->state_id = $fromform->state_id;
                 $storedfile = $DB->insert_record('local_repositoryciae_d_state', $newstate, true, false);
             }  
-        }else{
+        }else{ // No existe el borrador, así que lo creo.
             $draft = new stdClass();
             $draft->name = $fromform->name;
             $draft->grades = $fromform->grades;
@@ -161,7 +162,7 @@ if (is_siteadmin()){
           
             if($fromform->state_id == 3){//Se debe subir a repositorio
                 $files = $DB->get_record('local_repositoryciae_files', ['discussion_id'=>$fromform->discussion_id]);
-                if($files){                    
+                if($files){// Si existe en la tabla oficial de Repositorio, lo actualizo.               
                     $files->name = $fromform->name;
                     $files->grades = $fromform->grades;
                     $files->territory = $fromform->territory;
@@ -183,7 +184,7 @@ if (is_siteadmin()){
                     
                     $filescheck = $DB->get_record('local_repositoryciae_files', ['discussion_id'=>$fromform->discussion_id]);
                     $fromform->files_draft_id = $filescheck->id;
-                }else{
+                }else{ // Si no existe, lo creo.
                     $newfile = new stdClass();
                     $newfile->name = $fromform->name;
                     $newfile->grades = $fromform->grades;
@@ -207,15 +208,14 @@ if (is_siteadmin()){
                     $filescheck = $DB->get_record('local_repositoryciae_files', ['discussion_id'=>$fromform->discussion_id]);
                     $fromform->files_draft_id = $filescheck->id;
                 }
-                
-            }
+            } // Comprobando el "estado" del archivo (borrador) y actualizando o creando el estado. 
             $state = $DB->get_record('local_repositoryciae_d_state', ['discussion_id'=>$fromform->discussion_id]);
-            if($state){
+            if($state){ //Actualizar
                 $state->discussion_id = $fromform->discussion_id;        
                 $state->files_draft_id = $fromform->files_draft_id;
                 $state->state_id = $fromform->state_id;
                 $storedfile = $DB->update_record('local_repositoryciae_d_state', $state);
-            }else{
+            }else{ //Crear
                 $newstate = new stdClass();
                 $newstate->discussion_id = $fromform->discussion_id;        
                 $newstate->files_draft_id = $fromform->files_draft_id;
@@ -224,7 +224,7 @@ if (is_siteadmin()){
             }  
         }
         redirect("/local/repositoryciae/sharedfiles.php",'Cambios guardados', 1,  \core\output\notification::NOTIFY_SUCCESS);
-    }else{
+    }else{ // Si no se está enviando los datos, se completa el formulario
         $draft = $DB->get_record('local_repositoryciae_draft', ['discussion_id'=>$id]);
         
         if($draft){
@@ -236,6 +236,7 @@ if (is_siteadmin()){
             $toform->territory = $draft->territory;
             $toform->materialtype = $draft->materialtype;
             $toform->culturalcontent = $draft->culturalcontent;
+            $toform->culturalcontent2 = $draft->culturalcontent;
             $toform->link = $draft->link;
             $toform->filetype = $draft->filetype;
             $toform->image = $draft->image;

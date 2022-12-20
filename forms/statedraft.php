@@ -44,6 +44,9 @@
 
         $mform->addElement('hidden', 'link', 0);
         $mform->setType('link', PARAM_INT);
+        
+        $mform->addElement('hidden', 'culturalcontent', 0);
+        $mform->setType('culturalcontent', PARAM_INT);
 
         $attributes=array('size'=>'20');
         $mform->addElement('text', 'name', get_string('filename', 'local_repositoryciae'), $attributes);

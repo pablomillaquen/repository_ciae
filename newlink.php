@@ -37,8 +37,6 @@ require_login();
 require_once("forms/newlink.php");
 $PAGE->requires->js_call_amd('local_repositoryciae/conditional', 'init', array($lang));
 
-//$id = required_param('id', PARAM_INT); // course id
-
 $PAGE->set_url('/local/repositoryciae/newlink.php');
 $PAGE->set_title(get_string('title', 'local_repositoryciae'));
 $PAGE->set_heading(get_string('title', 'local_repositoryciae'));
@@ -52,48 +50,48 @@ if($mform->is_cancelled()){
 }elseif($fromform = $mform->get_data()){
     if($fromform->id != 0){
         //Update data
-        $newfile = $DB->get_record('local_repositoryciae_files', ['id'=>$fromform->id]);
-        $newfile->name = $fromform->name;
-        $newfile->abstract = $fromform->abstract;
-        $newfile->grades = $fromform->grades;
-        $newfile->territory = $fromform->territory;
-        $newfile->materialtype = $fromform->materialtype;
-        $newfile->culturalcontent = $fromform->culturalcontent2;
-        $newfile->link = $fromform->link;
-        $newfile->filetype = 2; //It's a link
-        $newfile->image = $fromform->image;
-        $newfile->oa = $fromform->oa;
-        $newfile->abstract = $fromform->abstract;
-        $newfile->axis = $fromform->axis;
-        $newfile->linguistic = $fromform->linguistic;
-        $newfile->suggestions = $fromform->suggestions;
-        $newfile->learning = implode(",",$fromform->learning);
-        $newfile->guidelines = $fromform->guidelines;
-        $newfile->user_id = $USER->id;
-        $DB->update_record('local_repositoryciae_files', $newfile);
+        $newlink = $DB->get_record('local_repositoryciae_files', ['id'=>$fromform->id]);
+        $newlink->name = $fromform->name;
+        $newlink->abstract = $fromform->abstract;
+        $newlink->grades = $fromform->grades;
+        $newlink->territory = $fromform->territory;
+        $newlink->materialtype = $fromform->materialtype;
+        $newlink->culturalcontent = $fromform->culturalcontent;
+        $newlink->link = $fromform->link;
+        $newlink->filetype = 2; //It's a link
+        $newlink->image = $fromform->image;
+        $newlink->oa = $fromform->oa;
+        $newlink->abstract = $fromform->abstract;
+        $newlink->axis = $fromform->axis;
+        $newlink->linguistic = $fromform->linguistic;
+        $newlink->suggestions = $fromform->suggestions;
+        $newlink->learning = implode(",",$fromform->learning);
+        $newlink->guidelines = $fromform->guidelines;
+        $newlink->user_id = $USER->id;
+        $DB->update_record('local_repositoryciae_files', $newlink);
         $draftimageid = file_get_submitted_draft_itemid('image');
         file_save_draft_area_files ( $draftimageid, $contextid, 'local_repositoryciae', 'image', $draftimageid, array('subdirs' => 0, 'maxfiles' => 1) );
     }else{
         //Add new record
-        $newfile = new stdClass();
-        $newfile->name = $fromform->name;
-        $newfile->abstract = $fromform->abstract;
-        $newfile->grades = $fromform->grades;
-        $newfile->territory = $fromform->territory;
-        $newfile->materialtype = $fromform->materialtype;
-        $newfile->culturalcontent = $fromform->culturalcontent2;
-        $newfile->link = $fromform->link;
-        $newfile->filetype = 2; //It's a link
-        $newfile->image = $fromform->image;
-        $newfile->oa = $fromform->oa;
-        $newfile->abstract = $fromform->abstract;
-        $newfile->axis = $fromform->axis;
-        $newfile->linguistic = $fromform->linguistic;
-        $newfile->suggestions = $fromform->suggestions;
-        $newfile->learning = implode(",",$fromform->learning);
-        $newfile->guidelines = $fromform->guidelines;
-        $newfile->user_id = $USER->id;
-        $storedfile = $DB->insert_record('local_repositoryciae_files', $newfile, true, false);
+        $newlink = new stdClass();
+        $newlink->name = $fromform->name;
+        $newlink->abstract = $fromform->abstract;
+        $newlink->grades = $fromform->grades;
+        $newlink->territory = $fromform->territory;
+        $newlink->materialtype = $fromform->materialtype;
+        $newlink->culturalcontent = $fromform->culturalcontent;
+        $newlink->link = $fromform->link;
+        $newlink->filetype = 2; //It's a link
+        $newlink->image = $fromform->image;
+        $newlink->oa = $fromform->oa;
+        $newlink->abstract = $fromform->abstract;
+        $newlink->axis = $fromform->axis;
+        $newlink->linguistic = $fromform->linguistic;
+        $newlink->suggestions = $fromform->suggestions;
+        $newlink->learning = implode(",",$fromform->learning);
+        $newlink->guidelines = $fromform->guidelines;
+        $newlink->user_id = $USER->id;
+        $storedfile = $DB->insert_record('local_repositoryciae_files', $newlink, true, false);
         $draftimageid = file_get_submitted_draft_itemid('image');
         file_save_draft_area_files ( $draftimageid, $contextid, 'local_repositoryciae', 'image', $draftimageid, array('subdirs' => 0, 'maxfiles' => 1) );
         
@@ -108,6 +106,5 @@ if($mform->is_cancelled()){
     $mform->display();
 }
 
-//echo $OUTPUT->render_from_template('local_repositoryciae/newfile', []);
 
 echo $OUTPUT->footer();

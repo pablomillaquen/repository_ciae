@@ -109,3 +109,7 @@ $string['draftform'] = "Draft form";
 $string['state_label'] = "Choose material state";
 $string['description'] = "Description";
 $string['oalist'] = "OA List";
+$string['culturalcontentlist'] = "Cultural Content List";
+$string['description_es'] = "Description (es)";
+$string['description_en'] = "Description (en)";
+$string['description_arn'] = "Description (arn)";

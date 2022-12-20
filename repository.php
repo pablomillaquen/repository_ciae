@@ -41,16 +41,6 @@ $PAGE->requires->js_call_amd('local_repositoryciae/search', 'init', array($page)
 
 $lang = current_language();
 
-$optionsculturelang = array();
-
-$json = file_get_contents('culturalcontent.json');
-$obj = json_decode($json);
-foreach($obj as $key=>$value){
-    if($key == $lang){
-        $optionsculturelang= $value;
-    }
-}
-
 $optionsmaterials = array(
     '1' => 'Guías de aprendizaje',
     '2' => 'Diccionarios',
@@ -194,16 +184,26 @@ foreach($objmaterials as $mat){
         }
     }
     //Culture
-    foreach($optionsculturelang as $key => $value){
-        if($key == $mat->grades){
-            foreach($value as $key2 => $value2){
-                if($mat->culturalcontent == $key2){
-                    $mat->culturalcontent = $value2;
-                    
-                }
-            }
+    $description_cc = "";
+    switch($lang){
+        case "es":
+            $description_cc = "description_es";
+            break;
+        case "en":
+            $description_cc = "description_en";
+            break;
+        case "arn":
+            $description_cc = "description_arn";
+            break;
+    }
+    $sql = "SELECT ".$description_cc." as description_cc FROM {local_repositoryciae_cc} WHERE id = ".$mat->culturalcontent;
+    if($mat->culturalcontent){
+        $culturalcontent = $DB->get_record_sql($sql);
+        if(isset($culturalcontent->description_cc)){
+            $mat->culturalcontent = $culturalcontent->description_cc;
         }
     }
+    
     //Grades
     foreach($optionsgrades as $key => $value){
         if($mat->grades == $key){

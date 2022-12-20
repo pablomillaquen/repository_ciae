@@ -56,13 +56,53 @@ const searchOa = (gradesSelected)=>{
         if(data.length > 0){
             $.each(data, function() {
                 $dropdown.append($("<option />").val(this.id).text(this.description));
-                window.console.log("uno");
             });
         }else{
             return Error;
         }
-        return(data.length > 0 ? data[0].data : "No data");
+        return true;
     });
 };
 
-export { searchIndex, getFiles, searchOa };
+const searchCc = (gradesSelected, lang)=>{
+    const promisesLoad = ajax.call([{
+        methodname: "local_repositoryciae_load_cc",
+        args: {gradesSelected},
+        fail: exception
+    }]);
+    promisesLoad[0].then(data => {
+        var $dropdown = $("#id_culturalcontent2");
+        $dropdown.empty();
+        if(data.length > 0){
+            var i = 0;
+            $.each(data, function() {
+                if(i == 0){
+                    $('input[name=culturalcontent]').val(this.id);
+                }
+                switch(lang){
+                    case 'es':
+                        if(this.description_es != ''){
+                            $dropdown.append($("<option />").val(this.id).text(this.description_es));
+                        }
+                        break;
+                    case 'en':
+                        if(this.description_en != ''){
+                            $dropdown.append($("<option />").val(this.id).text(this.description_en));
+                        }
+                        break;
+                    case 'arn':
+                        if(this.description_arn != ''){
+                            $dropdown.append($("<option />").val(this.id).text(this.description_arn));
+                        }
+                        break;
+                }
+                window.console.log("cc");
+                i++;
+            });
+        }else{
+            return Error;
+        }
+        return true;
+    });
+};
+export { searchIndex, getFiles, searchOa, searchCc };

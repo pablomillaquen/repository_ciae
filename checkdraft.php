@@ -27,6 +27,7 @@ require('../../config.php');
 global $USER, $DB, $CFG;
 $PAGE->set_context(context_system::instance());
 $id = required_param('id', PARAM_INT);
+$lang = current_language();
 
 require_login();
 $usercontext = context_user::instance($USER->id);
