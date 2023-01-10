@@ -33,6 +33,30 @@ $filter = optional_param('filter', 0, PARAM_INT);
 $order = optional_param('order', 0, PARAM_INT);
 $orderusers = optional_param('orderusers', 0, PARAM_INT);
 
+$sql2 = "SELECT u.id, (SELECT i.data FROM {user_info_data} as i WHERE i.fieldid = 44 AND i.userid = ".$USER->id.") as esdocente FROM mdl_user_info_data as i JOIN mdl_user as u on u.id=i.userid where u.id = ".$USER->id." limit 1";
+$toform2 = $DB->get_record_sql($sql2);
+
+$sql3 = "SELECT u.id, (SELECT i.data FROM {user_info_data} as i WHERE i.fieldid = 42 AND i.userid = ".$USER->id.") as niveles, (SELECT i.data FROM mdl_user_info_data as i WHERE i.fieldid = 43  AND i.userid = ".$USER->id.") as identidad_terr FROM mdl_user_info_data as i JOIN mdl_user as u on u.id=i.userid where u.id = ".$USER->id." limit 1";
+$toform3 = $DB->get_record_sql($sql3);
+$cant = 0;
+    foreach($toform3 as $key=>$value){
+        if(!is_null($value)){
+            $cant++;
+        }
+        if($key == id){
+            $cant--;
+        }
+    }
+$percentage3 = ($cant * 100)/2;
+$percentage3 = intval($percentage3);
+
+//Si es docente y el porcentaje de respuesta es menor a 100
+if($toform2->esdocente == 1 && $percentage3 < 100){
+    redirect("/local/registerciae/identity.php?id=".$USER->id."&repo=1");
+}else if (is_null($toform2->esdocente)){ //si no hay respuesta
+    redirect("/local/registerciae/docente.php?id=".$USER->id."&repo=1");
+}
+
 $data = new stdClass();
 $data->locallink = $CFG->wwwroot."/local/repositoryciae/";
 $data->actions = 40;
